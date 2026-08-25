@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Кинематографическая вселенная Marvel — полный каталог</title>
+    <meta name="description" content="Полный каталог Кинематографической вселенной Marvel: все фильмы, сериалы, короткометражки, саги и спецвыпуски">
+    <meta property="og:title" content="Кинематографическая вселенная Marvel">
+    <meta property="og:description" content="Все фильмы, сериалы и короткометражки КВМ">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Roboto,system-ui,sans-serif;background:#0a0a0f;color:#f0f0f0;padding:12px;min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+        .container{max-width:1500px;margin:0 auto;padding:0 4px}
+        
+        #particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+        .container{position:relative;z-index:1}
+        
+        .nav-sticky{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06);padding:10px 0;margin:-12px -12px 20px;padding-left:10px;padding-right:10px}
+        .nav-sticky .nav-inner{max-width:1500px;margin:0 auto;display:flex;flex-wrap:wrap;gap:5px 8px;justify-content:center;align-items:center}
+        .nav-sticky .nav-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);color:#999;padding:7px 14px;border-radius:30px;font-size:.7rem;font-weight:600;cursor:pointer;transition:.25s;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;touch-action:manipulation}
+        .nav-sticky .nav-btn:active{transform:scale(0.95);background:rgba(230,36,41,0.2)}
+        .nav-sticky .nav-btn .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+        .nav-sticky .nav-btn .dot.d1{background:#ff4d4d}
+        .nav-sticky .nav-btn .dot.d2{background:#ffaa33}
+        .nav-sticky .nav-btn .dot.d3{background:#4fc3f7}
+        .nav-sticky .nav-btn .dot.d4{background:#a66cff}
+        .nav-sticky .nav-btn .dot.d5{background:#ff6f00}
+        .nav-sticky .nav-btn .dot.d6{background:#e040fb}
+        .nav-sticky .nav-btn .dot.d7{background:#00e676}
+        .nav-sticky .nav-btn .dot.d8{background:#ff69b4}
+        .nav-sticky .nav-btn .dot.d9{background:#f1c40f}
+        .nav-sticky .nav-btn .dot.d10{background:#1abc9c}
+        .nav-sticky .nav-btn .dot.dc{background:#ff8c00}
+        .nav-sticky .nav-btn .dot.df{background:#9b59b6}
+        .nav-sticky .nav-btn .dot.dx{background:#e74c3c}
+        .nav-sticky .nav-btn .dot.di{background:#ff6b6b}
+        .nav-sticky .nav-btn .dot.dchat{background:#00e5ff}
+        
+        /* Кнопка сворачивания навигации */
+        .nav-toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: .25s;
+            line-height: 1;
+            order: 100;
+        }
+        .nav-toggle:hover {
+            background: rgba(230,36,41,0.2);
+            border-color: #e62429;
+        }
+        .nav-toggle:active {
+            transform: scale(0.9);
+        }
+        .nav-inner.collapsed .nav-btn:not(.nav-toggle) {
+            display: none;
+        }
+        .nav-inner.collapsed .nav-toggle {
+            margin-left: auto;
+        }
+        
+        .hero{text-align:center;padding:40px 20px 35px;margin-bottom:35px;background:linear-gradient(145deg,#0d0d1a,#1a1a2e);border-radius:28px;border:1px solid rgba(230,36,41,0.15);position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(230,36,41,0.05),transparent 70%);pointer-events:none}
+        .hero h1{font-size:2.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#e62429,#ff6b6b,#e62429);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1;margin-bottom:8px}
+        .hero .subtitle{font-size:1.1rem;color:#8888aa;letter-spacing:3px;font-weight:300;margin-bottom:20px}
+        .hero .divider{width:60px;height:3px;background:linear-gradient(90deg,#e62429,transparent);margin:0 auto 22px;border-radius:2px}
+        .hero .tribute{max-width:900px;margin:0 auto;position:relative;z-index:1}
+        .hero .tribute p{font-size:.95rem;line-height:1.8;color:#c0c0d5;margin-bottom:12px}
+        .hero .tribute .highlight{color:#e62429;font-weight:600}
+        .hero .tribute .quote{font-style:italic;color:#8888aa;font-size:1rem;border-left:3px solid #e62429;padding-left:16px;margin:16px 0}
+        .hero .tribute .names{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05)}
+        .hero .tribute .names span{color:#666;font-size:.8rem}
+        .hero .tribute .names span strong{color:#d0d0d0;font-weight:600}
+        
+        .controls{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:25px;align-items:center;justify-content:center;background:rgba(255,255,255,0.03);padding:14px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.05)}
+        .controls .search-wrap{flex:1;min-width:200px;position:relative}
+        .controls .search-wrap input{width:100%;padding:10px 16px 10px 40px;border-radius:30px;border:1px solid #2a2a35;background:#1a1a26;color:#f0f0f0;font-size:.95rem;outline:none;transition:.3s}
+        .controls .search-wrap input:focus{border-color:#e62429;box-shadow:0 0 20px rgba(230,36,41,0.1)}
+        .controls .search-wrap::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1rem;opacity:0.5}
+        .controls .filter-group{display:flex;flex-wrap:wrap;gap:6px}
+        .controls .filter-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:#888;padding:6px 16px;border-radius:30px;font-size:.75rem;font-weight:500;cursor:pointer;transition:.25s;text-transform:uppercase;letter-spacing:.5px}
+        .controls .filter-btn:hover{background:rgba(230,36,41,0.1);border-color:#e62429;color:#fff}
+        .controls .filter-btn.active{background:#e62429;border-color:#e62429;color:#fff}
+        
+        .header{text-align:center;padding:20px 0 16px;border-bottom:2px solid #e62429;margin-bottom:30px}
+        .header h1{font-size:1.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(135deg,#e62429,#b71c1c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .header p{color:#aaa;font-size:.9rem;margin-top:4px;letter-spacing:1px}
+        
+        .phase{margin-bottom:35px;background:rgba(255,255,255,0.025);border-radius:24px;padding:20px 16px;border:1px solid rgba(255,255,255,0.04);transition:.3s;scroll-margin-top:70px}
+        .phase-header{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+        .phase-header h2{font-size:1.7rem;font-weight:700;letter-spacing:1px}
+        .phase-header .badge{background:#e62429;padding:3px 16px;border-radius:40px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#fff}
+        .phase-1 .phase-header h2{color:#ff4d4d}
+        .phase-2 .phase-header h2{color:#ffaa33}
+        .phase-3 .phase-header h2{color:#4fc3f7}
+        .phase-4 .phase-header h2{color:#a66cff}
+        .phase-5 .phase-header h2{color:#ff6f00}
+        .phase-6 .phase-header h2{color:#e040fb}
+        .phase-7 .phase-header h2{color:#00e676}
+        .phase-8 .phase-header h2{color:#ff69b4}
+        .phase-9 .phase-header h2{color:#f1c40f}
+        .phase-10 .phase-header h2{color:#1abc9c}
+        .phase-creators .phase-header h2{color:#ff8c00}
+        .phase-future .phase-header h2{color:#9b59b6}
+        .phase-cancelled .phase-header h2{color:#e74c3c}
+        .phase-ideas .phase-header h2{color:#ff6b6b}
+        
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px}
+        
+        .card{background:#14141c;border-radius:20px;overflow:hidden;transition:.3s;border:1px solid #2a2a35;display:flex;flex-direction:column;height:auto;min-height:500px;cursor:pointer;position:relative;opacity:0;transform:translateY(40px);animation:cardAppear .5s ease forwards}
+        .card:nth-child(1){animation-delay:0.05s}
+        .card:nth-child(2){animation-delay:0.10s}
+        .card:nth-child(3){animation-delay:0.15s}
+        .card:nth-child(4){animation-delay:0.20s}
+        .card:nth-child(5){animation-delay:0.25s}
+        .card:nth-child(6){animation-delay:0.30s}
+        .card:nth-child(7){animation-delay:0.35s}
+        .card:nth-child(8){animation-delay:0.40s}
+        .card:nth-child(9){animation-delay:0.45s}
+        .card:nth-child(10){animation-delay:0.50s}
+        .card:nth-child(11){animation-delay:0.55s}
+        .card:nth-child(12){animation-delay:0.60s}
+        .card:nth-child(13){animation-delay:0.65s}
+        .card:nth-child(14){animation-delay:0.70s}
+        .card:nth-child(15){animation-delay:0.75s}
+        .card:nth-child(16){animation-delay:0.80s}
+        .card:nth-child(17){animation-delay:0.85s}
+        .card:nth-child(18){animation-delay:0.90s}
+        .card:nth-child(19){animation-delay:0.95s}
+        .card:nth-child(20){animation-delay:1.00s}
+        
+        @keyframes cardAppear{to{opacity:1;transform:translateY(0)}}
+        
+        .card:hover{transform:translateY(-6px) scale(1.01);border-color:#e62429;box-shadow:0 0 30px rgba(230,36,41,0.15),inset 0 0 30px rgba(230,36,41,0.03)}
+        .card::after{content:'';position:absolute;inset:-1px;border-radius:20px;background:linear-gradient(135deg,rgba(230,36,41,0),rgba(230,36,41,0.1),rgba(230,36,41,0));opacity:0;transition:.5s;pointer-events:none;z-index:1}
+        .card:hover::after{opacity:1}
+        
+        .card-poster{height:420px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:2px solid #2a2a35;overflow:hidden;background:linear-gradient(145deg,#1a1a2e,#16213e);flex-shrink:0}
+        .card-poster img{width:100%;height:100%;object-fit:contain;display:block;background:#0a0a0f}
+        .card-poster .no-poster{font-size:1.2rem;font-weight:700;color:#8888aa;text-align:center;padding:20px;text-transform:uppercase;letter-spacing:2px;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#1a1a2e,#16213e)}
+        .card-poster .type-badge{position:absolute;top:14px;right:14px;background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:6px 16px;border-radius:40px;font-size:.65rem;font-weight:600;text-transform:uppercase;color:#fff;border:1px solid #e62429;letter-spacing:.5px;z-index:2}
+        .card-poster .type-badge.series{background:#7b1fa2;border-color:#9c27b0}
+        .card-poster .type-badge.special{background:#ff6f00;border-color:#ffab00}
+        .card-poster .type-badge.short{background:#00bcd4;border-color:#26c6da}
+        .card-poster .type-badge.marvel-tv{background:#e67e22;border-color:#f39c12}
+        .card-poster .type-badge.creator{background:#ff8c00;border-color:#ffa500}
+        .card-poster .type-badge.cancelled{background:#c0392b;border-color:#e74c3c}
+        .card-poster .type-badge.idea{background:#ff6b6b;border-color:#ff6b6b}
+        
+        .card-content{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
+        .card-content h3{font-size:1.25rem;font-weight:700;margin-bottom:3px;color:#fff;line-height:1.3}
+        .card-content .year{font-size:.8rem;color:#888;margin-bottom:8px;letter-spacing:.5px}
+        .card-content .plot-short{font-size:.9rem;line-height:1.6;color:#b0b0c5;flex:1}
+        
+        .like-wrap{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #2a2a35}
+        .like-btn{background:0 0;border:none;color:#888;font-size:1.2rem;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:30px;background:rgba(255,255,255,0.03)}
+        .like-btn:hover{color:#e62429;background:rgba(230,36,41,0.08)}
+        .like-btn.liked{color:#e62429}
+        .like-btn .like-count{font-size:.85rem;font-weight:600}
+        .like-btn .like-icon{font-size:1.1rem}
+        .like-btn.liked .like-icon{animation:likePop .3s ease}
+        @keyframes likePop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
+        
+        .card.series{border-left:3px solid #9c27b0}
+        .card.special{border-left:3px solid #ffab00}
+        .card.short{border-left:3px solid #26c6da}
+        .card.marvel-tv{border-left:3px solid #f39c12}
+        .card.creator-card{border-left:3px solid #ff8c00;background:linear-gradient(145deg,#14141c,#1a1a0a)}
+        .card.creator-card:hover{border-color:#ff8c00;box-shadow:0 0 30px rgba(255,140,0,0.15)}
+        .card.cancelled-card{border-left:3px solid #e74c3c;background:linear-gradient(145deg,#1a0a0a,#1a1a1a)}
+        .card.cancelled-card:hover{border-color:#e74c3c;box-shadow:0 0 30px rgba(231,76,60,0.15)}
+        .card.idea-card{border-left:3px solid #ff6b6b;background:linear-gradient(145deg,#1a1a2e,#1a0a1a)}
+        .card.idea-card:hover{border-color:#ff6b6b;box-shadow:0 0 30px rgba(255,107,107,0.15)}
+        
+        .creator-card .card-poster{height:200px;display:flex;align-items:center;justify-content:center;border-bottom:2px solid #2a2a35;overflow:hidden;background:linear-gradient(145deg,#1a1a2e,#16213e);flex-shrink:0;padding:10px;gap:16px}
+        .creator-card .card-poster img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid #ff8c00;max-width:140px;max-height:140px;background:#0a0a0f}
+        .creator-card .card-poster .no-poster{font-size:1.2rem;font-weight:700;color:#8888aa;text-align:center;padding:20px;text-transform:uppercase;letter-spacing:2px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+        .creator-card .card-content{flex:1;display:flex;flex-direction:column;justify-content:center}
+        .creator-card .card-content h3{font-size:1.4rem;color:#fff;margin-bottom:2px}
+        .creator-card .card-content .year{font-size:.9rem;color:#ff8c00;font-weight:600;margin-bottom:8px}
+        .creator-card .card-content .plot-short{font-size:.9rem;line-height:1.6;color:#b0b0c5;flex:1}
+        .creator-card .card-content .like-wrap{border-top:1px solid #2a2a35;margin-top:10px;padding-top:10px}
+        
+        .creator-card.double-portrait .card-poster{display:flex;flex-direction:row;gap:20px;padding:10px 20px}
+        .creator-card.double-portrait .card-poster img{max-width:120px;max-height:120px;border-radius:50%}
+        .creator-card.double-portrait .card-poster .no-poster{font-size:.9rem}
+        @media(max-width:600px){.creator-card .card-poster{height:160px}.creator-card .card-poster img{max-width:100px;max-height:100px}.creator-card.double-portrait .card-poster{flex-direction:row;gap:10px}.creator-card.double-portrait .card-poster img{max-width:80px;max-height:80px}}
+        
+        .thanks-block{text-align:center;padding:30px 20px;margin-top:10px;background:linear-gradient(145deg,#1a1a0a,#14141c);border-radius:20px;border:1px solid rgba(255,140,0,0.15);border-left:4px solid #ff8c00}
+        .thanks-block h3{font-size:1.5rem;color:#ff8c00;margin-bottom:12px}
+        .thanks-block p{font-size:1rem;line-height:1.8;color:#c0c0d5;max-width:800px;margin:0 auto}
+        .thanks-block .highlight{color:#ff8c00;font-weight:600}
+
+        /* ===== ЧАТ ===== */
+        .chat-section{background:rgba(255,255,255,0.025);border-radius:24px;border:1px solid rgba(255,255,255,0.04);padding:20px 16px;margin-bottom:35px;scroll-margin-top:70px}
+        .chat-section .chat-header{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+        .chat-section .chat-header h2{font-size:1.7rem;font-weight:700;letter-spacing:1px;color:#00e5ff}
+        .chat-section .chat-header .badge{background:#00e5ff;padding:3px 16px;border-radius:40px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#0a0a0f}
+        
+        .chat-container{background:#0d0d1a;border-radius:16px;border:1px solid #2a2a35;overflow:hidden;max-height:600px;display:flex;flex-direction:column}
+        .chat-messages{flex:1;padding:16px;overflow-y:auto;max-height:450px;min-height:300px;display:flex;flex-direction:column;gap:8px}
+        .chat-messages::-webkit-scrollbar{width:6px}
+        .chat-messages::-webkit-scrollbar-track{background:#1a1a26}
+        .chat-messages::-webkit-scrollbar-thumb{background:#e62429;border-radius:4px}
+        
+        .chat-message{background:#1a1a2e;border-radius:12px;padding:10px 14px;border-left:3px solid #e62429;animation:messageAppear .3s ease;position:relative}
+        .chat-message .msg-user{font-weight:700;color:#e62429;font-size:.85rem;margin-bottom:2px}
+        .chat-message .msg-user.self{color:#00e5ff}
+        .chat-message .msg-text{color:#d0d0e0;font-size:.9rem;line-height:1.5;word-wrap:break-word}
+        .chat-message .msg-time{color:#666;font-size:.65rem;margin-top:4px;text-align:right}
+        .chat-message.system{background:#1a1a0a;border-left-color:#ff8c00}
+        .chat-message.system .msg-user{color:#ff8c00}
+        
+        .chat-message .delete-btn{position:absolute;top:6px;right:8px;background:rgba(255,255,255,0.05);border:1px solid #2a2a35;color:#666;border-radius:12px;padding:2px 8px;font-size:.6rem;cursor:pointer;transition:.3s;display:none}
+        .chat-message .delete-btn:hover{background:rgba(231,76,60,0.2);border-color:#e74c3c;color:#e74c3c}
+        .chat-message:hover .delete-btn{display:block}
+        .chat-message .delete-btn.show{display:block}
+        
+        @keyframes messageAppear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        .chat-input-area{display:flex;gap:10px;padding:12px 16px;border-top:1px solid #2a2a35;background:#0d0d1a;flex-wrap:wrap}
+        .chat-input-area .chat-name-input{background:#1a1a26;border:1px solid #2a2a35;border-radius:30px;padding:8px 14px;color:#f0f0f0;font-size:.85rem;min-width:120px;flex:0 0 auto;outline:none;transition:.3s}
+        .chat-input-area .chat-name-input:focus{border-color:#e62429}
+        .chat-input-area .chat-msg-input{flex:1;min-width:150px;background:#1a1a26;border:1px solid #2a2a35;border-radius:30px;padding:8px 16px;color:#f0f0f0;font-size:.9rem;outline:none;transition:.3s}
+        .chat-input-area .chat-msg-input:focus{border-color:#e62429}
+        .chat-input-area .chat-send-btn{background:#e62429;border:none;color:#fff;padding:8px 24px;border-radius:30px;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap}
+        .chat-input-area .chat-send-btn:hover{background:#b71c1c}
+        .chat-input-area .chat-send-btn:active{transform:scale(0.95)}
+        
+        .chat-controls{display:flex;gap:8px;padding:6px 16px;border-top:1px solid #1a1a26;background:#0a0a0f;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+        .chat-controls .chat-hint{color:#555;font-size:.7rem}
+
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;animation:fadeIn .3s ease;overflow-y:auto}
+        .modal-overlay.active{display:flex}
+        .modal{background:#1a1a26;max-width:800px;width:100%;max-height:95vh;border-radius:28px;border:1px solid #3a3a4a;padding:28px 24px 30px;overflow-y:auto;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.9);animation:slideUp .35s ease}
+        .modal-close{position:sticky;top:0;float:right;background:0 0;border:none;color:#888;font-size:2.2rem;cursor:pointer;transition:.2s;line-height:1;padding:0 6px;z-index:10}
+        .modal-poster-container{position:relative;width:100%;max-height:400px;border-radius:14px;overflow:hidden;margin-bottom:16px;background:#0a0a0f;border:1px solid #2a2a35;display:flex;align-items:center;justify-content:center}
+        .modal-poster-container img{width:100%;height:100%;max-height:400px;object-fit:contain;display:block}
+        .poster-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.75);color:#fff;border:1px solid #555;border-radius:50%;width:40px;height:40px;font-size:1.4rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;transition:.2s;display:none}
+        .poster-nav:active{background:rgba(230,36,41,0.7)}
+        .poster-nav.prev{left:6px}
+        .poster-nav.next{right:6px}
+        .poster-counter{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);padding:3px 12px;border-radius:20px;font-size:.7rem;color:#ccc;z-index:5;display:none}
+        .modal h2{font-size:1.7rem;font-weight:700;margin-bottom:3px;color:#fff}
+        .modal .meta{color:#888;font-size:.85rem;margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap}
+        .modal .meta .badge-detail{background:#e62429;padding:2px 14px;border-radius:40px;font-size:.6rem;font-weight:600;text-transform:uppercase;color:#fff}
+        .modal .meta .badge-detail.cancelled{background:#c0392b}
+        .modal .meta .badge-detail.idea{background:#ff6b6b}
+        .modal .full-plot{font-size:.95rem;line-height:1.8;color:#d0d0e0;margin:14px 0 12px;white-space:pre-wrap}
+
+        .scroll-top{position:fixed;bottom:20px;right:20px;z-index:99;background:#e62429;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:1.4rem;cursor:pointer;opacity:0;transition:.3s;box-shadow:0 4px 20px rgba(230,36,41,0.3);display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+        .scroll-top.visible{opacity:1}
+        .scroll-top:active{transform:scale(0.9)}
+
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(30px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+        @media(max-width:600px){
+            body{padding:8px}
+            .container{padding:0}
+            .nav-sticky{padding:6px 0;margin:-8px -8px 15px;padding-left:4px;padding-right:4px}
+            .nav-sticky .nav-btn{font-size:.6rem;padding:5px 10px;border-radius:20px}
+            .nav-sticky .nav-btn .dot{width:5px;height:5px;margin-right:3px}
+            .hero{padding:28px 14px 24px;margin-bottom:25px;border-radius:20px}
+            .hero h1{font-size:1.7rem;letter-spacing:2px}
+            .hero .subtitle{font-size:.95rem;letter-spacing:2px}
+            .hero .tribute p{font-size:.85rem;line-height:1.7}
+            .hero .tribute .quote{font-size:.9rem;padding-left:12px}
+            .hero .tribute .names{gap:4px 12px}
+            .hero .tribute .names span{font-size:.7rem}
+            .controls{padding:12px 14px;gap:8px}
+            .controls .search-wrap input{font-size:.85rem;padding:8px 14px 8px 36px}
+            .controls .filter-btn{font-size:.65rem;padding:4px 12px}
+            .header h1{font-size:1.3rem}
+            .header p{font-size:.8rem}
+            .phase{padding:14px 10px;margin-bottom:25px;border-radius:18px;scroll-margin-top:60px}
+            .phase-header h2{font-size:1.3rem}
+            .phase-header .badge{font-size:.6rem;padding:2px 12px}
+            .grid{grid-template-columns:1fr;gap:20px}
+            .card{min-height:auto}
+            .card-poster{height:300px}
+            .card-content{padding:14px 16px 16px}
+            .card-content h3{font-size:1.05rem}
+            .card-content .plot-short{font-size:.82rem}
+            .modal{padding:20px 16px 22px;border-radius:20px}
+            .modal h2{font-size:1.3rem}
+            .modal .full-plot{font-size:.88rem;line-height:1.7}
+            .modal-poster-container{max-height:280px}
+            .modal-poster-container img{max-height:280px}
+            .poster-nav{width:32px;height:32px;font-size:1.1rem}
+            .scroll-top{width:44px;height:44px;font-size:1.2rem;bottom:16px;right:16px}
+            .creator-card .card-poster{height:140px}
+            .creator-card .card-poster img{max-width:70px;max-height:70px}
+            .creator-card .card-content h3{font-size:1.1rem}
+            .creator-card.double-portrait .card-poster img{max-width:55px;max-height:55px}
+            .thanks-block{padding:20px 16px}
+            .thanks-block h3{font-size:1.2rem}
+            .thanks-block p{font-size:.9rem}
+            
+            .chat-section{padding:14px 10px}
+            .chat-section .chat-header h2{font-size:1.3rem}
+            .chat-messages{max-height:300px;min-height:200px}
+            .chat-input-area .chat-name-input{min-width:80px;font-size:.8rem}
+            .chat-input-area .chat-msg-input{font-size:.8rem}
+            .chat-input-area .chat-send-btn{font-size:.75rem;padding:6px 16px}
+            .chat-message .delete-btn{font-size:.55rem;padding:1px 6px}
+        }
+
+        @media(min-width:601px) and (max-width:1024px){
+            .grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px}
+            .card-poster{height:350px}
+        }
+
+        .footer{margin-top:35px;text-align:center;color:#555;font-size:.8rem;border-top:1px solid #1e1e2a;padding-top:20px}
+        .footer span{color:#e62429}
+    </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="container">
+
+    <nav class="nav-sticky" id="mainNav">
+        <div class="nav-inner" id="navInner">
+            <button class="nav-btn" data-target="phase1"><span class="dot d1"></span>Фаза 1</button>
+            <button class="nav-btn" data-target="phase2"><span class="dot d2"></span>Фаза 2</button>
+            <button class="nav-btn" data-target="phase3"><span class="dot d3"></span>Фаза 3</button>
+            <button class="nav-btn" data-target="phase4"><span class="dot d4"></span>Фаза 4</button>
+            <button class="nav-btn" data-target="phase5"><span class="dot d5"></span>Фаза 5</button>
+            <button class="nav-btn" data-target="phase6"><span class="dot d6"></span>Фаза 6</button>
+            <button class="nav-btn" data-target="phase7"><span class="dot d7"></span>Короткометражки</button>
+            <button class="nav-btn" data-target="phase8"><span class="dot d8"></span>Классика Marvel TV</button>
+            <button class="nav-btn" data-target="phase9"><span class="dot d9"></span>Сага Защитников</button>
+            <button class="nav-btn" data-target="phase10"><span class="dot d10"></span>Другие сериалы</button>
+            <button class="nav-btn" data-target="phaseCreators"><span class="dot dc"></span>Создатели</button>
+            <button class="nav-btn" data-target="phaseCancelled"><span class="dot dx"></span>Отменённые</button>
+            <button class="nav-btn" data-target="phaseFuture"><span class="dot df"></span>Будущие</button>
+            <button class="nav-btn" data-target="phaseIdeas"><span class="dot di"></span>Идеи</button>
+            <button class="nav-btn" data-target="chatSection"><span class="dot dchat"></span>Чат</button>
+            <button class="nav-toggle" id="navToggle" aria-label="Свернуть навигацию">≡</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>⚡ Кинематографическая вселенная Marvel</h1>
+        <div class="subtitle">2008 — 2028</div>
+        <div class="divider"></div>
+        <div class="tribute">
+            <p><span class="highlight">Кинематографическая вселенная Marvel</span> — это не просто серия фильмов. Это грандиозный эксперимент, который изменил киноиндустрию навсегда. Начавшись в 2008 году с <span class="highlight">«Железного человека»</span>, КВМ выросла в самую успешную франшизу в истории, объединив десятки фильмов, сериалов и персонажей в единую связанную вселенную.</p>
+            <div class="quote">«Самая большая история, когда-либо рассказанная на экране»</div>
+            <p>Этот сайт — дань уважения всем, кто создавал КВМ: от <span class="highlight">Кевина Файги</span>, главного архитектора этой вселенной, до тысяч сценаристов, режиссёров, актёров, художников и специалистов по визуальным эффектам. Каждый фильм — это годы работы, творчества и страсти.</p>
+            <p><span class="highlight">Спасибо, что вы с нами.</span> Наслаждайтесь путешествием по фазам и помните: в этой вселенной всё взаимосвязано.</p>
+            <div class="names">
+                <span><strong>Кевин Файги</strong> — Архитектор</span>
+                <span><strong>Стэн Ли</strong> — Легенда</span>
+                <span><strong>Джон Фавро</strong> — Первопроходец</span>
+                <span><strong>Братья Руссо</strong> — Мастера саги</span>
+                <span><strong>Райан Куглер</strong> — Голос Ваканды</span>
+                <span><strong>Джеймс Ганн</strong> — Душа Стражей</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="controls">
+        <div class="search-wrap">
+            <input type="text" id="searchInput" placeholder="Поиск по названию...">
+        </div>
+        <div class="filter-group" id="filterGroup">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="Фильм">Фильмы</button>
+            <button class="filter-btn" data-filter="Сериал">Сериалы</button>
+            <button class="filter-btn" data-filter="Короткометражка">Короткометражки</button>
+            <button class="filter-btn" data-filter="Спецвыпуск">Спецвыпуски</button>
+        </div>
+    </div>
+
+    <header class="header">
+        <h1>Все фильмы, сериалы и короткометражки</h1>
+        <p>Полный архив Кинематографической вселенной Marvel</p>
+    </header>
+
+    <section class="phase phase-1" id="phase1"><div class="phase-header"><h2>Фаза 1</h2><span class="badge">Начало</span></div><div class="grid" id="grid1"></div></section>
+    <section class="phase phase-2" id="phase2"><div class="phase-header"><h2>Фаза 2</h2><span class="badge">Расширение</span></div><div class="grid" id="grid2"></div></section>
+    <section class="phase phase-3" id="phase3"><div class="phase-header"><h2>Фаза 3</h2><span class="badge">Война бесконечности</span></div><div class="grid" id="grid3"></div></section>
+    <section class="phase phase-4" id="phase4"><div class="phase-header"><h2>Фаза 4</h2><span class="badge">Мультивселенная</span></div><div class="grid" id="grid4"></div></section>
+    <section class="phase phase-5" id="phase5"><div class="phase-header"><h2>Фаза 5</h2><span class="badge">Новые герои</span></div><div class="grid" id="grid5"></div></section>
+    <section class="phase phase-6" id="phase6"><div class="phase-header"><h2>Фаза 6</h2><span class="badge">Секретные войны</span></div><div class="grid" id="grid6"></div></section>
+    <section class="phase phase-7" id="phase7"><div class="phase-header"><h2>Короткометражки</h2><span class="badge">Marvel One-Shots</span></div><div class="grid" id="grid7"></div></section>
+    <section class="phase phase-8" id="phase8"><div class="phase-header"><h2>Классика Marvel TV</h2><span class="badge">Сериалы</span></div><div class="grid" id="grid8"></div></section>
+    <section class="phase phase-9" id="phase9"><div class="phase-header"><h2>Сага Защитников</h2><span class="badge">Netflix</span></div><div class="grid" id="grid9"></div></section>
+    <section class="phase phase-10" id="phase10"><div class="phase-header"><h2>Другие сериалы</h2><span class="badge">Freeform, Hulu</span></div><div class="grid" id="grid10"></div></section>
+
+    <!-- ====== СОЗДАТЕЛИ ====== -->
+    <section class="phase phase-creators" id="phaseCreators">
+        <div class="phase-header">
+            <h2>⭐ Создатели КВМ</h2>
+            <span class="badge">Архитекторы вселенной</span>
+        </div>
+        <div class="grid" id="gridCreators"></div>
+        
+        <div class="thanks-block">
+            <h3>❤️ Спасибо всем создателям</h3>
+            <p>Этот сайт — дань уважения не только великим именам, но и <span class="highlight">тысячам сценаристов, режиссёров, актёров, художников, каскадёров, специалистов по визуальным эффектам, композиторов</span> и всех, кто участвовал в создании Кинематографической вселенной Marvel. Каждый проект — это результат работы огромной команды профессионалов. Их талант, страсть и преданность своему делу сделали КВМ культурным феноменом. <span class="highlight">Спасибо за 18 лет невероятных историй!</span></p>
+        </div>
+    </section>
+
+    <!-- ====== ОТМЕНЁННЫЕ И ЗАМОРОЖЕННЫЕ ====== -->
+    <section class="phase phase-cancelled" id="phaseCancelled">
+        <div class="phase-header">
+            <h2>❌ Отменённые и замороженные</h2>
+            <span class="badge">Не сбывшиеся проекты</span>
+        </div>
+        <div class="grid" id="gridCancelled"></div>
+    </section>
+
+    <!-- ====== БУДУЩИЕ ПРОЕКТЫ ====== -->
+    <section class="phase phase-future" id="phaseFuture">
+        <div class="phase-header"><h2>Будущие проекты</h2><span class="badge">Скоро</span></div>
+        <div class="grid" id="gridFuture"></div>
+    </section>
+
+    <!-- ====== ИДЕИ ДЛЯ БУДУЩИХ ФИЛЬМОВ ====== -->
+    <section class="phase phase-ideas" id="phaseIdeas">
+        <div class="phase-header">
+            <h2>💡 Идеи для будущих фильмов</h2>
+            <span class="badge">Фан-кастинг</span>
+        </div>
+        <div class="grid" id="gridIdeas"></div>
+    </section>
+
+    <!-- ====== ЧАТ ДЛЯ ФАНАТОВ ====== -->
+    <section class="chat-section" id="chatSection">
+        <div class="chat-header">
+            <h2>💬 Чат фанатов MCU</h2>
+            <span class="badge">Обсуждения</span>
+        </div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-name-input" id="chatNameInput" placeholder="Ваше имя" value="Фанат MCU" maxlength="20">
+                <input type="text" class="chat-msg-input" id="chatMsgInput" placeholder="Напишите сообщение..." maxlength="500">
+                <button class="chat-send-btn" id="chatSendBtn">Отправить</button>
+            </div>
+            <div class="chat-controls">
+                <span class="chat-hint">🖱 Наведите на своё сообщение, чтобы удалить</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer"><p>Сделано с <span>❤️</span> для всех фанатов Marvel · 2026</p></footer>
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <div class="modal-poster-container" id="modalPosterContainer">
+            <img id="modalPoster" src="" alt="Постер">
+            <button class="poster-nav prev" id="posterPrev">‹</button>
+            <button class="poster-nav next" id="posterNext">›</button>
+            <span class="poster-counter" id="posterCounter">1 / 1</span>
+        </div>
+        <h2 id="modalTitle"></h2>
+        <div class="meta">
+            <span id="modalYear"></span>
+            <span class="badge-detail" id="modalType"></span>
+            <span id="modalPhase"></span>
+        </div>
+        <div class="full-plot" id="modalPlot"></div>
+    </div>
+</div>
+
+<!-- ===== FIREBASE SDK (ДОЛЖЕН БЫТЬ ПЕРВЫМ!) ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script>
+    // ВАША КОНФИГУРАЦИЯ FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyCSx-tkGTSh5z0CGmPkITS1-zBldj46uTw",
+        authDomain: "catalog-marvel-ecff4.firebaseapp.com",
+        databaseURL: "https://catalog-marvel-ecff4-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "catalog-marvel-ecff4",
+        storageBucket: "catalog-marvel-ecff4.firebasestorage.app",
+        messagingSenderId: "14600598180",
+        appId: "1:14600598180:web:a172c5b98820a9d9796c31"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const messagesRef = database.ref('messages');
+</script>
+
+<script>
+// ================================================================
+// ЧАСТИЦЫ
+// ================================================================
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const colors = ['#e62429', '#ff4d4d', '#b71c1c', '#ff6b6b', '#ff8a8a'];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.opacity = Math.random() * 0.6 + 0.1;
+        this.pulse = Math.random() * 100;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.pulse += 0.02;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    }
+    draw() {
+        const opacity = this.opacity * (0.8 + 0.2 * Math.sin(this.pulse));
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = opacity;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+}
+
+for (let i = 0; i < 60; i++) {
+    particles.push(new Particle());
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    if (Math.random() < 0.02) {
+        const p = new Particle();
+        p.size = 3 + Math.random() * 2;
+        p.opacity = 0.8;
+        p.x = Math.random() * canvas.width;
+        p.y = -10;
+        p.speedY = 0.5 + Math.random() * 0.5;
+        particles.push(p);
+        if (particles.length > 120) particles.shift();
+    }
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ================================================================
+// ПОСТЕРЫ
+// ================================================================
+const posters = {
+    "Железный человек":"https://upload.wikimedia.org/wikipedia/ru/3/30/Iron_man_filmposter.jpg",
+    "Невероятный Халк":"https://upload.wikimedia.org/wikipedia/ru/f/fa/Невероятный_Халк.jpg",
+    "Железный человек 2":"https://ru-images-s.kinorium.com/movie/600/447171.jpg?1769600249",
+    "Тор":"https://ru-images-s.kinorium.com/movie/600/380686.jpg?1742710013",
+    "Первый мститель":"https://ru-images-s.kinorium.com/movie/600/346144.jpg?1767350999",
+    "Мстители":"https://upload.wikimedia.org/wikipedia/ru/8/8a/The_Avengers_%282012_film%29_poster.jpg",
+    "Железный человек 3":"https://ru-images-s.kinorium.com/movie/600/457749.jpg?1768491802",
+    "Тор 2: Царство тьмы":"https://ru-images-s.kinorium.com/movie/600/592766.jpg?1742709932",
+    "Первый мститель: Другая война":"https://upload.wikimedia.org/wikipedia/ru/e/e8/Captain_America_The_Winter_Soldier.jpg",
+    "Стражи Галактики":"https://ru-images-s.kinorium.com/movie/600/599262.jpg?1784354594",
+    "Мстители: Эра Альтрона":"https://upload.wikimedia.org/wikipedia/ru/f/ff/Avengers_Age_of_Ultron_poster.jpg",
+    "Человек-муравей":"https://ru-images-s.kinorium.com/movie/600/359504.jpg?1750578559",
+    "Первый мститель: Противостояние":"https://ru-images-s.kinorium.com/movie/600/758084.jpg?1750578548",
+    "Доктор Стрэндж":"https://upload.wikimedia.org/wikipedia/ru/thumb/c/c7/Doctor_Strange_poster.jpg/500px-Doctor_Strange_poster.jpg",
+    "Стражи Галактики. Часть 2":"https://ru-images-s.kinorium.com/movie/600/776628.jpg?1750578571",
+    "Человек-паук: Возвращение домой":"https://ru-images-s.kinorium.com/movie/600/639254.jpg?1742709519",
+    "Тор: Рагнарёк":"https://ru-images-s.kinorium.com/movie/600/758085.jpg?1763734607",
+    "Чёрная пантера":"https://ru-images-s.kinorium.com/movie/600/566968.jpg?1763733440",
+    "Мстители: Война бесконечности":"https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Avengers_Infinity_War_poster.jpg/500px-Avengers_Infinity_War_poster.jpg",
+    "Человек-муравей и Оса":"https://ru-images-s.kinorium.com/movie/600/1447816.jpg?1745994514",
+    "Капитан Марвел":"https://ru-images-s.kinorium.com/movie/600/1442556.jpg?1763730574",
+    "Мстители: Финал":"https://ru-images-s.kinorium.com/movie/600/1442354.jpg?1767286445",
+    "Человек-паук: Вдали от дома":"https://ru-images-s.kinorium.com/movie/600/1609068.jpg?1742709408",
+    "Ванда/Вижн":"https://ru-images-s.kinorium.com/movie/600/1703631.jpg?1742709434",
+    "Сокол и Зимний солдат":"https://ru-images-s.kinorium.com/movie/1080/1950913.jpg?1742709421",
+    "Чёрная вдова":"https://ru-images-s.kinorium.com/movie/600/759329.jpg?1742709532",
+    "Локи":"https://ru-images-s.kinorium.com/movie/600/1703630.jpg?1700829768",
+    "Что, если...?":"https://ru-images-s.kinorium.com/movie/600/2047490.jpg?1742709446",
+    "Шан-Чи и легенда десяти колец":"https://ru-images-s.kinorium.com/movie/600/2005049.jpg?1742709387",
+    "Соколиный глаз":"https://ru-images-s.kinorium.com/movie/600/2042006.jpg?1763973664",
+    "Вечные":"https://ru-images-s.kinorium.com/movie/600/1693584.jpg?1672174577",
+    "Человек-паук: Нет пути домой":"https://ru-images-s.kinorium.com/movie/600/2139329.jpg?1742709393",
+    "Лунный рыцарь":"https://ru-images-s.kinorium.com/movie/600/2092619.jpg?1742709345",
+    "Мисс Марвел":"https://ru-images-s.kinorium.com/movie/600/2092622.jpg?1654791737",
+    "Доктор Стрэндж: В мультивселенной безумия":"https://ru-images-s.kinorium.com/movie/600/2005789.jpg?1769175657",
+    "Тор: Любовь и гром":"https://ru-images-s.kinorium.com/movie/600/2074078.jpg?1763755338",
+    "Я есть Грут":"https://avatars.mds.yandex.net/i?id=9d82f0b52bb6d8d9009b7820b3ec350d_l-8498375-images-thumbs&n=13",
+    "Женщина-Халк":"https://ru-images-s.kinorium.com/movie/600/2092621.jpg?1742709328",
+    "Ночной оборотень":"https://ru-images-s.kinorium.com/movie/600/8770943.jpg?1742709134",
+    "Чёрная пантера: Ваканда навеки":"https://ru-images-s.kinorium.com/movie/600/1694069.jpg?1742709339",
+    "Стражи Галактики: Праздничный спецвыпуск":"https://avatars.mds.yandex.net/i?id=6475209238b46dcb9af8a38a7842017e_l-8965182-images-thumbs&n=13",
+    "Человек-муравей и Оса: Квантомания":"https://ru-images-s.kinorium.com/movie/600/2157160.jpg?1690531581",
+    "Стражи Галактики. Часть 3":"https://ru-images-s.kinorium.com/movie/1080/1615680.jpg?1767514448",
+    "Секретное вторжение":"https://ru-images-s.kinorium.com/movie/600/2616271.jpg?1742709128",
+    "Локи (сезон 2)":"https://images-s.kinorium.com/movie/poster/1703630/w1500_52003483.jpg",
+    "Капитан Марвел 2":"https://ru-images-s.kinorium.com/movie/600/2079893.jpg?1701087954",
+    "Что, если...? (сезоны 2-3)":"https://images-s.kinorium.com/movie/poster/2047490/w1500_52171027.jpg",
+    "Эхо":"https://ru-images-s.kinorium.com/movie/1080/2737908.jpg?1713779490",
+    "Дэдпул и Росомаха":"https://ru-images-s.kinorium.com/movie/600/1607115.jpg?1742709113",
+    "Это всё Агата":"https://ru-images-s.kinorium.com/movie/600/2851504.jpg?1742709099",
+    "Ваш дружелюбный сосед Человек-паук":"https://ru-images-s.kinorium.com/movie/1080/2881145.jpg?1738227198",
+    "Капитан Америка: Дивный новый мир":"https://ru-images-s.kinorium.com/movie/600/2752709.jpg?1744697877",
+    "Сорвиголова: Рождённый заново":"https://images-s.kinorium.com/movie/poster/9740988/w1500_56753156.jpg",
+    "Железное сердце":"https://ru-images-s.kinorium.com/movie/600/2678560.jpg?1751622873",
+    "Громовержцы":"https://ru-images-s.kinorium.com/movie/600/9601466.jpg?1746461067",
+    "Фантастическая четвёрка: Первые шаги":"https://ru-images-s.kinorium.com/movie/600/2079894.jpg?1753377440",
+    "Очи Ваканды":"https://ru-images-s.kinorium.com/movie/600/2714373.jpg?1759251408",
+    "Зомби Marvel":"https://ru-images-s.kinorium.com/movie/600/2881163.jpg?1759228598",
+    "Чудо-человек":"https://ru-images-s.kinorium.com/movie/600/9600614.jpg?1775054839",
+    "Сорвиголова: Рождённый заново (сезоны 2-3)":"https://images-s.kinorium.com/movie/poster/9740988/w1500_57176269.jpg",
+    "Каратель: Последнее убийство":"https://ru-images-s.kinorium.com/movie/600/12163516.jpg?1778331395",
+    "Человек-паук: Новый день":"https://ru-images-s.kinorium.com/movie/600/9874739.jpg?1783756820",
+    "Ваш дружелюбный сосед Человек-паук (сезон 2)":"https://avatars.mds.yandex.net/i?id=e227d4fc65d5691cc81f334b90c3d644_l-5810659-images-thumbs&n=13",
+    "Квест Вижна":"https://en-images-s.kinorium.com/movie/600/10041932.jpg?1786793236",
+    "Мстители: Доктор Дум":"https://ru-images-s.kinorium.com/movie/600/9745249.jpg?1784623094",
+    "Мстители: Секретные войны":"https://static.kinoafisha.info/k/movie_posters/1080x1920/upload/movie_posters/0/4/4/8367440/454916611366.jpg",
+    "Консультант":"https://ru-images-s.kinorium.com/movie/600/598424.jpg?1782467531",
+    "Забавный случай на пути к молоту Тора":"https://ru-images-s.kinorium.com/movie/600/598417.jpg?1728424458",
+    "Образец 47":"https://ru-images-s.kinorium.com/movie/600/638769.jpg?1782466229",
+    "Агент Картер":"https://ru-images-s.kinorium.com/movie/600/714268.jpg?1598298664",
+    "Да здравствует король":"https://ru-images-s.kinorium.com/movie/600/754041.jpg?1616402533",
+    "Агенты Щ.И.Т.":"https://ru-images-s.kinorium.com/movie/600/658248.jpg?1784546119",
+    "Сверхлюди":"https://ru-images-s.kinorium.com/movie/600/1442440.jpg?1781610993",
+    "Агент Картер (сериал)":"https://ru-images-s.kinorium.com/movie/600/756098.jpg?1784548823",
+    "Сорвиголова":"https://ru-images-s.kinorium.com/movie/600/752885.jpg?1737119302",
+    "Джессика Джонс":"https://ru-images-s.kinorium.com/movie/600/752884.jpg?1690549095",
+    "Люк Кейдж":"https://ru-images-s.kinorium.com/movie/600/752883.jpg?1784546115",
+    "Железный Кулак":"https://ru-images-s.kinorium.com/movie/600/752886.jpg?1737717745",
+    "Защитники":"https://ru-images-s.kinorium.com/movie/600/1511958.jpg?1783185668",
+    "Каратель":"https://ru-images-s.kinorium.com/movie/600/1576521.jpg?1775142502",
+    "Плащ и Кинжал":"https://ru-images-s.kinorium.com/movie/600/1576522.jpg?1775204471",
+    "Беглецы":"https://ru-images-s.kinorium.com/movie/600/448571.jpg?1784546649",
+    "Люди Икс":"https://en-images-s.kinorium.com/movie/600/11150336.jpg?1787032328",
+    "Призрачный гонщик":"https://en-images-s.kinorium.com/movie/600/13074248.jpg?1785131347",
+    "Чёрная пантера 3":"https://en-images-s.kinorium.com/movie/600/12456561.jpg?1785045909",
+    "Огненная Звезда": "https://upload.wikimedia.org/wikipedia/ru/thumb/8/83/Firestar_102.jpg/500px-Firestar_102.jpg",
+    "Мстители: Династия Канга": "https://avatars.dzeninfra.ru/get-zen_doc/5219020/pub_63ca5d856f025e1b0b7c2f30_63d40a828585e55d9647aa94/scale_1200",
+    
+    // Постеры создателей
+    "Кевин Файги": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kevin_Feige_by_Gage_Skidmore.jpg/960px-Kevin_Feige_by_Gage_Skidmore.jpg",
+    "Стэн Ли": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Stan_Lee_%285774466204%29.jpg/1280px-Stan_Lee_%285774466204%29.jpg",
+    "Джек Кирби": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Jack-Kirby_art-of-jack-kirby_wyman-skaar.jpg/960px-Jack-Kirby_art-of-jack-kirby_wyman-skaar.jpg",
+    "Джон Фавро": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Jon_Favreau_2016.jpeg/500px-Jon_Favreau_2016.jpeg",
+    "Энтони Руссо": "https://images-s.kinorium.com/persona/300/563842.jpg?1769474367",
+    "Джо Руссо": "https://avatars.mds.yandex.net/i?id=21a764e0c6f6062eeb9b9798cdafe5b9_l-16408146-images-thumbs&n=13",
+    "Джеймс Ганн": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/James_Gunn_by_Gage_Skidmore_3.jpg/500px-James_Gunn_by_Gage_Skidmore_3.jpg",
+    "Райан Куглер": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Ryan_Coogler_-_Sinners_2025.jpg/500px-Ryan_Coogler_-_Sinners_2025.jpg",
+    "Тайка Вайтити": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Taika_Waititi_photo_by_pouria_afkhami.jpg/960px-Taika_Waititi_photo_by_pouria_afkhami.jpg",
+    "Кристофер Маркус": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Christopher_Markus_by_Gage_Skidmore.jpg/960px-Christopher_Markus_by_Gage_Skidmore.jpg",
+    "Стивен Макфили": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Stephen_McFeely_by_Gage_Skidmore.jpg/960px-Stephen_McFeely_by_Gage_Skidmore.jpg",
+    
+    // Постеры отменённых проектов
+    "Веном": "https://upload.wikimedia.org/wikipedia/ru/thumb/8/8a/Venom.png/500px-Venom.png",
+    "Нелюди": "https://upload.wikimedia.org/wikipedia/ru/b/b0/Inhumans.jpg",
+    "Серебряное и чёрное": "https://pluggedin.ru/images/silver-sable-and-black-cat-bigTopImage.jpg",
+    "Капитан Британия": "https://upload.wikimedia.org/wikipedia/ru/2/2b/Captbrit.jpg",
+    "Вечные 2": "https://assets.mycast.io/posters/eternals-arishem-judgement-fan-casting-poster-334606-large.jpg?1685815947",
+    "Войны брони": "https://en-images-s.kinorium.com/movie/300/2675679.jpg?1759226237",
+    "Нова": "https://avatars.mds.yandex.net/i?id=afa12d94723940290434056c9567693e_l-9043236-images-thumbs&n=13",
+    
+    // Постеры для идей
+    "Геркулес": "https://avatars.mds.yandex.net/i?id=829bae5639f05b6e01224d68f424303e_l-4093415-images-thumbs&n=13",
+    "Девушка-белка": "https://avatars.mds.yandex.net/i?id=066ab6f6d3b001d80c795d1facec4348_l-4012087-images-thumbs&n=13",
+    "Майлз Моралес": "https://upload.wikimedia.org/wikipedia/ru/f/ff/New_spider_man_and_new_suit.jpg",
+    "Правосудие": "https://avatars.mds.yandex.net/i?id=0bd3b753ea89420c1bae70a26b372562_sr-5136262-images-thumbs&n=13",
+    "Тигра": "https://upload.wikimedia.org/wikipedia/ru/8/8a/Tigra_Marvel.jpg"
+};
+
+const multiPosterData = {
+    "Что, если...? (сезоны 2-3)": [
+        "https://images-s.kinorium.com/movie/poster/2047490/w1500_52157359.jpg",
+        "https://images-s.kinorium.com/movie/poster/2047490/w1500_53695152.jpg"
+    ],
+    "Братья Руссо": [
+        "https://images-s.kinorium.com/persona/300/563842.jpg?1769474367",
+        "https://avatars.mds.yandex.net/i?id=21a764e0c6f6062eeb9b9798cdafe5b9_l-16408146-images-thumbs&n=13"
+    ],
+    "Маркус и Макфили": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Christopher_Markus_by_Gage_Skidmore.jpg/960px-Christopher_Markus_by_Gage_Skidmore.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Stephen_McFeely_by_Gage_Skidmore.jpg/960px-Stephen_McFeely_by_Gage_Skidmore.jpg"
+    ],
+    "Серебряное и чёрное": [
+        "https://pluggedin.ru/images/silver-sable-and-black-cat-bigTopImage.jpg",
+        "https://upload.wikimedia.org/wikipedia/ru/thumb/5/59/Black_Cat_Marvel.png/500px-Black_Cat_Marvel.png",
+        "https://i.pinimg.com/originals/ea/f1/7d/eaf17d0d4b38356ae2896a266acaab16.jpg"
+    ]
+};
+
+// ================================================================
+// ДАННЫЕ
+// ================================================================
+const data = {
+    phase1: [
+        {title:"Железный человек",year:2008,type:"Фильм",plot:"Тони Старк, гениальный изобретатель и миллиардер, попадает в плен к террористам в Афганистане. Он создаёт высокотехнологичный костюм, чтобы сбежать, и становится Железным человеком. Вернувшись домой, он решает прекратить производство оружия и использовать свои технологии для борьбы со злом. Тони сталкивается с Обадайей Стейном, который хочет завладеть его технологией."},
+        {title:"Невероятный Халк",year:2008,type:"Фильм",plot:"Брюс Бэннер пытается найти лекарство от своего проклятия — превращения в зелёного монстра при всплеске адреналина. Он скрывается в Бразилии, но военные во главе с генералом Россом охотятся за ним. Брюс возвращается в США, чтобы найти противоядие, но сталкивается с Эмилем Блонски, который превращается в Абоминацию. Халк должен защитить город от этого монстра."},
+        {title:"Железный человек 2",year:2010,type:"Фильм",plot:"Тони Старк публично заявляет о том, что он — Железный человек, что привлекает внимание правительства и его конкурентов. Он сталкивается с Иваном Ванко, сыном учёного, который разработал технологию дугового реактора вместе с отцом Тони. Ванко создаёт собственный костюм и атакует Тони на Stark Expo, но Тони вместе с Роудсом в костюме War Machine побеждает его."},
+        {title:"Тор",year:2011,type:"Фильм",plot:"Могущественный бог грома Тор изгнан на Землю своим отцом Одином за высокомерие и жажду войны. Лишённый своего молота Мьёльнира, Тор учится смирению и человечности. Он влюбляется в астрофизика Джейн Фостер и должен защитить Землю от своего брата Локи, который пытается захватить Асгард. Тор должен доказать свою достойность, чтобы вернуть молот и остановить Локи."},
+        {title:"Первый мститель",year:2011,type:"Фильм",plot:"Во время Второй мировой войны хрупкий и слабый Стив Роджерс мечтает служить своей стране. Он становится участником экспериментальной программы 'Суперсолдат' и превращается в Капитана Америка — символа свободы и справедливости. Вооружённый вибраниумным щитом, он должен остановить злодея Йохана Шмидта (Красного Черепа) и его организацию Гидру."},
+        {title:"Мстители",year:2012,type:"Фильм",plot:"Организация Щ.И.Т. собирает команду супергероев, чтобы противостоять угрозе инопланетного вторжения. Локи, брат Тора, заключает союз с расой Читаури и пытается захватить Землю, используя Тессеракт. Железный человек, Капитан Америка, Тор, Халк, Чёрная вдова и Соколиный глаз должны научиться работать вместе, чтобы остановить Локи и спасти Нью-Йорк от уничтожения."}
+    ],
+    phase2: [
+        {title:"Железный человек 3",year:2013,type:"Фильм",plot:"После событий 'Мстителей' Тони Старк страдает от посттравматического стрессового расстройства. Он одержим созданием новых костюмов, чтобы защитить себя и своих близких. Но в мире появляется новый враг — Мандарин, лидер террористической организации, который угрожает США. Тони теряет всё и оказывается в одиночестве, но благодаря своей изобретательности и силе духа он должен победить врага и найти себя."},
+        {title:"Тор 2: Царство тьмы",year:2013,type:"Фильм",plot:"Тор пытается восстановить мир в Девяти мирах после событий 'Мстителей'. Но древняя угроза — тёмные эльфы во главе с Малкитом — пробуждается и стремится погрузить вселенную в вечную тьму. Джейн Фостер случайно становится носительницей Эфира — мощного оружия, которое может разрушить реальность. Тор объединяется с Локи, чтобы защитить Джейн и остановить Малкита."},
+        {title:"Первый мститель: Другая война",year:2014,type:"Фильм",plot:"Стив Роджерс адаптируется к жизни в XXI веке и работает с Наташей Романофф на Щ.И.Т. Они обнаруживают, что организация Гидры тайно проникла в Щ.И.Т. и планирует захватить мир через систему спутников. Стив и Наташа должны остановить врага, а также столкнуться с Баки Барнсом — Зимним солдатом, который когда-то был другом Стива."},
+        {title:"Стражи Галактики",year:2014,type:"Фильм",plot:"Питер Квилл, получеловек-полуинопланетянин, ворует могущественный артефакт — Камень Бесконечности. За ним начинают охоту все космические силы. Он объединяется с группой отбросов: зелёной воительницей Гаморой, татуированным Драксом, енотом Ракетой и древоподобным Грутом. Эта разношёрстная команда должна объединиться, чтобы спасти галактику от безумного Ронана."},
+        {title:"Мстители: Эра Альтрона",year:2015,type:"Фильм",plot:"Тони Старк и Брюс Бэннер создают искусственный интеллект Альтрона, чтобы защитить Землю от внешних угроз. Но Альтрон решает, что человечество — главная угроза для планеты, и начинает уничтожение. Мстители собираются вместе, чтобы остановить его. Появляются новые герои — Ванда и Пьетро Максимофф, а также искусственный человек Вижн."},
+        {title:"Человек-муравей",year:2015,type:"Фильм",plot:"Вор Скотт Лэнг после выхода из тюрьмы пытается начать новую жизнь. Он соглашается на последнее ограбление и попадает в дом учёного Хэнка Пима, где крадёт костюм, позволяющий уменьшаться до размеров муравья. Пим видит в Скотте потенциал и обучает его управлять костюмом. Вместе они должны остановить злодея, который хочет использовать технологию для злых целей."}
+    ],
+    phase3: [
+        {title:"Первый мститель: Противостояние",year:2016,type:"Фильм",plot:"После очередной миссии Мстители оказываются в центре скандала из-за жертв среди мирного населения. ООН принимает закон о регистрации супергероев. Тони Старк поддерживает закон, а Стив Роджерс выступает против. Команда раскалывается на два лагеря. Капитан Америка пытается защитить своего друга Баки Барнса, которого обвиняют в теракте. Это приводит к эпическому столкновению героев."},
+        {title:"Доктор Стрэндж",year:2016,type:"Фильм",plot:"Гениальный нейрохирург Стивен Стрэндж теряет способность работать после автомобильной аварии. Отчаявшись, он отправляется в Непал, где находит таинственного мага Древнюю. Стрэндж узнаёт о существовании магических измерений и становится Хранителем реальности. Он должен защитить Землю от сил тьмы и научиться управлять своей новой силой."},
+        {title:"Стражи Галактики. Часть 2",year:2017,type:"Фильм",plot:"Стражи Галактики становятся известными героями во вселенной. Они встречают загадочного человека по имени Эго, который оказывается отцом Питера Квилла. Эго — живая планета и хочет сделать Питера своим наследником. Но команда обнаруживает, что Эго планирует уничтожить все планеты во вселенной. Стражникам предстоит сделать трудный выбор."},
+        {title:"Человек-паук: Возвращение домой",year:2017,type:"Фильм",plot:"После битвы в аэропорту Питер Паркер пытается совмещать школьную жизнь с ролью супергероя. Он мечтает доказать Тони Старку, что готов стать полноправным Мстителем. Питер сталкивается с Эдрианом Тумсом — Стервятником, который продаёт оружие из технологии пришельцев. Питер должен остановить Стервятника и показать, что он — настоящий герой."},
+        {title:"Тор: Рагнарёк",year:2017,type:"Фильм",plot:"Тор узнаёт, что его отец Один умер, и его сестра Хела, богиня смерти, освободилась из заточения. Хела уничтожает молот Мьёльнир и захватывает Асгард. Тор попадает в плен на планете Сакаар, где становится гладиатором. Он встречает Халка и Валькирию и должен объединиться с ними, чтобы вернуться в Асгард и остановить Хелу."},
+        {title:"Чёрная пантера",year:2018,type:"Фильм",plot:"После смерти короля Ваканды Т'Чалла становится новым правителем страны и Чёрной пантерой. Он сталкивается с вызовом со стороны своего кузена Н'Джадаки — Киллмонгера, который вырос в США и хочет использовать вибраниум для освобождения угнетённых по всему миру. Т'Чалла должен защитить свою родину и решить, какой путь выбрать."},
+        {title:"Мстители: Война бесконечности",year:2018,type:"Фильм",plot:"Танос, безумный титан, начинает собирать Камни Бесконечности, чтобы уничтожить половину вселенной. Мстители, Стражи Галактики и другие герои объединяются, чтобы остановить его. Но Танос оказывается слишком сильным. В финальной битве ему удаётся собрать все Камни и уничтожить половину живых существ во вселенной."},
+        {title:"Человек-муравей и Оса",year:2018,type:"Фильм",plot:"Скотт Лэнг находится под домашним арестом после событий 'Противостояния'. Но Хэнк Пим и Хоуп ван Дайн приходят к нему с важной миссией — спасти Джанет ван Дайн, которая находится в Квантовом измерении. Они создают портал, но Скотт случайно попадает в ловушку. Вместе они должны преодолеть множество препятствий и врагов."},
+        {title:"Капитан Марвел",year:2019,type:"Фильм",plot:"Кэрол Дэнверс, бывший пилот ВВС США, становится одной из самых могущественных героинь во вселенной. Она получает силы от взрыва реактора и оказывается в центре конфликта между скруллами и империей Крии. Кэрол должна найти свой путь, защитить невинных и помочь Нику Фьюри в создании инициативы 'Мстители'."},
+        {title:"Мстители: Финал",year:2019,type:"Фильм",plot:"Через пять лет после событий 'Войны бесконечности' оставшиеся Мстители разрабатывают план путешествия во времени, чтобы собрать Камни Бесконечности и отменить щелчок Таноса. Они отправляются в прошлое, переживая свои самые памятные моменты. В финальной битве они объединяются против Таноса и его армии. Железный человек жертвует собой, чтобы спасти вселенную."},
+        {title:"Человек-паук: Вдали от дома",year:2019,type:"Фильм",plot:"Питер Паркер пытается забыть о гибели Тони Старка и насладиться школьной поездкой в Европу. Но его планы нарушает Ник Фьюри, который просит его помощи против стихийных монстров. Питер объединяется с Мистерио, таинственным героем из другой вселенной. Но оказывается, что Мистерио — обманщик, и Питер должен самостоятельно победить его."}
+    ],
+    phase4: [
+        {title:"Ванда/Вижн",year:2021,type:"Сериал",plot:"Ванда Максимофф, сражённая горем после гибели Вижна, создаёт в маленьком городке Уэствью иллюзорную реальность, где они живут идеальной семейной жизнью. Однако её власть над реальностью привлекает внимание организации Щ.И.Т. и таинственной ведьмы Агаты Харкнесс, которая пытается выведать секреты Ванды и завладеть её силой Хаоса. В кульминации Ванда сталкивается с Агатой, осознаёт, что она — алой ведьма, и побеждает её, пожертвовав своей иллюзорной семьёй. Она отпускает Вижна и детей, принимая свою боль и силу, и уходит, чтобы начать новую главу своей жизни."},
+        {title:"Сокол и Зимний солдат",year:2021,type:"Сериал",plot:"Сэм Уилсон и Баки Барнс пытаются найти своё место в мире после 'Финала'. Сэм получает щит Капитана Америка, но сомневается, что достоин его. Они сталкиваются с организацией 'Разрушители флагов', которая выступает против глобальной политики, и новым Капитаном Америка — Джоном Уокером. В кульминации Сэм решает принять щит, побеждает Уокера и становится новым Капитаном Америка, доказав, что герой — не в сыворотке, а в поступках."},
+        {title:"Чёрная вдова",year:2021,type:"Фильм",plot:"Наташа Романофф скрывается от правительства после событий 'Противостояния'. Она вынуждена вернуться в Россию, чтобы противостоять 'Красной комнате' — организации, которая превратила её в убийцу. Наташа объединяется с Еленой Беловой и Красным Стражем, чтобы разрушить программу. Кульминация — битва с Дрейковым, где Наташа жертвует собой, чтобы освободить других 'вдов'. В финале Елена продолжает её дело."},
+        {title:"Локи",year:2021,type:"Сериал",plot:"Локи попадает в Управление временными изменениями (УВИ) и становится агентом организации, которая управляет временными линиями. Он путешествует по реальностям и встречает свою женскую версию — Сильвию. Они объединяются, чтобы раскрыть тайну УВИ и его создателей. Кульминация — битва с Хранителем времени, где они узнают, что УВИ создал Тот, кто остаётся. Локи и Сильвия расходятся во мнениях, и она убивает его, открывая мультивселенную."},
+        {title:"Что, если...?",year:2021,type:"Сериал",plot:"Анимационный сериал показывает альтернативные версии событий MCU: что если бы Пегги Картер стала суперсолдатом? Что если бы Т'Чалла стал Звёздным Лордом? Каждая серия — это отдельная история, которая исследует разные аспекты вселенной Marvel. Наблюдатель рассказывает эти истории, но в финале сезона нарушает своё правило и вмешивается, чтобы спасти мультивселенную от ультрона-Вижна."},
+        {title:"Шан-Чи и легенда десяти колец",year:2021,type:"Фильм",plot:"Шан-Чи, мастер боевых искусств, пытается скрыться от своего прошлого и работает парковщиком в Сан-Франциско. Но его втягивают в таинственную организацию 'Десять колец', которую возглавляет его отец Сюй Вэньу. Шан-Чи должен столкнуться с отцом и раскрыть тайны своего наследия. Кульминация — битва у ворот Та Ло, где Шан-Чи принимает свою силу и побеждает отца, защищая мир от древней угрозы."},
+        {title:"Соколиный глаз",year:2021,type:"Сериал",plot:"Клинт Бартон пытается насладиться отдыхом с семьёй после событий 'Финала'. Но он сталкивается с юной Кейт Бишоп, которая мечтает стать лучницей. Вместе они должны распутать дело о преступной организации Мафии. Кульминация — битва в отеле, где Клинт и Кейт побеждают врагов. Клинт передаёт Кейт свой опыт и становится её наставником, а она принимает роль нового Соколиного глаза."},
+        {title:"Вечные",year:2021,type:"Фильм",plot:"Раса бессмертных существ, созданных небожителями, тайно живёт на Земле тысячи лет. После событий 'Финала' они вынуждены объединиться, чтобы защитить человечество от своих собратьев — девиантов. Кульминация — битва с девиантами и небожителем, который пытается уничтожить Землю. Герои объединяются и побеждают врага, но их лидер Аяк погибает. В финале герои понимают, что должны быть защитниками Земли."},
+        {title:"Человек-паук: Нет пути домой",year:2021,type:"Фильм",plot:"Питер Паркер просит Доктора Стрэнджа сделать так, чтобы все забыли о его личности. Но заклинание идёт не так и открывает мультивселенную. В мире появляются злодеи из других реальностей: Зелёный гоблин, Доктор Осьминог и другие. Питер должен объединиться с другими версиями Человека-паука, чтобы спасти свою вселенную. Кульминация — финальная битва со злодеями, где Питер делает выбор в пользу искупления, а не мести."},
+        {title:"Лунный рыцарь",year:2022,type:"Сериал",plot:"Стивен Грант, работник музея, страдает от диссоциативного расстройства личности. Он не знает, что его альтер-эго — Марк Спектор, наёмник, который становится аватаром египетского бога Хонсу. Стивен должен понять, что происходит, и научиться использовать свои способности. Кульминация — битва с богом Амат, где Стивен и Марк объединяются, чтобы защитить мир от древней угрозы."},
+        {title:"Мисс Марвел",year:2022,type:"Сериал",plot:"Подросток Камала Хан, фанат Мстителей, обнаруживает у себя сверхспособности после того, как надевает таинственный браслет. Она должна научиться контролировать свои силы и понять, что значит быть героем. Кульминация — битва с таинственной организацией, которая хочет использовать её силу. Камала принимает свою судьбу и становится Мисс Марвел, защищая свой город."},
+        {title:"Доктор Стрэндж: В мультивселенной безумия",year:2022,type:"Фильм",plot:"Доктор Стрэндж исследует опасные альтернативные реальности с новой союзницей — Америкой Чавес, которая умеет путешествовать между вселенными. Ванда Максимофф становится главной антагонисткой, используя свою силу, чтобы найти своих детей из других миров. Кульминация — битва в мультивселенной, где Стрэндж побеждает Ванду, жертвуя собой, чтобы защитить Америку и реальность."},
+        {title:"Тор: Любовь и гром",year:2022,type:"Фильм",plot:"Тор отправляется в новое приключение вместе с Валькирией и Коргом. Он сталкивается с Горром — убийцей богов, который хочет уничтожить всех богов во вселенной. На помощь приходит Джейн Фостер, которая становится Могучим Тором. Кульминация — битва с Горром, где Тор и Джейн объединяются, чтобы победить врага. Джейн жертвует собой, и Тор находит свою любовь в отцовстве."},
+        {title:"Я есть Грут",year:2022,type:"Сериал",plot:"Серия короткометражных анимационных фильмов о приключениях маленького Грута. Он исследует галактику, попадает в разные ситуации и учится быть героем. Это история о дружбе, любопытстве и важности быть собой."},
+        {title:"Женщина-Халк",year:2022,type:"Сериал",plot:"Дженнифер Уолтерс, адвокат и двоюродная сестра Брюса Бэннера, получает способность превращаться в Халка после аварии. Она пытается совмещать свою работу и новую сущность. Кульминация — судебное разбирательство с участием супергероев, где Дженнифер доказывает, что может быть и адвокатом, и героем одновременно."},
+        {title:"Ночной оборотень",year:2022,type:"Спецвыпуск",plot:"В мрачном особняке собираются охотники на монстров, чтобы сразиться с таинственным существом. Это атмосферный хоррор-спецвыпуск, который расширяет мистическую сторону вселенной Marvel. В центре сюжета — борьба с оборотнем и раскрытие семейных тайн."},
+        {title:"Чёрная пантера: Ваканда навеки",year:2022,type:"Фильм",plot:"После смерти короля Т'Чаллы Ваканда сталкивается с угрозой со стороны внешнего мира. Шури, Окойе и другие воины должны защитить свою страну и найти нового Чёрную пантеру. Они сталкиваются с таинственной подводной цивилизацией Талокан во главе с Намором. Кульминация — битва между Вакандой и Талоканом, которая заканчивается перемирием."},
+        {title:"Стражи Галактики: Праздничный спецвыпуск",year:2022,type:"Спецвыпуск",plot:"Стражи Галактики решают устроить рождественский праздник для Питера Квилла, чтобы поднять ему настроение. Они отправляются на Землю за подарками и попадают в забавные ситуации. Это тёплая и смешная история о дружбе и семейных ценностях."}
+    ],
+    phase5: [
+        {title:"Человек-муравей и Оса: Квантомания",year:2023,type:"Фильм",plot:"Скотт Лэнг и его семья случайно попадают в Квантовое измерение, где сталкиваются с Кангом — Завоевателем, который хочет использовать их для побега. Скотт должен защитить свою семью и остановить Канга, который представляет угрозу для всей вселенной. Кульминация — битва с Кангом, где Скотт жертвует собой, чтобы спасти семью, но в итоге побеждает врага."},
+        {title:"Стражи Галактики. Часть 3",year:2023,type:"Фильм",plot:"Команда Стражей отправляется на последнюю миссию, чтобы спасти Ракету. Это путешествие раскрывает тёмное прошлое Ракеты и его создателя Высшего Эволюционера. Стражники должны объединиться, чтобы спасти друга и остановить угрозу. Кульминация — битва на базе Высшего Эволюционера, где команда побеждает и спасает Ракету."},
+        {title:"Секретное вторжение",year:2023,type:"Сериал",plot:"Ник Фьюри возвращается на Землю, чтобы противостоять вторжению Скруллов, которые проникли во все уровни власти. Он должен раскрыть заговор и защитить планету. Кульминация — битва с лидером скруллов, где Фьюри использует все свои навыки, чтобы остановить вторжение."},
+        {title:"Локи (сезон 2)",year:2023,type:"Сериал",plot:"Локи и Мобиус продолжают своё путешествие по Управлению временными изменениями. Они пытаются спасти мультивселенную от разрушения и раскрыть новые тайны. Кульминация — битва с Тотом, кто остаётся, где Локи жертвует собой, чтобы спасти реальность."},
+        {title:"Капитан Марвел 2",year:2023,type:"Фильм",plot:"Кэрол Дэнверс, Камала Хан и Моника Рамбо объединяются, чтобы противостоять Дар-Бенн, которая угрожает вселенной. Их силы взаимосвязаны, и они должны научиться работать вместе. Кульминация — битва с Дар-Бенн, где героини объединяют свои силы и побеждают врага."},
+        {title:"Что, если...? (сезоны 2-3)",year:"2023-2024",type:"Сериал",plot:"Второй и третий сезоны анимационного сериала продолжают исследовать альтернативные версии событий MCU. Наблюдатель рассказывает новые истории о том, что могло бы произойти в разных вселенных. Каждая серия — это неожиданный поворот знакомых событий."},
+        {title:"Эхо",year:2024,type:"Сериал",plot:"Мая Лопес, глухая индейская женщина с уникальными способностями, возвращается в свой родной город, чтобы столкнуться с криминальным миром. Она должна примириться со своим прошлым и найти своё место в мире. Кульминация — битва с Кингпином, где Мая принимает свою силу и побеждает врага."},
+        {title:"Дэдпул и Росомаха",year:2024,type:"Фильм",plot:"Дэдпул объединяется с Росомахой в безумном мультивселенском приключении. Они должны спасти свою вселенную от разрушения, путешествуя по разным реальностям. Кульминация — битва с силами, угрожающими мультивселенной, где герои объединяются и побеждают врага."},
+        {title:"Это всё Агата",year:2024,type:"Сериал",plot:"Агата Харкнесс, могущественная ведьма, оказывается в центре загадочных событий. Она должна раскрыть тайны своего прошлого и столкнуться с новыми угрозами. Кульминация — битва с тёмными силами, где Агата использует всю свою магию, чтобы защитить себя и своих союзников."},
+        {title:"Ваш дружелюбный сосед Человек-паук",year:2024,type:"Сериал",plot:"Анимационный сериал, который показывает приключения Питера Паркера в альтернативной реальности. Он должен совмещать школьную жизнь и борьбу с преступностью, сталкиваясь с новыми врагами и союзниками."},
+        {title:"Капитан Америка: Дивный новый мир",year:2025,type:"Фильм",plot:"Сэм Уилсон, новый Капитан Америка, сталкивается с глобальным заговором, который угрожает миру. Он должен доказать, что достоин щита и способен защитить людей. Кульминация — битва с Лидером, где Сэм использует свой опыт и силу, чтобы победить врага."},
+        {title:"Сорвиголова: Рождённый заново",year:2025,type:"Сериал",plot:"Мэтт Мёрдок возвращается, чтобы защитить свой город от новой угрозы. Он должен балансировать между жизнью адвоката и супергероя, сталкиваясь с опасными врагами и раскрывая коррупцию в системе."},
+        {title:"Железное сердце",year:2025,type:"Сериал",plot:"Гениальная изобретательница Рири Уильямс создаёт собственный высокотехнологичный костюм и становится супергероиней Железным сердцем. Она должна научиться управлять своей силой и защищать людей от новых угроз."},
+        {title:"Громовержцы",year:2025,type:"Фильм",plot:"Команда антигероев, включая Елену Белову, Баки Барнса и Красного Стража, отправляется на опасную миссию под контролем правительства. Они должны справиться с угрозой, которая может уничтожить мир."}
+    ],
+    phase6: [
+        {title:"Фантастическая четвёрка: Первые шаги",year:2025,type:"Фильм",plot:"Знаменитая команда супергероев — Ричардс, Шторм, Гримм и Сьюзан — отправляется в космос и получает невероятные способности. Они должны научиться контролировать свои силы и защищать Землю от новых угроз."},
+        {title:"Очи Ваканды",year:2025,type:"Сериал",plot:"Сериал, который погружает зрителей в тайны Ваканды. Сюжет разворачивается вокруг загадочных событий, связанных с вибраниумом и древними технологиями. Герои должны защитить наследие своей страны от новых угроз."},
+        {title:"Зомби Marvel",year:2025,type:"Сериал",plot:"Анимационный сериал, продолжающий историю из 'Что, если...?'. В мире, где зомби-вирус поразил супергероев, оставшиеся в живых должны объединиться, чтобы выжить и найти лекарство."},
+        {title:"Чудо-человек",year:2026,type:"Сериал",plot:"Саймон Уильямс, сын магната, становится подопытным в эксперименте, который даёт ему невероятные способности. Он должен научиться использовать свою силу и найти своё место в мире супергероев."},
+        {title:"Сорвиголова: Рождённый заново (сезоны 2-3)",year:"2026-2027",type:"Сериал",plot:"Мэтт Мёрдок продолжает свою борьбу за справедливость. Во втором и третьем сезонах он сталкивается с новыми врагами и союзниками. Сюжет разворачивается вокруг сложных моральных выборов и противостояния с криминальным миром."},
+        {title:"Каратель: Последнее убийство",year:2026,type:"Спецвыпуск",plot:"Фрэнк Касл возвращается, чтобы завершить свою войну с преступностью. В финальной главе своей истории он сталкивается с самым опасным врагом. Это история о возмездии, искуплении и последней битве за справедливость."},
+        {title:"Человек-паук: Новый день",year:2026,type:"Фильм",plot:"Питер Паркер возвращается, чтобы снова стать Человеком-пауком в мире, который забыл его. Он сталкивается с новыми врагами и должен найти себя заново. Это история о втором шансе, принятии себя и том, что значит быть героем в мире, где тебя никто не помнит."},
+        {title:"Ваш дружелюбный сосед Человек-паук (сезон 2)",year:2026,type:"Сериал",plot:"Продолжение анимационного сериала о приключениях Питера Паркера в альтернативной реальности. Во втором сезоне он сталкивается с новыми вызовами, врагами и союзниками."},
+        {title:"Квест Вижна",year:2026,type:"Сериал",plot:"Вижн, после событий 'Ванда/Вижн', пытается восстановить свою память и найти своё место в мире. Он отправляется в путешествие, чтобы понять свою природу и предназначение."},
+        {title:"Мстители: Доктор Дум",year:2026,type:"Фильм",plot:"Доктор Дум становится главной угрозой для мультивселенной. Мстители собираются вновь, чтобы остановить его и спасти реальность. Это эпическая битва за будущее мира, где старые герои объединяются с новыми."},
+        {title:"Мстители: Секретные войны",year:2027,type:"Фильм",plot:"Завершающая глава Саги Мультивселенной. Герои со всех реальностей объединяются, чтобы дать финальный бой. Судьба всех вселенных висит на волоске. Это эпическое завершение истории, которая началась с 'Войны бесконечности'."}
+    ],
+    phase7: [
+        {title:"Консультант",year:2011,type:"Короткометражка",plot:"Короткометражный фильм, в котором агент Щ.И.Т. Фил Колсон и агент Ситвелл обсуждают, как помешать генералу Россу использовать Эмиля Блонски (Абоминацию) в программе Мстителей. Они решают отправить в качестве 'консультанта' Тони Старка, зная, что его высокомерие и неуважение к власти приведут к провалу переговоров."},
+        {title:"Забавный случай на пути к молоту Тора",year:2011,type:"Короткометражка",plot:"Фил Колсон по пути в Пуэнте-Антигуо, где упал молот Тора, заезжает на заправку. Там он сталкивается с грабителями и использует свои навыки агента, чтобы обезвредить их. Короткометражка показывает, что даже без суперспособностей можно быть героем."},
+        {title:"Образец 47",year:2012,type:"Короткометражка",plot:"После битвы за Нью-Йорк двое бывших грабителей находят оружие пришельцев, оставленное после вторжения Читаури. Они используют его для ограблений, но агенты Щ.И.Т. Ситвелл и Блейк выслеживают их. Вместо того чтобы уничтожить пару, они предлагают им работу — стать агентами Щ.И.Т. и помогать разрабатывать технологии из трофейного оружия."},
+        {title:"Агент Картер",year:2013,type:"Короткометражка",plot:"После Второй мировой войны Пегги Картер работает в Щ.И.Т. и сталкивается с сексизмом со стороны коллег. Она получает задание, которое считает пустой тратой времени, но оказывается, что это часть крупного заговора. Она раскрывает заговор, доказывая свои способности как агента."},
+        {title:"Да здравствует король",year:2014,type:"Короткометражка",plot:"После событий 'Железного человека 3' Тревор Слэттери, актёр, изображавший Мандарина, сидит в тюрьме. К нему приходит некий человек и утверждает, что настоящий Мандарин — реальная угроза. Короткометражка показывает, что история Мандарина ещё не закончена."}
+    ],
+    phase8: [
+        {title:"Агенты Щ.И.Т.",year:"2013-2020",type:"Сериал",plot:"Сериал начинается сразу после событий 'Мстителей' и рассказывает о работе команды агентов Щ.И.Т. под руководством Фила Колсона. Они расследуют сверхъестественные явления, сталкиваются с Гидрой, путешествуют во времени и даже оказываются в космосе. Сериал связан с фильмами КВМ, но также имеет свою уникальную историю."},
+        {title:"Сверхлюди",year:2017,type:"Сериал",plot:"Королевская семья сверхлюдей с Луны отправляется на Землю после того, как их предаёт брат короля Чёрного Грома. Они пытаются найти убежище и защитить свой народ от угроз. Сериал рассказывает о сложных семейных отношениях и борьбе за власть."},
+        {title:"Агент Картер (сериал)",year:"2015-2016",type:"Сериал",plot:"После событий короткометражки Пегги Картер продолжает работать в Щ.И.Т. и расследует преступления в послевоенном Нью-Йорке. Она сталкивается с сексизмом, шпионажем и новыми угрозами, доказывая, что она — одна из лучших агентов."}
+    ],
+    phase9: [
+        {title:"Сорвиголова",year:"2015-2018",type:"Сериал",plot:"Мэтт Мёрдок, слепой адвокат с обострёнными чувствами, борется с преступностью в Адской кухне Нью-Йорка. Днём он защищает невинных в суде, а ночью — на улицах. Он сталкивается с Кингпином, Буллзаем и другими врагами. Это мрачная и реалистичная история о справедливости и искуплении."},
+        {title:"Джессика Джонс",year:"2015-2019",type:"Сериал",plot:"Джессика Джонс — частный детектив с суперсилой, которая пытается оставить своё тёмное прошлое позади. Она расследует дела, связанные с Нью-Йорком, и сталкивается с Килгрейвом, который контролирует её разум. Это история о травме, силе и борьбе со своими демонами."},
+        {title:"Люк Кейдж",year:"2016-2018",type:"Сериал",plot:"Люк Кейдж — бывший заключённый с несокрушимой кожей и суперсилой. Он пытается начать новую жизнь в Гарлеме, но его прошлое настигает его. Он становится защитником своего района, сталкиваясь с местными криминальными авторитетами. Сериал затрагивает темы расовой несправедливости и власти."},
+        {title:"Железный Кулак",year:"2017-2018",type:"Сериал",plot:"Дэнни Рэнд возвращается в Нью-Йорк после 15 лет в таинственном городе Кунь-Лунь, где он стал Железным Кулаком — живым оружием, способным фокусировать Силу. Он пытается занять своё место в семейной компании, но сталкивается с тёмными тайнами и врагами."},
+        {title:"Защитники",year:2017,type:"Сериал",plot:"Сорвиголова, Джессика Джонс, Люк Кейдж и Железный Кулак объединяются, чтобы противостоять таинственной организации 'Рука', которая угрожает Нью-Йорку. Герои должны забыть о своих разногласиях и работать вместе, чтобы защитить город от древнего зла."},
+        {title:"Каратель",year:"2017-2019",type:"Сериал",plot:"Фрэнк Касл, ветеран войны, начинает войну с преступностью после гибели своей семьи. Он использует жестокие методы, чтобы уничтожить криминальные группировки. Это история о возмездии, травме и поиске справедливости."}
+    ],
+    phase10: [
+        {title:"Плащ и Кинжал",year:"2018-2019",type:"Сериал",plot:"Тананд Боуэн и Тай Джонсон — двое подростков с разным прошлым, которые получают сверхспособности после катастрофы на нефтяной вышке. Они связаны друг с другом и должны научиться контролировать свои силы. Плащ может создавать порталы тьмы, а Кинжал — световые кинжалы."},
+        {title:"Беглецы",year:"2017-2019",type:"Сериал",plot:"Группа подростков узнаёт, что их родители — злодеи, входящие в таинственную организацию 'Прайд'. Они сбегают из дома и пытаются разоблачить своих родителей, используя свои уникальные способности. Сериал рассказывает о дружбе, предательстве и взрослении."}
+    ],
+    phaseCancelled: [
+        {title:"Веном",year:2010,type:"Отменён",plot:"Фильм о Веноме планировался ещё до создания КВМ. В 2010 году у Sony были планы на сольный фильм о Веноме с режиссёром Гэри Россом. Проект застрял в разработке на долгие годы. Позже Sony перезапустила проект без связи с MCU, выпустив фильм с Томом Харди в 2018 году. Оригинальный фильм 2010 года так и не был снят, но его идеи частично использовались в более поздних версиях."},
+        {title:"Нелюди",year:2016,type:"Отменён",plot:"Проект 'Нелюди' был анонсирован Marvel как часть Третьей фазы. Планировался фильм о королевской семье Нелюдей на основе комиксов Стэна Ли и Джека Кирби. Позже проект был преобразован в телесериал для ABC, который вышел в 2017 году, но получил негативные отзывы и был закрыт после одного сезона. Планы на полноценный фильм так и не осуществились."},
+        {title:"Серебряное и чёрное",year:2018,type:"Отменён",plot:"Проект 'Серебряное и чёрное' (Silver & Black) был анонсирован Sony в 2017 году как сольный фильм о Серебряном Соболе и Чёрной Кошке. В 2018 году проект был отложен, а позже — переработан в отдельные сольные проекты. Фильм так и не вышел. В 2020 году проект был официально заморожен."},
+        {title:"Капитан Британия",year:2021,type:"Отменён",plot:"Проект о Капитане Британии обсуждался в Marvel Studios в период разработки Четвёртой фазы. Планировалось расширить вселенную британскими персонажами. Однако проект был заморожен в 2021 году в пользу других проектов. Кевин Файги подтверждал, что у них есть планы на Капитана Британию, но реализация отложена на неопределённый срок."},
+        {title:"Мстители: Династия Канга",year:2024,type:"Отменён",plot:"'Мстители: Династия Канга' была анонсирована как кульминационный фильм Мультивселенной Саги, где Канг должен был стать главным злодеем. После проблем с актёром Джонатаном Мейджерсом и пересмотром планов Marvel, проект был переработан. Вместо него теперь выходит 'Мстители: Доктор Дум', а 'Династия Канга' официально отменена."},
+        {title:"Вечные 2",year:2024,type:"Отменён",plot:"Сиквел 'Вечных' был анонсирован в 2022 году, но из-за смешанных отзывов на первый фильм и низких кассовых сборов Marvel решила отложить проект. В 2024 году стало известно, что сиквел не будет сниматься в ближайшее время. Сюжетные линии, заложенные в первом фильме, могут быть пересмотрены в других проектах."},
+        {title:"Войны брони",year:2025,type:"Отменён",plot:"Проект 'Войны брони' (Armor Wars) был анонсирован как сериал, в котором Дон Чидл должен был вернуться к роли Джеймса Роудса / Воителя. Сериал должен был исследовать, как технология брони Тони Старка попадает в чужие руки. В 2025 году проект был заморожен и, по слухам, переработан в полнометражный фильм, но официальных анонсов нет."},
+        {title:"Нова",year:2028,type:"Не анонсирован",plot:"Проект о Нове — одном из самых известных космических героев Marvel — давно обсуждается фанатами. Ричард Райдер (Нова) — член Корпуса Нова, который играл важную роль в комиксах. Несмотря на слухи, Marvel Studios официально не анонсировала проект. Возможно, Nova появится в будущих проектах КВМ, но пока фильм не подтверждён."}
+    ],
+    phaseFuture: [
+        {title:"Люди Икс",year:2028,type:"Фильм",plot:"Долгожданное возвращение Людей Икс в киновселенную Marvel. Ожидается, что фильм представит новую команду мутантов и перезапустит франшизу в рамках КВМ. Сюжет держится в секрете, но фанаты надеются увидеть классических персонажей, таких как Профессор Икс, Магнето, Росомаха и Шторм, в новом свете."},
+        {title:"Призрачный гонщик",year:2028,type:"Фильм",plot:"Новая глава в истории Призрачного гонщика. По слухам, фильм представит Робби Рейеса или другого носителя духа мщения. Сюжет, вероятно, будет связан с мистической стороной вселенной Marvel и может пересекаться с другими сверхъестественными персонажами."},
+        {title:"Чёрная пантера 3",year:2028,type:"Фильм",plot:"Продолжение истории Ваканды. После событий 'Ваканды навеки' страна продолжает развиваться под руководством Шури. В третьей части, вероятно, будет исследовано дальнейшее будущее Ваканды, а также появятся новые угрозы и союзники для Чёрной пантеры."}
+    ],
+    phaseIdeas: [
+        {title:"Геркулес",year:"Анонсирован в Торе 4",type:"Идея",plot:"Геркулес (Геракл) — греческий бог, сын Зевса, который появился в сцене после титров фильма 'Тор: Любовь и гром'. В комиксах он является членом Мстителей и имеет сверхчеловеческую силу, выносливость и бессмертие. Фильм о Геркулесе может исследовать его путь от бога до героя, его отношения с другими богами и людьми, а также его место в КВМ. Возможный сюжет: Геркулес должен доказать свою ценность, сражаясь с монстрами из греческой мифологии, которые вторгаются в мир людей. В фильме могут появиться другие греческие боги, а также намёки на будущие кроссоверы с Мстителями."},
+        {title:"Девушка-белка",year:"Популярный фан-кастинг",type:"Идея",plot:"Дорин Грин, известная как Девушка-белка, — одна из самых забавных и недооценённых героинь Marvel. Она обладает сверхсилой и способностью общаться с белками, а также славится тем, что побеждает злодеев, с которыми не справляются даже Мстители. В комиксах она победила Доктора Дума, Таноса и многих других. Фильм о Девушке-белке может быть лёгкой комедийной историей о том, как обычная девушка с необычными способностями спасает мир, доказывая, что даже самый смешной герой может быть великим."},
+        {title:"Майлз Моралес",year:"Популярный фан-кастинг",type:"Идея",plot:"Майлз Моралес — второй Человек-паук в комиксах Marvel, подросток афро-латиноамериканского происхождения, который был укушен генетически модифицированным пауком. Он обладает способностями, похожими на Питера Паркера, но с уникальными особенностями: скрытность (невидимость) и био-электрический удар. В анимационных фильмах 'Человек-паук: Через вселенные' и 'Паук-Паук: За пределами вселенных' Майлз стал культовым персонажем. Фильм о Майлзе в КВМ может быть историей о взрослении, ответственности и поиске себя в мире, где уже есть Человек-паук."},
+        {title:"Огненная Звезда",year:"Классический персонаж",type:"Идея",plot:"Анджелика Джонс, известная как Огненная Звезда (Firestar), — мутант, способная генерировать и контролировать микроволновое излучение, которое проявляется как огонь. Она была членом Новых Мутантов, Команды Икс и Мстителей. В КВМ она может появиться как персонаж, который борется со своей силой и пытается найти своё место в мире супергероев. Фильм может исследовать тему контроля над своими способностями и дружбы в мире, где мутанты подвергаются дискриминации."},
+        {title:"Правосудие",year:"Классический персонаж",type:"Идея",plot:"Вэнс Астровик, известный как Правосудие (Justice), — мутант с телекинетическими способностями. Он был членом Новых Воинов и Мстителей. В комиксах он долгое время скрывал свои способности из-за страха быть отвергнутым обществом. Фильм о Правосудии может быть драматической историей о принятии себя, страхе перед своими силами и борьбе за то, чтобы использовать их во благо. В сюжете можно показать его путь от скрытого мутанта до полноценного героя, который находит своё место в команде."},
+        {title:"Тигра",year:"Классический персонаж",type:"Идея",plot:"Грир Грант, известная как Тигра (Tigra), — героиня, обладающая способностями тигра: сверхсила, скорость, ловкость, ночное зрение и острые когти. Она была создана в результате эксперимента, который соединил её ДНК с ДНК тигра. В комиксах она была членом Мстителей и Защитников. Фильм о Тигре может быть историей о поиске своей идентичности, борьбе с животной природой внутри себя и защите тех, кто не может защитить себя. Сюжет может разворачиваться в городских джунглях, где она сражается с преступностью, используя свои уникальные способности."}
+    ]
+};
+
+// ================================================================
+// СОЗДАТЕЛИ
+// ================================================================
+const creatorsData = [
+    {
+        title: "Кевин Файги",
+        year: "Главный архитектор КВМ",
+        type: "Создатель",
+        plot: "Кевин Файги — президент Marvel Studios и главный архитектор Кинематографической вселенной Marvel. Именно он придумал идею связанной вселенной и курировал все проекты с 2008 года. Под его руководством КВМ стала самой успешной кинофраншизой в истории. Файги известен своим вниманием к деталям, любовью к комиксам и умением объединять лучшие таланты. Он лично участвует в разработке каждого проекта, от кастинга до пост-продакшена. Его видение превратило Marvel Studios в культурный феномен.",
+        poster: "Кевин Файги"
+    },
+    {
+        title: "Стэн Ли",
+        year: "1922–2018",
+        type: "Создатель",
+        plot: "Стэн Ли — создатель большинства культовых персонажей Marvel: Человека-паука, Железного человека, Тора, Халка, Капитана Америка, Людей Икс, Фантастической четвёрки и многих других. Его работы стали основой для КВМ. Стэн Ли появился в камео почти в каждом фильме Marvel, став символом вселенной. Он вдохновлял миллионы людей своей философией: 'С большой силой приходит и большая ответственность'. Его наследие живёт в каждом проекте Marvel.",
+        poster: "Стэн Ли"
+    },
+    {
+        title: "Джек Кирби",
+        year: "1917–1994",
+        type: "Создатель",
+        plot: "Джек Кирби — легендарный художник и писатель комиксов, со-создатель таких персонажей, как Капитан Америка, Тор, Железный человек, Халк, Люди Икс, Фантастическая четвёрка и многие другие. Его яркий, динамичный стиль и эпические сюжеты сформировали визуальный язык Marvel. Кирби считается одним из самых влиятельных художников в истории комиксов, а его работы продолжают вдохновлять создателей КВМ.",
+        poster: "Джек Кирби"
+    },
+    {
+        title: "Джон Фавро",
+        year: "Первопроходец КВМ",
+        type: "Создатель",
+        plot: "Джон Фавро — режиссёр и исполнительный продюсер «Железного человека» (2008), фильма, с которого началась КВМ. Он также сыграл роль Хэппи Хогана во многих проектах. Фавро создал основу вселенной, задав тон для всех последующих фильмов. Его решение снять «Железного человека» с Робертом Дауни-младшим в главной роли стало ключевым моментом для Marvel Studios.",
+        poster: "Джон Фавро"
+    },
+    {
+        title: "Братья Руссо",
+        year: "Мастера саги",
+        type: "Создатель",
+        plot: "Энтони и Джо Руссо — режиссёры четырёх ключевых фильмов КВМ: «Первый мститель: Противостояние», «Мстители: Война бесконечности» и «Мстители: Финал», а также «Сокол и Зимний солдат» (исполнительные продюсеры). Они принесли во вселенную баланс драмы, экшена и юмора. Их фильмы стали самыми кассовыми в истории КВМ, а «Финал» собрал более 2,7 миллиарда долларов.",
+        doublePoster: true,
+        poster1: "Энтони Руссо",
+        poster2: "Джо Руссо",
+        multiModal: true,
+        multiKey: "Братья Руссо"
+    },
+    {
+        title: "Джеймс Ганн",
+        year: "Душа Стражей",
+        type: "Создатель",
+        plot: "Джеймс Ганн — режиссёр всех трёх фильмов о Стражах Галактики и праздничного спецвыпуска. Он привнёс во вселенную уникальный стиль: смесь абсурдного юмора, эмоциональных моментов и потрясающих музыкальных подборок. Ганн создал культовых персонажей, которые стали любимцами фанатов. Его работа расширила космическую сторону КВМ и вдохновила многие последующие проекты.",
+        poster: "Джеймс Ганн"
+    },
+    {
+        title: "Райан Куглер",
+        year: "Голос Ваканды",
+        type: "Создатель",
+        plot: "Райан Куглер — режиссёр «Чёрной пантеры» и «Чёрной пантеры: Ваканда навеки». Он привнёс во вселенную африканскую культуру, создав один из самых значимых фильмов КВМ. «Чёрная пантера» стал культурным феноменом, получил множество наград и номинаций на «Оскар». Куглер показал, что супергеройские фильмы могут быть глубокими, социально значимыми и визуально потрясающими.",
+        poster: "Райан Куглер"
+    },
+    {
+        title: "Тайка Вайтити",
+        year: "Гений абсурда",
+        type: "Создатель",
+        plot: "Тайка Вайтити — режиссёр «Тора: Рагнарёк» и «Тора: Любовь и гром». Он переосмыслил Тора, превратив его из серьёзного бога в харизматичного комедийного персонажа. Вайтити привнёс во вселенную яркий визуальный стиль, безумный юмор и уникальную атмосферу. Его фильмы стали одними из самых успешных и любимых фанатами, расширив границы КВМ.",
+        poster: "Тайка Вайтити"
+    },
+    {
+        title: "Маркус и Макфили",
+        year: "Сценаристы саги",
+        type: "Создатель",
+        plot: "Кристофер Маркус и Стивен Макфили — сценаристы, которые работали над ключевыми проектами КВМ: три фильма о Капитане Америка, «Мстители: Война бесконечности», «Мстители: Финал» и многими другими. Они стали главными архитекторами Саги Бесконечности, создав эпическую историю, которая завершилась в «Финале». Их работа объединила десятки персонажей и сюжетных линий в единое целое.",
+        doublePoster: true,
+        poster1: "Кристофер Маркус",
+        poster2: "Стивен Макфили",
+        multiModal: true,
+        multiKey: "Маркус и Макфили"
+    }
+];
+
+// ================================================================
+// РЕНДЕР
+// ================================================================
+const phaseColors = {
+    phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
+    phase4:'#a66cff',phase5:'#ff6f00',phase6:'#e040fb',
+    phase7:'#00e676',phase8:'#ff69b4',phase9:'#f1c40f',phase10:'#1abc9c',
+    phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b'
+};
+
+function getPosterUrl(title){return posters[title]||null}
+
+function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false){
+    const container=document.getElementById(gridId);
+    if(!container)return;
+    container.innerHTML='';
+    const phaseId=gridId.replace('grid','phase');
+    const phaseColor=phaseColors[phaseId]||'#e62429';
+    items.forEach(item=>{
+        const card=document.createElement('div');
+        let cardClass='card';
+        if(isCreator) cardClass+=' creator-card';
+        else if(isCancelled) cardClass+=' cancelled-card';
+        else if(isIdea) cardClass+=' idea-card';
+        if(item.type==='Сериал') cardClass+=' series';
+        if(item.type==='Спецвыпуск') cardClass+=' special';
+        if(item.type==='Короткометражка') cardClass+=' short';
+        if(item.type==='Отменён') cardClass+=' cancelled-card';
+        card.className=cardClass;
+        card.dataset.title=item.title;
+        card.dataset.year=item.year;
+        card.dataset.type=item.type;
+        card.dataset.plot=item.plot;
+        card.dataset.phase=phaseId.replace('phase','');
+        if(item.multiKey) card.dataset.multiKey = item.multiKey;
+        
+        let posterHtml = '';
+        if(isCreator) {
+            if(item.doublePoster) {
+                const url1 = getPosterUrl(item.poster1);
+                const url2 = getPosterUrl(item.poster2);
+                posterHtml = `
+                    <img src="${url1 || ''}" alt="${item.poster1}" loading="lazy" onerror="this.style.display='none'">
+                    <img src="${url2 || ''}" alt="${item.poster2}" loading="lazy" onerror="this.style.display='none'">
+                `;
+                card.classList.add('double-portrait');
+            } else {
+                const url = getPosterUrl(item.poster);
+                posterHtml = url ? `<img src="${url}" alt="${item.title}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'no-poster\\'>${item.title}</div>'">` : `<div class="no-poster">${item.title}</div>`;
+            }
+        } else {
+            const posterUrl = getPosterUrl(item.title);
+            posterHtml = posterUrl ? `<img src="${posterUrl}" alt="${item.title}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'no-poster\\' style=\\'background:linear-gradient(145deg,#1a1a2e,${phaseColor}44);\\'>${item.title}</div>'">` : `<div class="no-poster" style="background:linear-gradient(145deg,#1a1a2e,${phaseColor}44);">${item.title}</div>`;
+        }
+        
+        let badgeClass='type-badge';
+        if(isCreator) badgeClass+=' creator';
+        if(isCancelled) badgeClass+=' cancelled';
+        if(isIdea) badgeClass+=' idea';
+        if(item.type==='Сериал') badgeClass+=' series';
+        if(item.type==='Спецвыпуск') badgeClass+=' special';
+        if(item.type==='Короткометражка') badgeClass+=' short';
+        if(item.type==='Отменён') badgeClass+=' cancelled';
+        const shortPlot=item.plot.length>120?item.plot.substring(0,120)+'…':item.plot;
+        
+        const likeKey = 'marvel_like_' + item.title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+        const savedLikes = parseInt(localStorage.getItem(likeKey) || '0');
+        
+        card.innerHTML=`
+            <div class="card-poster">${posterHtml}<span class="${badgeClass}">${item.type}</span></div>
+            <div class="card-content">
+                <h3>${item.title}</h3>
+                <div class="year">${item.year}</div>
+                <div class="plot-short">${shortPlot}</div>
+                <div class="like-wrap">
+                    <button class="like-btn" data-like-key="${likeKey}" data-likes="${savedLikes}">
+                        <span class="like-icon">❤️</span>
+                        <span class="like-count">${savedLikes}</span>
+                    </button>
+                </div>
+            </div>
+        `;
+        card.addEventListener('click',openModal);
+        container.appendChild(card);
+        
+        const likeBtn = card.querySelector('.like-btn');
+        likeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const key = this.dataset.likeKey;
+            let count = parseInt(localStorage.getItem(key) || '0');
+            const isLiked = this.classList.contains('liked');
+            if(isLiked) {
+                count--;
+                this.classList.remove('liked');
+            } else {
+                count++;
+                this.classList.add('liked');
+            }
+            localStorage.setItem(key, String(count));
+            this.querySelector('.like-count').textContent = count;
+            this.dataset.likes = count;
+        });
+        if(savedLikes > 0) {
+            likeBtn.classList.add('liked');
+        }
+    });
+}
+
+// ================================================================
+// ПОИСК И ФИЛЬТРЫ (создатели, отменённые и идеи НЕ исчезают)
+// ================================================================
+let currentFilter = 'all';
+
+function applyFiltersAndSearch() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+    const allGrids = document.querySelectorAll('.grid');
+    allGrids.forEach(grid => {
+        if (grid.id === 'gridCreators' || grid.id === 'gridCancelled' || grid.id === 'gridIdeas') return;
+        const cards = grid.querySelectorAll('.card');
+        cards.forEach(card => {
+            const title = card.dataset.title.toLowerCase();
+            const type = card.dataset.type;
+            let show = true;
+            if(searchTerm && !title.includes(searchTerm)) show = false;
+            if(currentFilter !== 'all' && type !== currentFilter) show = false;
+            card.style.display = show ? '' : 'none';
+        });
+    });
+}
+
+document.getElementById('searchInput').addEventListener('input', applyFiltersAndSearch);
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentFilter = this.dataset.filter;
+        applyFiltersAndSearch();
+    });
+});
+
+// ================================================================
+// МОДАЛЬНОЕ ОКНО
+// ================================================================
+let currentPosterIndex=0,currentPosterList=[];
+
+function openModal(e){
+    const card=e.currentTarget;
+    const title=card.dataset.title;
+    const year=card.dataset.year;
+    const type=card.dataset.type;
+    const plot=card.dataset.plot;
+    const phase=card.dataset.phase;
+    const multiKey = card.dataset.multiKey || null;
+    
+    let posterUrl = null;
+    currentPosterList = [];
+    
+    if (multiKey && multiPosterData[multiKey]) {
+        currentPosterList = multiPosterData[multiKey];
+    } else if (multiPosterData[title]) {
+        currentPosterList = multiPosterData[title];
+    } else {
+        posterUrl = getPosterUrl(title);
+        if (posterUrl) currentPosterList = [posterUrl];
+    }
+    
+    currentPosterIndex=0;
+    updateModalPoster();
+    document.getElementById('modalTitle').textContent=title;
+    document.getElementById('modalYear').textContent=year;
+    const typeBadge = document.getElementById('modalType');
+    typeBadge.textContent=type;
+    if(type==='Отменён' || type==='Не анонсирован') typeBadge.className='badge-detail cancelled';
+    else if(type==='Идея') typeBadge.className='badge-detail idea';
+    else typeBadge.className='badge-detail';
+    document.getElementById('modalPhase').textContent=phase;
+    document.getElementById('modalPlot').textContent=plot;
+    const nav=document.querySelectorAll('.poster-nav');
+    const counter=document.getElementById('posterCounter');
+    if(currentPosterList.length>1){nav.forEach(b=>b.style.display='flex');counter.style.display='block'}
+    else {nav.forEach(b=>b.style.display='none');counter.style.display='none'}
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow='hidden';
+}
+
+function updateModalPoster(){
+    const img=document.getElementById('modalPoster');
+    const counter=document.getElementById('posterCounter');
+    if(currentPosterList.length>0 && currentPosterList[currentPosterIndex]){
+        img.src=currentPosterList[currentPosterIndex];
+        img.alt=`Постер ${currentPosterIndex+1}`;
+        img.style.display='block';
+        counter.textContent=`${currentPosterIndex+1} / ${currentPosterList.length}`;
+    }else{
+        img.style.display='none';
+        counter.textContent='0 / 0';
+    }
+}
+
+function changePoster(d){
+    if(currentPosterList.length<=1)return;
+    currentPosterIndex=(currentPosterIndex+d+currentPosterList.length)%currentPosterList.length;
+    updateModalPoster();
+}
+
+function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow='';
+}
+
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeModal();
+    if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&document.getElementById('modalOverlay').classList.contains('active')){
+        e.preventDefault();
+        changePoster(e.key==='ArrowLeft'?-1:1);
+    }
+});
+document.getElementById('posterPrev').addEventListener('click',e=>{e.stopPropagation();changePoster(-1)});
+document.getElementById('posterNext').addEventListener('click',e=>{e.stopPropagation();changePoster(1)});
+
+// ================================================================
+// НАВИГАЦИЯ
+// ================================================================
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.dataset.target;
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
+        this.classList.add('nav-active');
+    });
+});
+
+// ================================================================
+// КНОПКА "НАВЕРХ"
+// ================================================================
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+        scrollBtn.classList.add('visible');
+    } else {
+        scrollBtn.classList.remove('visible');
+    }
+});
+scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ================================================================
+// ===== ЧАТ ДЛЯ ФАНАТОВ С FIREBASE =====
+// ================================================================
+const chatMessages = document.getElementById('chatMessages');
+const chatNameInput = document.getElementById('chatNameInput');
+const chatMsgInput = document.getElementById('chatMsgInput');
+const chatSendBtn = document.getElementById('chatSendBtn');
+const CHAT_STORAGE_KEY = 'marvel_chat_username';
+
+function getCurrentUser() {
+    return chatNameInput.value.trim() || 'Фанат MCU';
+}
+
+function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+}
+
+function sendMessage() {
+    const name = getCurrentUser();
+    const text = chatMsgInput.value.trim();
+    if (!text) return;
+
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + ':' + 
+                 now.getMinutes().toString().padStart(2,'0');
+
+    const msgData = {
+        user: name,
+        text: text,
+        time: time,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        id: generateId()
+    };
+
+    const newMsgRef = messagesRef.push();
+    newMsgRef.set(msgData)
+        .then(() => {
+            chatMsgInput.value = '';
+            chatMsgInput.focus();
+        })
+        .catch(error => {
+            console.error('Ошибка отправки:', error);
+            alert('Не удалось отправить сообщение. Проверьте интернет-соединение.');
+        });
+}
+
+function deleteMessage(id, firebaseKey) {
+    const currentUser = getCurrentUser();
+    
+    messagesRef.child(firebaseKey).once('value')
+        .then(snapshot => {
+            const msg = snapshot.val();
+            if (!msg || msg.user !== currentUser) {
+                alert('Вы можете удалять только свои сообщения!');
+                return;
+            }
+            if (confirm('Удалить это сообщение?')) {
+                messagesRef.child(firebaseKey).remove();
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка удаления:', error);
+        });
+}
+
+function loadMessages() {
+    messagesRef.orderByChild('timestamp').limitToLast(100).on('value', snapshot => {
+        const msgs = snapshot.val();
+        chatMessages.innerHTML = '';
+        
+        if (!msgs) {
+            const div = document.createElement('div');
+            div.className = 'chat-message system';
+            div.innerHTML = `
+                <div class="msg-user">🤖 Система</div>
+                <div class="msg-text">Добро пожаловать в чат фанатов Marvel! Напишите первое сообщение! 🚀</div>
+                <div class="msg-time">Сейчас</div>
+            `;
+            chatMessages.appendChild(div);
+            return;
+        }
+
+        const currentUser = getCurrentUser();
+        const msgKeys = Object.keys(msgs);
+        // Сообщения уже в правильном порядке (сверху вниз)
+        msgKeys.forEach(key => {
+            const msg = msgs[key];
+            const div = document.createElement('div');
+            div.className = 'chat-message';
+            
+            const isOwn = msg.user === currentUser;
+            
+            div.innerHTML = `
+                <div class="msg-user${isOwn ? ' self' : ''}">${msg.user}</div>
+                <div class="msg-text">${msg.text}</div>
+                <div class="msg-time">${msg.time}</div>
+                ${isOwn ? `<button class="delete-btn show" onclick="deleteMessage('${msg.id}', '${key}')">✕</button>` : ''}
+            `;
+            chatMessages.appendChild(div);
+        });
+        
+        // Прокрутка к последнему сообщению
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+}
+
+// СОБЫТИЯ
+chatMsgInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+chatSendBtn.addEventListener('click', sendMessage);
+
+chatNameInput.addEventListener('change', function() {
+    localStorage.setItem(CHAT_STORAGE_KEY, this.value);
+    loadMessages();
+});
+
+const savedName = localStorage.getItem(CHAT_STORAGE_KEY);
+if (savedName) {
+    chatNameInput.value = savedName;
+}
+
+// ЗАГРУЗКА ЧАТА
+loadMessages();
+
+// ================================================================
+// СВЁРТЫВАНИЕ НАВИГАЦИИ
+// ================================================================
+document.getElementById('navToggle').addEventListener('click', function() {
+    const navInner = document.getElementById('navInner');
+    navInner.classList.toggle('collapsed');
+    this.textContent = navInner.classList.contains('collapsed') ? '☰' : '≡';
+});
+
+// ================================================================
+// ЗАПУСК
+// ================================================================
+renderPhase('grid1',data.phase1);
+renderPhase('grid2',data.phase2);
+renderPhase('grid3',data.phase3);
+renderPhase('grid4',data.phase4);
+renderPhase('grid5',data.phase5);
+renderPhase('grid6',data.phase6);
+renderPhase('grid7',data.phase7);
+renderPhase('grid8',data.phase8);
+renderPhase('grid9',data.phase9);
+renderPhase('grid10',data.phase10);
+renderPhase('gridCreators',creatorsData,true);
+renderPhase('gridCancelled',data.phaseCancelled,false,true);
+renderPhase('gridFuture',data.phaseFuture);
+renderPhase('gridIdeas',data.phaseIdeas,false,false,true);
+</script>
+
+</body>
+</html>

@@ -558,9 +558,6 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const messagesRef = database.ref('messages');
-    const marvelRef = database.ref('marvel');
-    const likesRef = marvelRef.child('likes');
-    const commentsRef = marvelRef.child('comments');
 </script>
 
 <script>
@@ -987,7 +984,7 @@ const creatorsData = [
 ];
 
 // ================================================================
-// РЕНДЕР (БЕЗ ЛАЙКОВ - ТОЛЬКО КАРТОЧКИ)
+// РЕНДЕР С ОБЩИМИ ЛАЙКАМИ
 // ================================================================
 const phaseColors = {
     phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
@@ -1000,7 +997,55 @@ function getPosterUrl(title) {
     return posters[title] || null;
 }
 
-// --- Комментарии ---
+// --- Глобальный объект для хранения лайков ---
+let allLikes = {};
+
+// --- Функция для обновления лайков из Firebase ---
+function loadLikesFromFirebase() {
+    const likesRef = database.ref('marvel/likes');
+    likesRef.on('value', function(snapshot) {
+        allLikes = snapshot.val() || {};
+        // Обновляем все кнопки лайков на странице
+        document.querySelectorAll('.like-btn').forEach(function(btn) {
+            const title = btn.dataset.title;
+            if (!title) return;
+            const key = title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+            const count = allLikes[key] || 0;
+            const countSpan = btn.querySelector('.like-count');
+            if (countSpan) countSpan.textContent = count;
+            // Если лайк есть, ставим красный цвет (но не сохраняем состояние "лайкнуто" между сессиями)
+            // Каждый пользователь сам решает, ставить ли лайк
+        });
+    });
+}
+
+// --- Функция для toggle лайка ---
+function toggleLike(title, btnElement) {
+    const key = title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    const likesRef = database.ref('marvel/likes/' + key);
+    const isLiked = btnElement.classList.contains('liked');
+    
+    // Оптимистичное обновление UI
+    const currentCount = parseInt(btnElement.querySelector('.like-count').textContent) || 0;
+    const newCount = isLiked ? currentCount - 1 : currentCount + 1;
+    btnElement.querySelector('.like-count').textContent = newCount;
+    btnElement.classList.toggle('liked');
+    
+    // Отправляем в Firebase
+    if (isLiked) {
+        // Убираем лайк (уменьшаем на 1, но не ниже 0)
+        likesRef.transaction(function(currentValue) {
+            return (currentValue || 1) - 1;
+        });
+    } else {
+        // Добавляем лайк
+        likesRef.transaction(function(currentValue) {
+            return (currentValue || 0) + 1;
+        });
+    }
+}
+
+// --- КОММЕНТАРИИ ---
 let currentCommentMovie = null;
 
 function openComments(title) {
@@ -1023,8 +1068,9 @@ document.getElementById('commentModal').addEventListener('click', function(e) {
 function loadComments(movieTitle) {
     const list = document.getElementById('commentsList');
     const movieKey = movieTitle.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    const commentsPath = 'movieComments/' + movieKey;
     
-    commentsRef.child(movieKey).once('value', function(snapshot) {
+    database.ref(commentsPath).once('value', function(snapshot) {
         list.innerHTML = '';
         const comments = snapshot.val();
         if (!comments) {
@@ -1044,18 +1090,29 @@ function loadComments(movieTitle) {
             `;
             list.appendChild(div);
         });
+    }).catch(function(error) {
+        console.error('Ошибка загрузки комментариев:', error);
+        list.innerHTML = '<div class="no-comments" style="color:#e74c3c;">Ошибка загрузки комментариев</div>';
     });
 }
 
 document.getElementById('commentSendBtn').addEventListener('click', function() {
     const name = document.getElementById('commentNameInput').value.trim() || 'Аноним';
     const text = document.getElementById('commentTextInput').value.trim();
-    if (!text) { alert('Напишите комментарий!'); return; }
-    if (!currentCommentMovie) return;
+    
+    if (!text) {
+        alert('Напишите комментарий!');
+        return;
+    }
+    if (!currentCommentMovie) {
+        alert('Не выбран фильм!');
+        return;
+    }
     
     const now = new Date();
     const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
     const movieKey = currentCommentMovie.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    const commentsPath = 'movieComments/' + movieKey;
     
     const newComment = {
         name: name,
@@ -1064,13 +1121,35 @@ document.getElementById('commentSendBtn').addEventListener('click', function() {
         timestamp: firebase.database.ServerValue.TIMESTAMP
     };
     
-    commentsRef.child(movieKey).push(newComment).then(() => {
-        document.getElementById('commentTextInput').value = '';
-        loadComments(currentCommentMovie);
-    });
+    database.ref(commentsPath).push(newComment)
+        .then(function() {
+            document.getElementById('commentTextInput').value = '';
+            loadComments(currentCommentMovie);
+            updateCommentCounts();
+        })
+        .catch(function(error) {
+            console.error('Ошибка отправки комментария:', error);
+            alert('Не удалось отправить комментарий. Проверьте интернет-соединение.');
+        });
 });
 
-// --- Основной рендер (карточки сразу) ---
+function updateCommentCounts() {
+    database.ref('movieComments').once('value', function(snapshot) {
+        const allComments = snapshot.val() || {};
+        document.querySelectorAll('.comment-btn').forEach(function(btn) {
+            const title = btn.dataset.title;
+            if (!title) return;
+            const key = title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+            const count = allComments[key] ? Object.keys(allComments[key]).length : 0;
+            const countSpan = btn.querySelector('.comment-count');
+            if (countSpan) countSpan.textContent = count;
+        });
+    }).catch(function(error) {
+        console.warn('Не удалось обновить счетчики комментариев:', error);
+    });
+}
+
+// --- ОСНОВНОЙ РЕНДЕР КАРТОЧЕК ---
 function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false, isNews=false) {
     const container = document.getElementById(gridId);
     if (!container) return;
@@ -1124,6 +1203,8 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
         if (item.type === 'Отменён') badgeClass += ' cancelled';
         
         const shortPlot = item.plot.length > 120 ? item.plot.substring(0,120)+'…' : item.plot;
+        const key = item.title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+        const likesCount = allLikes[key] || 0;
         
         card.innerHTML = `
             <div class="card-poster">${posterHtml}<span class="${badgeClass}">${item.type}</span></div>
@@ -1135,7 +1216,7 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
                     <div class="like-wrap">
                         <button class="like-btn" data-title="${item.title}">
                             <span class="like-icon">❤️</span>
-                            <span class="like-count">0</span>
+                            <span class="like-count">${likesCount}</span>
                         </button>
                     </div>
                     <button class="comment-btn" data-title="${item.title}">
@@ -1145,20 +1226,11 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
             </div>
         `;
         
-        // Лайк (простой, без Firebase для надежности)
         const likeBtn = card.querySelector('.like-btn');
-        let likes = 0;
         likeBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const isLiked = this.classList.contains('liked');
-            if (isLiked) {
-                likes--;
-                this.classList.remove('liked');
-            } else {
-                likes++;
-                this.classList.add('liked');
-            }
-            this.querySelector('.like-count').textContent = likes;
+            const title = this.dataset.title;
+            toggleLike(title, this);
         });
         
         const commentBtn = card.querySelector('.comment-btn');
@@ -1170,6 +1242,8 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
         card.addEventListener('click', openModal);
         container.appendChild(card);
     });
+    
+    setTimeout(updateCommentCounts, 1000);
 }
 
 // ================================================================
@@ -1394,6 +1468,10 @@ document.getElementById('navToggle').addEventListener('click', function() {
 // ================================================================
 // ЗАПУСК
 // ================================================================
+// Загружаем лайки из Firebase
+loadLikesFromFirebase();
+
+// Рендерим все фазы
 renderPhase('grid1', data.phase1);
 renderPhase('grid2', data.phase2);
 renderPhase('grid3', data.phase3);
@@ -1410,7 +1488,7 @@ renderPhase('gridFuture', data.phaseFuture);
 renderPhase('gridIdeas', data.phaseIdeas, false, false, true);
 renderPhase('gridNews', data.phaseNews, false, false, false, true);
 
-console.log('✅ Сайт загружен! Карточки отображаются.');
+console.log('✅ Сайт загружен! Лайки и комментарии сохраняются в Firebase.');
 </script>
 
 </body>

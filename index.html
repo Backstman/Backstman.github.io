@@ -163,7 +163,8 @@
         .card-content .year{font-size:.8rem;color:#888;margin-bottom:8px;letter-spacing:.5px}
         .card-content .plot-short{font-size:.9rem;line-height:1.6;color:#b0b0c5;flex:1}
         
-        .like-wrap{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #2a2a35}
+        .card-footer{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #2a2a35;align-items:center}
+        .like-wrap{display:flex;align-items:center;gap:8px}
         .like-btn{background:0 0;border:none;color:#888;font-size:1.2rem;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:30px;background:rgba(255,255,255,0.03)}
         .like-btn:hover{color:#e62429;background:rgba(230,36,41,0.08)}
         .like-btn.liked{color:#e62429}
@@ -171,6 +172,9 @@
         .like-btn .like-icon{font-size:1.1rem}
         .like-btn.liked .like-icon{animation:likePop .3s ease}
         @keyframes likePop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
+        .comment-btn{background:0 0;border:none;color:#888;font-size:.85rem;cursor:pointer;transition:.3s;padding:4px 10px;border-radius:30px;background:rgba(255,255,255,0.03);display:flex;align-items:center;gap:5px}
+        .comment-btn:hover{color:#4fc3f7;background:rgba(79,195,247,0.08)}
+        .comment-btn .comment-count{font-weight:600}
         
         .card.series{border-left:3px solid #9c27b0}
         .card.special{border-left:3px solid #ffab00}
@@ -192,7 +196,7 @@
         .creator-card .card-content h3{font-size:1.4rem;color:#fff;margin-bottom:2px}
         .creator-card .card-content .year{font-size:.9rem;color:#ff8c00;font-weight:600;margin-bottom:8px}
         .creator-card .card-content .plot-short{font-size:.9rem;line-height:1.6;color:#b0b0c5;flex:1}
-        .creator-card .card-content .like-wrap{border-top:1px solid #2a2a35;margin-top:10px;padding-top:10px}
+        .creator-card .card-content .card-footer{border-top:1px solid #2a2a35;margin-top:10px;padding-top:10px}
         
         .creator-card.double-portrait .card-poster{display:flex;flex-direction:row;gap:20px;padding:10px 20px}
         .creator-card.double-portrait .card-poster img{max-width:120px;max-height:120px;border-radius:50%}
@@ -261,6 +265,25 @@
         .modal .meta .badge-detail.news{background:#f39c12}
         .modal .full-plot{font-size:.95rem;line-height:1.8;color:#d0d0e0;margin:14px 0 12px;white-space:pre-wrap}
 
+        .comments-section{margin-top:20px;border-top:1px solid #2a2a35;padding-top:16px}
+        .comments-section h4{color:#aaa;font-size:.9rem;margin-bottom:12px}
+        .comments-list{max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+        .comments-list::-webkit-scrollbar{width:4px}
+        .comments-list::-webkit-scrollbar-track{background:#1a1a26}
+        .comments-list::-webkit-scrollbar-thumb{background:#e62429;border-radius:4px}
+        .comment-item{background:rgba(255,255,255,0.03);border-radius:10px;padding:8px 12px}
+        .comment-item .cname{font-weight:700;color:#4fc3f7;font-size:.8rem}
+        .comment-item .ctext{color:#ccc;font-size:.85rem;line-height:1.4}
+        .comment-item .ctime{color:#555;font-size:.6rem;margin-top:2px}
+        .comment-form{display:flex;gap:8px;flex-wrap:wrap}
+        .comment-form input{background:#1a1a26;border:1px solid #2a2a35;border-radius:20px;padding:6px 12px;color:#f0f0f0;font-size:.8rem;outline:none;transition:.3s}
+        .comment-form input:focus{border-color:#e62429}
+        .comment-form .cname-input{flex:0 0 120px}
+        .comment-form .ctext-input{flex:1;min-width:150px}
+        .comment-form .csend-btn{background:#e62429;border:none;color:#fff;padding:6px 16px;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;transition:.3s}
+        .comment-form .csend-btn:hover{background:#b71c1c}
+        .no-comments{color:#555;font-size:.8rem;text-align:center;padding:12px 0}
+
         .scroll-top{position:fixed;bottom:20px;right:20px;z-index:99;background:#e62429;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:1.4rem;cursor:pointer;opacity:0;transition:.3s;box-shadow:0 4px 20px rgba(230,36,41,0.3);display:flex;align-items:center;justify-content:center;touch-action:manipulation}
         .scroll-top.visible{opacity:1}
         .scroll-top:active{transform:scale(0.9)}
@@ -317,6 +340,9 @@
             .chat-input-area .chat-msg-input{font-size:.8rem}
             .chat-input-area .chat-send-btn{font-size:.75rem;padding:6px 16px}
             .chat-message .delete-btn{font-size:.55rem;padding:1px 6px}
+            .comment-form .cname-input{flex:0 0 80px;font-size:.75rem}
+            .comment-form .ctext-input{font-size:.75rem}
+            .comment-form .csend-btn{font-size:.7rem;padding:4px 12px}
         }
 
         @media(min-width:601px) and (max-width:1024px){
@@ -336,7 +362,6 @@
 
     <nav class="nav-sticky" id="mainNav">
         <div class="nav-inner" id="navInner">
-            <!-- Кнопка НОВОСТИ перенесена в самое начало -->
             <button class="nav-btn" data-target="phaseNews"><span class="dot dnews"></span>Новости</button>
             <button class="nav-btn" data-target="phase1"><span class="dot d1"></span>Фаза 1</button>
             <button class="nav-btn" data-target="phase2"><span class="dot d2"></span>Фаза 2</button>
@@ -477,6 +502,25 @@
 
 <button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
 
+<!-- ===== МОДАЛКА ДЛЯ КОММЕНТАРИЕВ ===== -->
+<div class="modal-overlay" id="commentModal">
+    <div class="modal" id="commentModalContent">
+        <button class="modal-close" id="commentModalClose">&times;</button>
+        <h2 id="commentModalTitle">Комментарии</h2>
+        <div class="comments-section">
+            <div class="comments-list" id="commentsList">
+                <div class="no-comments">Пока нет комментариев. Будьте первым!</div>
+            </div>
+            <div class="comment-form">
+                <input type="text" class="cname-input" id="commentNameInput" placeholder="Ваше имя" value="Аноним">
+                <input type="text" class="ctext-input" id="commentTextInput" placeholder="Напишите комментарий..." maxlength="500">
+                <button class="csend-btn" id="commentSendBtn">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== МОДАЛКА ДЛЯ ПОСТЕРА ===== -->
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modalContent">
         <button class="modal-close" id="modalClose">&times;</button>
@@ -501,7 +545,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-    // ВАША КОНФИГУРАЦИЯ FIREBASE
     const firebaseConfig = {
         apiKey: "AIzaSyCSx-tkGTSh5z0CGmPkITS1-zBldj46uTw",
         authDomain: "catalog-marvel-ecff4.firebaseapp.com",
@@ -515,6 +558,9 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const messagesRef = database.ref('messages');
+    const marvelRef = database.ref('marvel');
+    const likesRef = marvelRef.child('likes');
+    const commentsRef = marvelRef.child('comments');
 </script>
 
 <script>
@@ -587,97 +633,96 @@ animateParticles();
 // ПОСТЕРЫ
 // ================================================================
 const posters = {
-    "Железный человек":"https://upload.wikimedia.org/wikipedia/ru/3/30/Iron_man_filmposter.jpg",
-    "Невероятный Халк":"https://upload.wikimedia.org/wikipedia/ru/f/fa/Невероятный_Халк.jpg",
-    "Железный человек 2":"https://ru-images-s.kinorium.com/movie/600/447171.jpg?1769600249",
-    "Тор":"https://ru-images-s.kinorium.com/movie/600/380686.jpg?1742710013",
-    "Первый мститель":"https://ru-images-s.kinorium.com/movie/600/346144.jpg?1767350999",
-    "Мстители":"https://upload.wikimedia.org/wikipedia/ru/8/8a/The_Avengers_%282012_film%29_poster.jpg",
-    "Железный человек 3":"https://ru-images-s.kinorium.com/movie/600/457749.jpg?1768491802",
-    "Тор 2: Царство тьмы":"https://ru-images-s.kinorium.com/movie/600/592766.jpg?1742709932",
-    "Первый мститель: Другая война":"https://upload.wikimedia.org/wikipedia/ru/e/e8/Captain_America_The_Winter_Soldier.jpg",
-    "Стражи Галактики":"https://ru-images-s.kinorium.com/movie/600/599262.jpg?1784354594",
-    "Мстители: Эра Альтрона":"https://upload.wikimedia.org/wikipedia/ru/f/ff/Avengers_Age_of_Ultron_poster.jpg",
-    "Человек-муравей":"https://ru-images-s.kinorium.com/movie/600/359504.jpg?1750578559",
-    "Первый мститель: Противостояние":"https://ru-images-s.kinorium.com/movie/600/758084.jpg?1750578548",
-    "Доктор Стрэндж":"https://upload.wikimedia.org/wikipedia/ru/thumb/c/c7/Doctor_Strange_poster.jpg/500px-Doctor_Strange_poster.jpg",
-    "Стражи Галактики. Часть 2":"https://ru-images-s.kinorium.com/movie/600/776628.jpg?1750578571",
-    "Человек-паук: Возвращение домой":"https://ru-images-s.kinorium.com/movie/600/639254.jpg?1742709519",
-    "Тор: Рагнарёк":"https://ru-images-s.kinorium.com/movie/600/758085.jpg?1763734607",
-    "Чёрная пантера":"https://ru-images-s.kinorium.com/movie/600/566968.jpg?1763733440",
-    "Мстители: Война бесконечности":"https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Avengers_Infinity_War_poster.jpg/500px-Avengers_Infinity_War_poster.jpg",
-    "Человек-муравей и Оса":"https://ru-images-s.kinorium.com/movie/600/1447816.jpg?1745994514",
-    "Капитан Марвел":"https://ru-images-s.kinorium.com/movie/600/1442556.jpg?1763730574",
-    "Мстители: Финал":"https://ru-images-s.kinorium.com/movie/600/1442354.jpg?1767286445",
-    "Человек-паук: Вдали от дома":"https://ru-images-s.kinorium.com/movie/600/1609068.jpg?1742709408",
-    "Ванда/Вижн":"https://ru-images-s.kinorium.com/movie/600/1703631.jpg?1742709434",
-    "Сокол и Зимний солдат":"https://ru-images-s.kinorium.com/movie/1080/1950913.jpg?1742709421",
-    "Чёрная вдова":"https://ru-images-s.kinorium.com/movie/600/759329.jpg?1742709532",
-    "Локи":"https://ru-images-s.kinorium.com/movie/600/1703630.jpg?1700829768",
-    "Что, если...?":"https://ru-images-s.kinorium.com/movie/600/2047490.jpg?1742709446",
-    "Шан-Чи и легенда десяти колец":"https://ru-images-s.kinorium.com/movie/600/2005049.jpg?1742709387",
-    "Соколиный глаз":"https://ru-images-s.kinorium.com/movie/600/2042006.jpg?1763973664",
-    "Вечные":"https://ru-images-s.kinorium.com/movie/600/1693584.jpg?1672174577",
-    "Человек-паук: Нет пути домой":"https://ru-images-s.kinorium.com/movie/600/2139329.jpg?1742709393",
-    "Лунный рыцарь":"https://ru-images-s.kinorium.com/movie/600/2092619.jpg?1742709345",
-    "Мисс Марвел":"https://ru-images-s.kinorium.com/movie/600/2092622.jpg?1654791737",
-    "Доктор Стрэндж: В мультивселенной безумия":"https://ru-images-s.kinorium.com/movie/600/2005789.jpg?1769175657",
-    "Тор: Любовь и гром":"https://ru-images-s.kinorium.com/movie/600/2074078.jpg?1763755338",
-    "Я есть Грут":"https://avatars.mds.yandex.net/i?id=9d82f0b52bb6d8d9009b7820b3ec350d_l-8498375-images-thumbs&n=13",
-    "Женщина-Халк":"https://ru-images-s.kinorium.com/movie/600/2092621.jpg?1742709328",
-    "Ночной оборотень":"https://ru-images-s.kinorium.com/movie/600/8770943.jpg?1742709134",
-    "Чёрная пантера: Ваканда навеки":"https://ru-images-s.kinorium.com/movie/600/1694069.jpg?1742709339",
-    "Стражи Галактики: Праздничный спецвыпуск":"https://avatars.mds.yandex.net/i?id=6475209238b46dcb9af8a38a7842017e_l-8965182-images-thumbs&n=13",
-    "Человек-муравей и Оса: Квантомания":"https://ru-images-s.kinorium.com/movie/600/2157160.jpg?1690531581",
-    "Стражи Галактики. Часть 3":"https://ru-images-s.kinorium.com/movie/1080/1615680.jpg?1767514448",
-    "Секретное вторжение":"https://ru-images-s.kinorium.com/movie/600/2616271.jpg?1742709128",
-    "Локи (сезон 2)":"https://images-s.kinorium.com/movie/poster/1703630/w1500_52003483.jpg",
-    "Капитан Марвел 2":"https://ru-images-s.kinorium.com/movie/600/2079893.jpg?1701087954",
-    "Что, если...? (сезоны 2-3)":"https://images-s.kinorium.com/movie/poster/2047490/w1500_52171027.jpg",
-    "Эхо":"https://ru-images-s.kinorium.com/movie/1080/2737908.jpg?1713779490",
-    "Дэдпул и Росомаха":"https://ru-images-s.kinorium.com/movie/600/1607115.jpg?1742709113",
-    "Это всё Агата":"https://ru-images-s.kinorium.com/movie/600/2851504.jpg?1742709099",
-    "Ваш дружелюбный сосед Человек-паук":"https://ru-images-s.kinorium.com/movie/1080/2881145.jpg?1738227198",
-    "Капитан Америка: Дивный новый мир":"https://ru-images-s.kinorium.com/movie/600/2752709.jpg?1744697877",
-    "Сорвиголова: Рождённый заново":"https://images-s.kinorium.com/movie/poster/9740988/w1500_56753156.jpg",
-    "Железное сердце":"https://ru-images-s.kinorium.com/movie/600/2678560.jpg?1751622873",
-    "Громовержцы":"https://ru-images-s.kinorium.com/movie/600/9601466.jpg?1746461067",
-    "Фантастическая четвёрка: Первые шаги":"https://ru-images-s.kinorium.com/movie/600/2079894.jpg?1753377440",
-    "Очи Ваканды":"https://ru-images-s.kinorium.com/movie/600/2714373.jpg?1759251408",
-    "Зомби Marvel":"https://ru-images-s.kinorium.com/movie/600/2881163.jpg?1759228598",
-    "Чудо-человек":"https://ru-images-s.kinorium.com/movie/600/9600614.jpg?1775054839",
-    "Сорвиголова: Рождённый заново (сезоны 2-3)":"https://images-s.kinorium.com/movie/poster/9740988/w1500_57176269.jpg",
-    "Каратель: Последнее убийство":"https://ru-images-s.kinorium.com/movie/600/12163516.jpg?1778331395",
-    "Человек-паук: Новый день":"https://ru-images-s.kinorium.com/movie/600/9874739.jpg?1783756820",
-    "Ваш дружелюбный сосед Человек-паук (сезон 2)":"https://avatars.mds.yandex.net/i?id=e227d4fc65d5691cc81f334b90c3d644_l-5810659-images-thumbs&n=13",
-    "Квест Вижна":"https://en-images-s.kinorium.com/movie/600/10041932.jpg?1786793236",
-    "Мстители: Доктор Дум":"https://ru-images-s.kinorium.com/movie/600/9745249.jpg?1784623094",
-    "Мстители: Секретные войны":"https://static.kinoafisha.info/k/movie_posters/1080x1920/upload/movie_posters/0/4/4/8367440/454916611366.jpg",
-    "Консультант":"https://ru-images-s.kinorium.com/movie/600/598424.jpg?1782467531",
-    "Забавный случай на пути к молоту Тора":"https://ru-images-s.kinorium.com/movie/600/598417.jpg?1728424458",
-    "Образец 47":"https://ru-images-s.kinorium.com/movie/600/638769.jpg?1782466229",
-    "Агент Картер":"https://ru-images-s.kinorium.com/movie/600/714268.jpg?1598298664",
-    "Да здравствует король":"https://ru-images-s.kinorium.com/movie/600/754041.jpg?1616402533",
-    "Агенты Щ.И.Т.":"https://ru-images-s.kinorium.com/movie/600/658248.jpg?1784546119",
-    "Сверхлюди":"https://ru-images-s.kinorium.com/movie/600/1442440.jpg?1781610993",
-    "Агент Картер (сериал)":"https://ru-images-s.kinorium.com/movie/600/756098.jpg?1784548823",
-    "Сорвиголова":"https://ru-images-s.kinorium.com/movie/600/752885.jpg?1737119302",
-    "Джессика Джонс":"https://ru-images-s.kinorium.com/movie/600/752884.jpg?1690549095",
-    "Люк Кейдж":"https://ru-images-s.kinorium.com/movie/600/752883.jpg?1784546115",
-    "Железный Кулак":"https://ru-images-s.kinorium.com/movie/600/752886.jpg?1737717745",
-    "Защитники":"https://ru-images-s.kinorium.com/movie/600/1511958.jpg?1783185668",
-    "Каратель":"https://ru-images-s.kinorium.com/movie/600/1576521.jpg?1775142502",
-    "Плащ и Кинжал":"https://ru-images-s.kinorium.com/movie/600/1576522.jpg?1775204471",
-    "Беглецы":"https://ru-images-s.kinorium.com/movie/600/448571.jpg?1784546649",
-    "Люди Икс":"https://en-images-s.kinorium.com/movie/600/11150336.jpg?1787032328",
-    "Призрачный гонщик":"https://en-images-s.kinorium.com/movie/600/13074248.jpg?1785131347",
-    "Чёрная пантера 3":"https://en-images-s.kinorium.com/movie/600/12456561.jpg?1785045909",
+    "Железный человек": "https://upload.wikimedia.org/wikipedia/ru/3/30/Iron_man_filmposter.jpg",
+    "Невероятный Халк": "https://upload.wikimedia.org/wikipedia/ru/f/fa/Невероятный_Халк.jpg",
+    "Железный человек 2": "https://ru-images-s.kinorium.com/movie/600/447171.jpg?1769600249",
+    "Тор": "https://ru-images-s.kinorium.com/movie/600/380686.jpg?1742710013",
+    "Первый мститель": "https://ru-images-s.kinorium.com/movie/600/346144.jpg?1767350999",
+    "Мстители": "https://upload.wikimedia.org/wikipedia/ru/8/8a/The_Avengers_%282012_film%29_poster.jpg",
+    "Железный человек 3": "https://ru-images-s.kinorium.com/movie/600/457749.jpg?1768491802",
+    "Тор 2: Царство тьмы": "https://ru-images-s.kinorium.com/movie/600/592766.jpg?1742709932",
+    "Первый мститель: Другая война": "https://upload.wikimedia.org/wikipedia/ru/e/e8/Captain_America_The_Winter_Soldier.jpg",
+    "Стражи Галактики": "https://ru-images-s.kinorium.com/movie/600/599262.jpg?1784354594",
+    "Мстители: Эра Альтрона": "https://upload.wikimedia.org/wikipedia/ru/f/ff/Avengers_Age_of_Ultron_poster.jpg",
+    "Человек-муравей": "https://ru-images-s.kinorium.com/movie/600/359504.jpg?1750578559",
+    "Первый мститель: Противостояние": "https://ru-images-s.kinorium.com/movie/600/758084.jpg?1750578548",
+    "Доктор Стрэндж": "https://upload.wikimedia.org/wikipedia/ru/thumb/c/c7/Doctor_Strange_poster.jpg/500px-Doctor_Strange_poster.jpg",
+    "Стражи Галактики. Часть 2": "https://ru-images-s.kinorium.com/movie/600/776628.jpg?1750578571",
+    "Человек-паук: Возвращение домой": "https://ru-images-s.kinorium.com/movie/600/639254.jpg?1742709519",
+    "Тор: Рагнарёк": "https://ru-images-s.kinorium.com/movie/600/758085.jpg?1763734607",
+    "Чёрная пантера": "https://ru-images-s.kinorium.com/movie/600/566968.jpg?1763733440",
+    "Мстители: Война бесконечности": "https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Avengers_Infinity_War_poster.jpg/500px-Avengers_Infinity_War_poster.jpg",
+    "Человек-муравей и Оса": "https://ru-images-s.kinorium.com/movie/600/1447816.jpg?1745994514",
+    "Капитан Марвел": "https://ru-images-s.kinorium.com/movie/600/1442556.jpg?1763730574",
+    "Мстители: Финал": "https://ru-images-s.kinorium.com/movie/600/1442354.jpg?1767286445",
+    "Человек-паук: Вдали от дома": "https://ru-images-s.kinorium.com/movie/600/1609068.jpg?1742709408",
+    "Ванда/Вижн": "https://ru-images-s.kinorium.com/movie/600/1703631.jpg?1742709434",
+    "Сокол и Зимний солдат": "https://ru-images-s.kinorium.com/movie/1080/1950913.jpg?1742709421",
+    "Чёрная вдова": "https://ru-images-s.kinorium.com/movie/600/759329.jpg?1742709532",
+    "Локи": "https://ru-images-s.kinorium.com/movie/600/1703630.jpg?1700829768",
+    "Что, если...?": "https://ru-images-s.kinorium.com/movie/600/2047490.jpg?1742709446",
+    "Шан-Чи и легенда десяти колец": "https://ru-images-s.kinorium.com/movie/600/2005049.jpg?1742709387",
+    "Соколиный глаз": "https://ru-images-s.kinorium.com/movie/600/2042006.jpg?1763973664",
+    "Вечные": "https://ru-images-s.kinorium.com/movie/600/1693584.jpg?1672174577",
+    "Человек-паук: Нет пути домой": "https://ru-images-s.kinorium.com/movie/600/2139329.jpg?1742709393",
+    "Лунный рыцарь": "https://ru-images-s.kinorium.com/movie/600/2092619.jpg?1742709345",
+    "Мисс Марвел": "https://ru-images-s.kinorium.com/movie/600/2092622.jpg?1654791737",
+    "Доктор Стрэндж: В мультивселенной безумия": "https://ru-images-s.kinorium.com/movie/600/2005789.jpg?1769175657",
+    "Тор: Любовь и гром": "https://ru-images-s.kinorium.com/movie/600/2074078.jpg?1763755338",
+    "Я есть Грут": "https://avatars.mds.yandex.net/i?id=9d82f0b52bb6d8d9009b7820b3ec350d_l-8498375-images-thumbs&n=13",
+    "Женщина-Халк": "https://ru-images-s.kinorium.com/movie/600/2092621.jpg?1742709328",
+    "Ночной оборотень": "https://ru-images-s.kinorium.com/movie/600/8770943.jpg?1742709134",
+    "Чёрная пантера: Ваканда навеки": "https://ru-images-s.kinorium.com/movie/600/1694069.jpg?1742709339",
+    "Стражи Галактики: Праздничный спецвыпуск": "https://avatars.mds.yandex.net/i?id=6475209238b46dcb9af8a38a7842017e_l-8965182-images-thumbs&n=13",
+    "Человек-муравей и Оса: Квантомания": "https://ru-images-s.kinorium.com/movie/600/2157160.jpg?1690531581",
+    "Стражи Галактики. Часть 3": "https://ru-images-s.kinorium.com/movie/1080/1615680.jpg?1767514448",
+    "Секретное вторжение": "https://ru-images-s.kinorium.com/movie/600/2616271.jpg?1742709128",
+    "Локи (сезон 2)": "https://images-s.kinorium.com/movie/poster/1703630/w1500_52003483.jpg",
+    "Капитан Марвел 2": "https://ru-images-s.kinorium.com/movie/600/2079893.jpg?1701087954",
+    "Что, если...? (сезоны 2-3)": "https://images-s.kinorium.com/movie/poster/2047490/w1500_52171027.jpg",
+    "Эхо": "https://ru-images-s.kinorium.com/movie/1080/2737908.jpg?1713779490",
+    "Дэдпул и Росомаха": "https://ru-images-s.kinorium.com/movie/600/1607115.jpg?1742709113",
+    "Это всё Агата": "https://ru-images-s.kinorium.com/movie/600/2851504.jpg?1742709099",
+    "Ваш дружелюбный сосед Человек-паук": "https://ru-images-s.kinorium.com/movie/1080/2881145.jpg?1738227198",
+    "Капитан Америка: Дивный новый мир": "https://ru-images-s.kinorium.com/movie/600/2752709.jpg?1744697877",
+    "Сорвиголова: Рождённый заново": "https://images-s.kinorium.com/movie/poster/9740988/w1500_56753156.jpg",
+    "Железное сердце": "https://ru-images-s.kinorium.com/movie/600/2678560.jpg?1751622873",
+    "Громовержцы": "https://ru-images-s.kinorium.com/movie/600/9601466.jpg?1746461067",
+    "Фантастическая четвёрка: Первые шаги": "https://ru-images-s.kinorium.com/movie/600/2079894.jpg?1753377440",
+    "Очи Ваканды": "https://ru-images-s.kinorium.com/movie/600/2714373.jpg?1759251408",
+    "Зомби Marvel": "https://ru-images-s.kinorium.com/movie/600/2881163.jpg?1759228598",
+    "Чудо-человек": "https://ru-images-s.kinorium.com/movie/600/9600614.jpg?1775054839",
+    "Сорвиголова: Рождённый заново (сезоны 2-3)": "https://images-s.kinorium.com/movie/poster/9740988/w1500_57176269.jpg",
+    "Каратель: Последнее убийство": "https://ru-images-s.kinorium.com/movie/600/12163516.jpg?1778331395",
+    "Человек-паук: Новый день": "https://ru-images-s.kinorium.com/movie/600/9874739.jpg?1783756820",
+    "Ваш дружелюбный сосед Человек-паук (сезон 2)": "https://avatars.mds.yandex.net/i?id=e227d4fc65d5691cc81f334b90c3d644_l-5810659-images-thumbs&n=13",
+    "Квест Вижна": "https://en-images-s.kinorium.com/movie/600/10041932.jpg?1786793236",
+    "Мстители: Доктор Дум": "https://ru-images-s.kinorium.com/movie/600/9745249.jpg?1784623094",
+    "Мстители: Секретные войны": "https://static.kinoafisha.info/k/movie_posters/1080x1920/upload/movie_posters/0/4/4/8367440/454916611366.jpg",
+    "Консультант": "https://ru-images-s.kinorium.com/movie/600/598424.jpg?1782467531",
+    "Забавный случай на пути к молоту Тора": "https://ru-images-s.kinorium.com/movie/600/598417.jpg?1728424458",
+    "Образец 47": "https://ru-images-s.kinorium.com/movie/600/638769.jpg?1782466229",
+    "Агент Картер": "https://ru-images-s.kinorium.com/movie/600/714268.jpg?1598298664",
+    "Да здравствует король": "https://ru-images-s.kinorium.com/movie/600/754041.jpg?1616402533",
+    "Агенты Щ.И.Т.": "https://ru-images-s.kinorium.com/movie/600/658248.jpg?1784546119",
+    "Сверхлюди": "https://ru-images-s.kinorium.com/movie/600/1442440.jpg?1781610993",
+    "Агент Картер (сериал)": "https://ru-images-s.kinorium.com/movie/600/756098.jpg?1784548823",
+    "Сорвиголова": "https://ru-images-s.kinorium.com/movie/600/752885.jpg?1737119302",
+    "Джессика Джонс": "https://ru-images-s.kinorium.com/movie/600/752884.jpg?1690549095",
+    "Люк Кейдж": "https://ru-images-s.kinorium.com/movie/600/752883.jpg?1784546115",
+    "Железный Кулак": "https://ru-images-s.kinorium.com/movie/600/752886.jpg?1737717745",
+    "Защитники": "https://ru-images-s.kinorium.com/movie/600/1511958.jpg?1783185668",
+    "Каратель": "https://ru-images-s.kinorium.com/movie/600/1576521.jpg?1775142502",
+    "Плащ и Кинжал": "https://ru-images-s.kinorium.com/movie/600/1576522.jpg?1775204471",
+    "Беглецы": "https://ru-images-s.kinorium.com/movie/600/448571.jpg?1784546649",
+    "Люди Икс": "https://en-images-s.kinorium.com/movie/600/11150336.jpg?1787032328",
+    "Призрачный гонщик": "https://en-images-s.kinorium.com/movie/600/13074248.jpg?1785131347",
+    "Чёрная пантера 3": "https://en-images-s.kinorium.com/movie/600/12456561.jpg?1785045909",
     "Огненная Звезда": "https://upload.wikimedia.org/wikipedia/ru/thumb/8/83/Firestar_102.jpg/500px-Firestar_102.jpg",
     "Мстители: Династия Канга": "https://avatars.dzeninfra.ru/get-zen_doc/5219020/pub_63ca5d856f025e1b0b7c2f30_63d40a828585e55d9647aa94/scale_1200",
     "Blade (2024)": "https://avatars.mds.yandex.net/get-entity_search/7689070/687375824/S600xU_2x",
     "Мстители: Финал на бис": "https://ru-files.vgtimes.ru/posts/2026-08/1787680531_hqli4o4wkaac2vp.webp",
     
-    // Постеры создателей
     "Кевин Файги": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kevin_Feige_by_Gage_Skidmore.jpg/960px-Kevin_Feige_by_Gage_Skidmore.jpg",
     "Стэн Ли": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Stan_Lee_%285774466204%29.jpg/1280px-Stan_Lee_%285774466204%29.jpg",
     "Джек Кирби": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Jack-Kirby_art-of-jack-kirby_wyman-skaar.jpg/960px-Jack-Kirby_art-of-jack-kirby_wyman-skaar.jpg",
@@ -690,7 +735,6 @@ const posters = {
     "Кристофер Маркус": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Christopher_Markus_by_Gage_Skidmore.jpg/960px-Christopher_Markus_by_Gage_Skidmore.jpg",
     "Стивен Макфили": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Stephen_McFeely_by_Gage_Skidmore.jpg/960px-Stephen_McFeely_by_Gage_Skidmore.jpg",
     
-    // Постеры отменённых проектов
     "Веном": "https://upload.wikimedia.org/wikipedia/ru/thumb/8/8a/Venom.png/500px-Venom.png",
     "Нелюди": "https://upload.wikimedia.org/wikipedia/ru/b/b0/Inhumans.jpg",
     "Серебряное и чёрное": "https://pluggedin.ru/images/silver-sable-and-black-cat-bigTopImage.jpg",
@@ -699,7 +743,6 @@ const posters = {
     "Войны брони": "https://en-images-s.kinorium.com/movie/300/2675679.jpg?1759226237",
     "Нова": "https://avatars.mds.yandex.net/i?id=afa12d94723940290434056c9567693e_l-9043236-images-thumbs&n=13",
     
-    // Постеры для идей
     "Геркулес": "https://avatars.mds.yandex.net/i?id=829bae5639f05b6e01224d68f424303e_l-4093415-images-thumbs&n=13",
     "Девушка-белка": "https://avatars.mds.yandex.net/i?id=066ab6f6d3b001d80c795d1facec4348_l-4012087-images-thumbs&n=13",
     "Майлз Моралес": "https://upload.wikimedia.org/wikipedia/ru/f/ff/New_spider_man_and_new_suit.jpg",
@@ -726,6 +769,10 @@ const multiPosterData = {
         "https://i.pinimg.com/originals/ea/f1/7d/eaf17d0d4b38356ae2896a266acaab16.jpg"
     ]
 };
+
+function getPosterUrl(title) {
+    return posters[title] || null;
+}
 
 // ================================================================
 // ДАННЫЕ
@@ -940,7 +987,7 @@ const creatorsData = [
 ];
 
 // ================================================================
-// РЕНДЕР
+// РЕНДЕР (БЕЗ ЛАЙКОВ - ТОЛЬКО КАРТОЧКИ)
 // ================================================================
 const phaseColors = {
     phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
@@ -949,43 +996,113 @@ const phaseColors = {
     phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b',phaseNews:'#f39c12'
 };
 
-function getPosterUrl(title){return posters[title]||null}
+function getPosterUrl(title) {
+    return posters[title] || null;
+}
 
-function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false, isNews=false){
-    const container=document.getElementById(gridId);
-    if(!container)return;
-    container.innerHTML='';
-    const phaseId=gridId.replace('grid','phase');
-    const phaseColor=phaseColors[phaseId]||'#e62429';
-    items.forEach(item=>{
-        const card=document.createElement('div');
-        let cardClass='card';
-        if(isCreator) cardClass+=' creator-card';
-        else if(isCancelled) cardClass+=' cancelled-card';
-        else if(isIdea) cardClass+=' idea-card';
-        else if(isNews) cardClass+=' news-card';
-        if(item.type==='Сериал') cardClass+=' series';
-        if(item.type==='Спецвыпуск') cardClass+=' special';
-        if(item.type==='Короткометражка') cardClass+=' short';
-        if(item.type==='Отменён') cardClass+=' cancelled-card';
-        if(item.type==='Новость') cardClass+=' news-card';
-        card.className=cardClass;
-        card.dataset.title=item.title;
-        card.dataset.year=item.year;
-        card.dataset.type=item.type;
-        card.dataset.plot=item.plot;
-        card.dataset.phase=phaseId.replace('phase','');
-        if(item.multiKey) card.dataset.multiKey = item.multiKey;
+// --- Комментарии ---
+let currentCommentMovie = null;
+
+function openComments(title) {
+    currentCommentMovie = title;
+    document.getElementById('commentModalTitle').textContent = '💬 ' + title;
+    document.getElementById('commentModal').classList.add('active');
+    loadComments(title);
+}
+
+function closeComments() {
+    document.getElementById('commentModal').classList.remove('active');
+    currentCommentMovie = null;
+}
+
+document.getElementById('commentModalClose').addEventListener('click', closeComments);
+document.getElementById('commentModal').addEventListener('click', function(e) {
+    if (e.target === this) closeComments();
+});
+
+function loadComments(movieTitle) {
+    const list = document.getElementById('commentsList');
+    const movieKey = movieTitle.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    
+    commentsRef.child(movieKey).once('value', function(snapshot) {
+        list.innerHTML = '';
+        const comments = snapshot.val();
+        if (!comments) {
+            list.innerHTML = '<div class="no-comments">Пока нет комментариев. Будьте первым!</div>';
+            return;
+        }
+        const keys = Object.keys(comments);
+        keys.reverse();
+        keys.forEach(key => {
+            const c = comments[key];
+            const div = document.createElement('div');
+            div.className = 'comment-item';
+            div.innerHTML = `
+                <div class="cname">${c.name || 'Аноним'}</div>
+                <div class="ctext">${c.text}</div>
+                <div class="ctime">${c.time || ''}</div>
+            `;
+            list.appendChild(div);
+        });
+    });
+}
+
+document.getElementById('commentSendBtn').addEventListener('click', function() {
+    const name = document.getElementById('commentNameInput').value.trim() || 'Аноним';
+    const text = document.getElementById('commentTextInput').value.trim();
+    if (!text) { alert('Напишите комментарий!'); return; }
+    if (!currentCommentMovie) return;
+    
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    const movieKey = currentCommentMovie.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    
+    const newComment = {
+        name: name,
+        text: text,
+        time: time,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    };
+    
+    commentsRef.child(movieKey).push(newComment).then(() => {
+        document.getElementById('commentTextInput').value = '';
+        loadComments(currentCommentMovie);
+    });
+});
+
+// --- Основной рендер (карточки сразу) ---
+function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false, isNews=false) {
+    const container = document.getElementById(gridId);
+    if (!container) return;
+    container.innerHTML = '';
+    const phaseId = gridId.replace('grid','phase');
+    const phaseColor = phaseColors[phaseId] || '#e62429';
+    
+    items.forEach(item => {
+        const card = document.createElement('div');
+        let cardClass = 'card';
+        if (isCreator) cardClass += ' creator-card';
+        else if (isCancelled) cardClass += ' cancelled-card';
+        else if (isIdea) cardClass += ' idea-card';
+        else if (isNews) cardClass += ' news-card';
+        if (item.type === 'Сериал') cardClass += ' series';
+        if (item.type === 'Спецвыпуск') cardClass += ' special';
+        if (item.type === 'Короткометражка') cardClass += ' short';
+        if (item.type === 'Отменён') cardClass += ' cancelled-card';
+        card.className = cardClass;
+        card.dataset.title = item.title;
+        card.dataset.year = item.year;
+        card.dataset.type = item.type;
+        card.dataset.plot = item.plot;
+        card.dataset.phase = phaseId.replace('phase','');
+        if (item.multiKey) card.dataset.multiKey = item.multiKey;
         
         let posterHtml = '';
-        if(isCreator) {
-            if(item.doublePoster) {
+        if (isCreator) {
+            if (item.doublePoster) {
                 const url1 = getPosterUrl(item.poster1);
                 const url2 = getPosterUrl(item.poster2);
-                posterHtml = `
-                    <img src="${url1 || ''}" alt="${item.poster1}" loading="lazy" onerror="this.style.display='none'">
-                    <img src="${url2 || ''}" alt="${item.poster2}" loading="lazy" onerror="this.style.display='none'">
-                `;
+                posterHtml = `<img src="${url1||''}" alt="${item.poster1}" loading="lazy" onerror="this.style.display='none'"><img src="${url2||''}" alt="${item.poster2}" loading="lazy" onerror="this.style.display='none'">`;
                 card.classList.add('double-portrait');
             } else {
                 const url = getPosterUrl(item.poster);
@@ -996,58 +1113,62 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
             posterHtml = posterUrl ? `<img src="${posterUrl}" alt="${item.title}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'no-poster\\' style=\\'background:linear-gradient(145deg,#1a1a2e,${phaseColor}44);\\'>${item.title}</div>'">` : `<div class="no-poster" style="background:linear-gradient(145deg,#1a1a2e,${phaseColor}44);">${item.title}</div>`;
         }
         
-        let badgeClass='type-badge';
-        if(isCreator) badgeClass+=' creator';
-        if(isCancelled) badgeClass+=' cancelled';
-        if(isIdea) badgeClass+=' idea';
-        if(isNews) badgeClass+=' news';
-        if(item.type==='Сериал') badgeClass+=' series';
-        if(item.type==='Спецвыпуск') badgeClass+=' special';
-        if(item.type==='Короткометражка') badgeClass+=' short';
-        if(item.type==='Отменён') badgeClass+=' cancelled';
-        if(item.type==='Новость') badgeClass+=' news';
-        const shortPlot=item.plot.length>120?item.plot.substring(0,120)+'…':item.plot;
+        let badgeClass = 'type-badge';
+        if (isCreator) badgeClass += ' creator';
+        if (isCancelled) badgeClass += ' cancelled';
+        if (isIdea) badgeClass += ' idea';
+        if (isNews) badgeClass += ' news';
+        if (item.type === 'Сериал') badgeClass += ' series';
+        if (item.type === 'Спецвыпуск') badgeClass += ' special';
+        if (item.type === 'Короткометражка') badgeClass += ' short';
+        if (item.type === 'Отменён') badgeClass += ' cancelled';
         
-        const likeKey = 'marvel_like_' + item.title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
-        const savedLikes = parseInt(localStorage.getItem(likeKey) || '0');
+        const shortPlot = item.plot.length > 120 ? item.plot.substring(0,120)+'…' : item.plot;
         
-        card.innerHTML=`
+        card.innerHTML = `
             <div class="card-poster">${posterHtml}<span class="${badgeClass}">${item.type}</span></div>
             <div class="card-content">
                 <h3>${item.title}</h3>
                 <div class="year">${item.year}</div>
                 <div class="plot-short">${shortPlot}</div>
-                <div class="like-wrap">
-                    <button class="like-btn" data-like-key="${likeKey}" data-likes="${savedLikes}">
-                        <span class="like-icon">❤️</span>
-                        <span class="like-count">${savedLikes}</span>
+                <div class="card-footer">
+                    <div class="like-wrap">
+                        <button class="like-btn" data-title="${item.title}">
+                            <span class="like-icon">❤️</span>
+                            <span class="like-count">0</span>
+                        </button>
+                    </div>
+                    <button class="comment-btn" data-title="${item.title}">
+                        💬 <span class="comment-count">0</span>
                     </button>
                 </div>
             </div>
         `;
-        card.addEventListener('click',openModal);
-        container.appendChild(card);
         
+        // Лайк (простой, без Firebase для надежности)
         const likeBtn = card.querySelector('.like-btn');
+        let likes = 0;
         likeBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const key = this.dataset.likeKey;
-            let count = parseInt(localStorage.getItem(key) || '0');
             const isLiked = this.classList.contains('liked');
-            if(isLiked) {
-                count--;
+            if (isLiked) {
+                likes--;
                 this.classList.remove('liked');
             } else {
-                count++;
+                likes++;
                 this.classList.add('liked');
             }
-            localStorage.setItem(key, String(count));
-            this.querySelector('.like-count').textContent = count;
-            this.dataset.likes = count;
+            this.querySelector('.like-count').textContent = likes;
         });
-        if(savedLikes > 0) {
-            likeBtn.classList.add('liked');
-        }
+        
+        const commentBtn = card.querySelector('.comment-btn');
+        commentBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openComments(this.dataset.title);
+        });
+        
+        card.addEventListener('click', openModal);
+        container.appendChild(card);
     });
 }
 
@@ -1058,23 +1179,20 @@ let currentFilter = 'all';
 
 function applyFiltersAndSearch() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-    const allGrids = document.querySelectorAll('.grid');
-    allGrids.forEach(grid => {
-        if (grid.id === 'gridCreators' || grid.id === 'gridCancelled' || grid.id === 'gridIdeas' || grid.id === 'gridNews') return;
-        const cards = grid.querySelectorAll('.card');
-        cards.forEach(card => {
+    document.querySelectorAll('.grid').forEach(grid => {
+        if (['gridCreators','gridCancelled','gridIdeas','gridNews'].includes(grid.id)) return;
+        grid.querySelectorAll('.card').forEach(card => {
             const title = card.dataset.title.toLowerCase();
             const type = card.dataset.type;
             let show = true;
-            if(searchTerm && !title.includes(searchTerm)) show = false;
-            if(currentFilter !== 'all' && type !== currentFilter) show = false;
+            if (searchTerm && !title.includes(searchTerm)) show = false;
+            if (currentFilter !== 'all' && type !== currentFilter) show = false;
             card.style.display = show ? '' : 'none';
         });
     });
 }
 
 document.getElementById('searchInput').addEventListener('input', applyFiltersAndSearch);
-
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1085,87 +1203,84 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // ================================================================
-// МОДАЛЬНОЕ ОКНО
+// МОДАЛКА ПОСТЕРА
 // ================================================================
 let currentPosterIndex=0,currentPosterList=[];
 
-function openModal(e){
-    const card=e.currentTarget;
-    const title=card.dataset.title;
-    const year=card.dataset.year;
-    const type=card.dataset.type;
-    const plot=card.dataset.plot;
-    const phase=card.dataset.phase;
+function openModal(e) {
+    const card = e.currentTarget;
+    const title = card.dataset.title;
+    const year = card.dataset.year;
+    const type = card.dataset.type;
+    const plot = card.dataset.plot;
+    const phase = card.dataset.phase;
     const multiKey = card.dataset.multiKey || null;
     
-    let posterUrl = null;
     currentPosterList = [];
-    
     if (multiKey && multiPosterData[multiKey]) {
         currentPosterList = multiPosterData[multiKey];
     } else if (multiPosterData[title]) {
         currentPosterList = multiPosterData[title];
     } else {
-        posterUrl = getPosterUrl(title);
+        const posterUrl = getPosterUrl(title);
         if (posterUrl) currentPosterList = [posterUrl];
     }
     
-    currentPosterIndex=0;
+    currentPosterIndex = 0;
     updateModalPoster();
-    document.getElementById('modalTitle').textContent=title;
-    document.getElementById('modalYear').textContent=year;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalYear').textContent = year;
     const typeBadge = document.getElementById('modalType');
-    typeBadge.textContent=type;
-    if(type==='Отменён' || type==='Не анонсирован') typeBadge.className='badge-detail cancelled';
-    else if(type==='Идея') typeBadge.className='badge-detail idea';
-    else if(type==='Новость') typeBadge.className='badge-detail news';
-    else typeBadge.className='badge-detail';
-    document.getElementById('modalPhase').textContent=phase;
-    document.getElementById('modalPlot').textContent=plot;
-    const nav=document.querySelectorAll('.poster-nav');
-    const counter=document.getElementById('posterCounter');
-    if(currentPosterList.length>1){nav.forEach(b=>b.style.display='flex');counter.style.display='block'}
-    else {nav.forEach(b=>b.style.display='none');counter.style.display='none'}
+    typeBadge.textContent = type;
+    if (type === 'Отменён' || type === 'Не анонсирован') typeBadge.className = 'badge-detail cancelled';
+    else if (type === 'Идея') typeBadge.className = 'badge-detail idea';
+    else if (type === 'Новость') typeBadge.className = 'badge-detail news';
+    else typeBadge.className = 'badge-detail';
+    document.getElementById('modalPhase').textContent = phase;
+    document.getElementById('modalPlot').textContent = plot;
+    const nav = document.querySelectorAll('.poster-nav');
+    const counter = document.getElementById('posterCounter');
+    if (currentPosterList.length > 1) { nav.forEach(b=>b.style.display='flex'); counter.style.display='block'; }
+    else { nav.forEach(b=>b.style.display='none'); counter.style.display='none'; }
     document.getElementById('modalOverlay').classList.add('active');
-    document.body.style.overflow='hidden';
+    document.body.style.overflow = 'hidden';
 }
 
-function updateModalPoster(){
-    const img=document.getElementById('modalPoster');
-    const counter=document.getElementById('posterCounter');
-    if(currentPosterList.length>0 && currentPosterList[currentPosterIndex]){
-        img.src=currentPosterList[currentPosterIndex];
-        img.alt=`Постер ${currentPosterIndex+1}`;
-        img.style.display='block';
-        counter.textContent=`${currentPosterIndex+1} / ${currentPosterList.length}`;
-    }else{
-        img.style.display='none';
-        counter.textContent='0 / 0';
+function updateModalPoster() {
+    const img = document.getElementById('modalPoster');
+    const counter = document.getElementById('posterCounter');
+    if (currentPosterList.length > 0 && currentPosterList[currentPosterIndex]) {
+        img.src = currentPosterList[currentPosterIndex];
+        img.style.display = 'block';
+        counter.textContent = `${currentPosterIndex+1} / ${currentPosterList.length}`;
+    } else {
+        img.style.display = 'none';
+        counter.textContent = '0 / 0';
     }
 }
 
-function changePoster(d){
-    if(currentPosterList.length<=1)return;
-    currentPosterIndex=(currentPosterIndex+d+currentPosterList.length)%currentPosterList.length;
+function changePoster(d) {
+    if (currentPosterList.length <= 1) return;
+    currentPosterIndex = (currentPosterIndex + d + currentPosterList.length) % currentPosterList.length;
     updateModalPoster();
 }
 
-function closeModal(){
+function closeModal() {
     document.getElementById('modalOverlay').classList.remove('active');
-    document.body.style.overflow='';
+    document.body.style.overflow = '';
 }
 
-document.getElementById('modalClose').addEventListener('click',closeModal);
-document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
-document.addEventListener('keydown',e=>{
-    if(e.key==='Escape')closeModal();
-    if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&document.getElementById('modalOverlay').classList.contains('active')){
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closeComments(); }
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && document.getElementById('modalOverlay').classList.contains('active')) {
         e.preventDefault();
-        changePoster(e.key==='ArrowLeft'?-1:1);
+        changePoster(e.key === 'ArrowLeft' ? -1 : 1);
     }
 });
-document.getElementById('posterPrev').addEventListener('click',e=>{e.stopPropagation();changePoster(-1)});
-document.getElementById('posterNext').addEventListener('click',e=>{e.stopPropagation();changePoster(1)});
+document.getElementById('posterPrev').addEventListener('click', e => { e.stopPropagation(); changePoster(-1); });
+document.getElementById('posterNext').addEventListener('click', e => { e.stopPropagation(); changePoster(1); });
 
 // ================================================================
 // НАВИГАЦИЯ
@@ -1173,33 +1288,24 @@ document.getElementById('posterNext').addEventListener('click',e=>{e.stopPropaga
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-        const targetId = this.dataset.target;
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        const target = document.getElementById(this.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
         this.classList.add('nav-active');
     });
 });
 
 // ================================================================
-// КНОПКА "НАВЕРХ"
+// КНОПКА НАВЕРХ
 // ================================================================
 const scrollBtn = document.getElementById('scrollTop');
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-        scrollBtn.classList.add('visible');
-    } else {
-        scrollBtn.classList.remove('visible');
-    }
+    scrollBtn.classList.toggle('visible', window.scrollY > 500);
 });
-scrollBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ================================================================
-// ===== ЧАТ ДЛЯ ФАНАТОВ С FIREBASE =====
+// ЧАТ
 // ================================================================
 const chatMessages = document.getElementById('chatMessages');
 const chatNameInput = document.getElementById('chatNameInput');
@@ -1207,23 +1313,16 @@ const chatMsgInput = document.getElementById('chatMsgInput');
 const chatSendBtn = document.getElementById('chatSendBtn');
 const CHAT_STORAGE_KEY = 'marvel_chat_username';
 
-function getCurrentUser() {
-    return chatNameInput.value.trim() || 'Фанат MCU';
-}
+function getCurrentUser() { return chatNameInput.value.trim() || 'Фанат MCU'; }
 
-function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
+function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
 
 function sendMessage() {
     const name = getCurrentUser();
     const text = chatMsgInput.value.trim();
     if (!text) return;
-
     const now = new Date();
-    const time = now.getHours().toString().padStart(2,'0') + ':' + 
-                 now.getMinutes().toString().padStart(2,'0');
-
+    const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
     const msgData = {
         user: name,
         text: text,
@@ -1231,35 +1330,18 @@ function sendMessage() {
         timestamp: firebase.database.ServerValue.TIMESTAMP,
         id: generateId()
     };
-
-    const newMsgRef = messagesRef.push();
-    newMsgRef.set(msgData)
-        .then(() => {
-            chatMsgInput.value = '';
-            chatMsgInput.focus();
-        })
-        .catch(error => {
-            console.error('Ошибка отправки:', error);
-            alert('Не удалось отправить сообщение. Проверьте интернет-соединение.');
-        });
+    messagesRef.push(msgData)
+        .then(() => { chatMsgInput.value = ''; chatMsgInput.focus(); })
+        .catch(error => { console.error('Ошибка отправки:', error); alert('Не удалось отправить сообщение.'); });
 }
 
 function deleteMessage(id, firebaseKey) {
     const currentUser = getCurrentUser();
-    
     messagesRef.child(firebaseKey).once('value')
         .then(snapshot => {
             const msg = snapshot.val();
-            if (!msg || msg.user !== currentUser) {
-                alert('Вы можете удалять только свои сообщения!');
-                return;
-            }
-            if (confirm('Удалить это сообщение?')) {
-                messagesRef.child(firebaseKey).remove();
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка удаления:', error);
+            if (!msg || msg.user !== currentUser) { alert('Вы можете удалять только свои сообщения!'); return; }
+            if (confirm('Удалить это сообщение?')) messagesRef.child(firebaseKey).remove();
         });
 }
 
@@ -1267,28 +1349,16 @@ function loadMessages() {
     messagesRef.orderByChild('timestamp').limitToLast(100).on('value', snapshot => {
         const msgs = snapshot.val();
         chatMessages.innerHTML = '';
-        
         if (!msgs) {
-            const div = document.createElement('div');
-            div.className = 'chat-message system';
-            div.innerHTML = `
-                <div class="msg-user">🤖 Система</div>
-                <div class="msg-text">Добро пожаловать в чат фанатов Marvel! Напишите первое сообщение! 🚀</div>
-                <div class="msg-time">Сейчас</div>
-            `;
-            chatMessages.appendChild(div);
+            chatMessages.innerHTML = `<div class="chat-message system"><div class="msg-user">🤖 Система</div><div class="msg-text">Добро пожаловать в чат фанатов Marvel! 🚀</div><div class="msg-time">Сейчас</div></div>`;
             return;
         }
-
         const currentUser = getCurrentUser();
-        const msgKeys = Object.keys(msgs);
-        msgKeys.forEach(key => {
+        Object.keys(msgs).forEach(key => {
             const msg = msgs[key];
             const div = document.createElement('div');
             div.className = 'chat-message';
-            
             const isOwn = msg.user === currentUser;
-            
             div.innerHTML = `
                 <div class="msg-user${isOwn ? ' self' : ''}">${msg.user}</div>
                 <div class="msg-text">${msg.text}</div>
@@ -1297,30 +1367,19 @@ function loadMessages() {
             `;
             chatMessages.appendChild(div);
         });
-        
         chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 }
 
-chatMsgInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        sendMessage();
-    }
-});
-
+chatMsgInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } });
 chatSendBtn.addEventListener('click', sendMessage);
-
 chatNameInput.addEventListener('change', function() {
     localStorage.setItem(CHAT_STORAGE_KEY, this.value);
     loadMessages();
 });
 
 const savedName = localStorage.getItem(CHAT_STORAGE_KEY);
-if (savedName) {
-    chatNameInput.value = savedName;
-}
-
+if (savedName) chatNameInput.value = savedName;
 loadMessages();
 
 // ================================================================
@@ -1335,21 +1394,23 @@ document.getElementById('navToggle').addEventListener('click', function() {
 // ================================================================
 // ЗАПУСК
 // ================================================================
-renderPhase('grid1',data.phase1);
-renderPhase('grid2',data.phase2);
-renderPhase('grid3',data.phase3);
-renderPhase('grid4',data.phase4);
-renderPhase('grid5',data.phase5);
-renderPhase('grid6',data.phase6);
-renderPhase('grid7',data.phase7);
-renderPhase('grid8',data.phase8);
-renderPhase('grid9',data.phase9);
-renderPhase('grid10',data.phase10);
-renderPhase('gridCreators',creatorsData,true);
-renderPhase('gridCancelled',data.phaseCancelled,false,true);
-renderPhase('gridFuture',data.phaseFuture);
-renderPhase('gridIdeas',data.phaseIdeas,false,false,true);
-renderPhase('gridNews',data.phaseNews,false,false,false,true);
+renderPhase('grid1', data.phase1);
+renderPhase('grid2', data.phase2);
+renderPhase('grid3', data.phase3);
+renderPhase('grid4', data.phase4);
+renderPhase('grid5', data.phase5);
+renderPhase('grid6', data.phase6);
+renderPhase('grid7', data.phase7);
+renderPhase('grid8', data.phase8);
+renderPhase('grid9', data.phase9);
+renderPhase('grid10', data.phase10);
+renderPhase('gridCreators', creatorsData, true);
+renderPhase('gridCancelled', data.phaseCancelled, false, true);
+renderPhase('gridFuture', data.phaseFuture);
+renderPhase('gridIdeas', data.phaseIdeas, false, false, true);
+renderPhase('gridNews', data.phaseNews, false, false, false, true);
+
+console.log('✅ Сайт загружен! Карточки отображаются.');
 </script>
 
 </body>

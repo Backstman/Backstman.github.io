@@ -12,6 +12,12 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     
+    <!-- ===== FAVICON ===== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',Roboto,system-ui,sans-serif;background:#0a0a0f;color:#f0f0f0;padding:12px;min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
@@ -1013,8 +1019,6 @@ function loadLikesFromFirebase() {
             const count = allLikes[key] || 0;
             const countSpan = btn.querySelector('.like-count');
             if (countSpan) countSpan.textContent = count;
-            // Если лайк есть, ставим красный цвет (но не сохраняем состояние "лайкнуто" между сессиями)
-            // Каждый пользователь сам решает, ставить ли лайк
         });
     });
 }
@@ -1033,12 +1037,10 @@ function toggleLike(title, btnElement) {
     
     // Отправляем в Firebase
     if (isLiked) {
-        // Убираем лайк (уменьшаем на 1, но не ниже 0)
         likesRef.transaction(function(currentValue) {
             return (currentValue || 1) - 1;
         });
     } else {
-        // Добавляем лайк
         likesRef.transaction(function(currentValue) {
             return (currentValue || 0) + 1;
         });

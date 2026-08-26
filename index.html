@@ -40,8 +40,8 @@
         .nav-sticky .nav-btn .dot.dx{background:#e74c3c}
         .nav-sticky .nav-btn .dot.di{background:#ff6b6b}
         .nav-sticky .nav-btn .dot.dchat{background:#00e5ff}
+        .nav-sticky .nav-btn .dot.dnews{background:#f39c12}
         
-        /* Кнопка сворачивания навигации */
         .nav-toggle {
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.1);
@@ -113,6 +113,7 @@
         .phase-future .phase-header h2{color:#9b59b6}
         .phase-cancelled .phase-header h2{color:#e74c3c}
         .phase-ideas .phase-header h2{color:#ff6b6b}
+        .phase-news .phase-header h2{color:#f39c12}
         
         .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px}
         
@@ -155,6 +156,7 @@
         .card-poster .type-badge.creator{background:#ff8c00;border-color:#ffa500}
         .card-poster .type-badge.cancelled{background:#c0392b;border-color:#e74c3c}
         .card-poster .type-badge.idea{background:#ff6b6b;border-color:#ff6b6b}
+        .card-poster .type-badge.news{background:#f39c12;border-color:#f1c40f}
         
         .card-content{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
         .card-content h3{font-size:1.25rem;font-weight:700;margin-bottom:3px;color:#fff;line-height:1.3}
@@ -180,6 +182,8 @@
         .card.cancelled-card:hover{border-color:#e74c3c;box-shadow:0 0 30px rgba(231,76,60,0.15)}
         .card.idea-card{border-left:3px solid #ff6b6b;background:linear-gradient(145deg,#1a1a2e,#1a0a1a)}
         .card.idea-card:hover{border-color:#ff6b6b;box-shadow:0 0 30px rgba(255,107,107,0.15)}
+        .card.news-card{border-left:3px solid #f39c12;background:linear-gradient(145deg,#1a1a0a,#1a1a2e)}
+        .card.news-card:hover{border-color:#f39c12;box-shadow:0 0 30px rgba(243,156,18,0.15)}
         
         .creator-card .card-poster{height:200px;display:flex;align-items:center;justify-content:center;border-bottom:2px solid #2a2a35;overflow:hidden;background:linear-gradient(145deg,#1a1a2e,#16213e);flex-shrink:0;padding:10px;gap:16px}
         .creator-card .card-poster img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid #ff8c00;max-width:140px;max-height:140px;background:#0a0a0f}
@@ -200,7 +204,6 @@
         .thanks-block p{font-size:1rem;line-height:1.8;color:#c0c0d5;max-width:800px;margin:0 auto}
         .thanks-block .highlight{color:#ff8c00;font-weight:600}
 
-        /* ===== ЧАТ ===== */
         .chat-section{background:rgba(255,255,255,0.025);border-radius:24px;border:1px solid rgba(255,255,255,0.04);padding:20px 16px;margin-bottom:35px;scroll-margin-top:70px}
         .chat-section .chat-header{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
         .chat-section .chat-header h2{font-size:1.7rem;font-weight:700;letter-spacing:1px;color:#00e5ff}
@@ -255,6 +258,7 @@
         .modal .meta .badge-detail{background:#e62429;padding:2px 14px;border-radius:40px;font-size:.6rem;font-weight:600;text-transform:uppercase;color:#fff}
         .modal .meta .badge-detail.cancelled{background:#c0392b}
         .modal .meta .badge-detail.idea{background:#ff6b6b}
+        .modal .meta .badge-detail.news{background:#f39c12}
         .modal .full-plot{font-size:.95rem;line-height:1.8;color:#d0d0e0;margin:14px 0 12px;white-space:pre-wrap}
 
         .scroll-top{position:fixed;bottom:20px;right:20px;z-index:99;background:#e62429;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:1.4rem;cursor:pointer;opacity:0;transition:.3s;box-shadow:0 4px 20px rgba(230,36,41,0.3);display:flex;align-items:center;justify-content:center;touch-action:manipulation}
@@ -332,6 +336,8 @@
 
     <nav class="nav-sticky" id="mainNav">
         <div class="nav-inner" id="navInner">
+            <!-- Кнопка НОВОСТИ перенесена в самое начало -->
+            <button class="nav-btn" data-target="phaseNews"><span class="dot dnews"></span>Новости</button>
             <button class="nav-btn" data-target="phase1"><span class="dot d1"></span>Фаза 1</button>
             <button class="nav-btn" data-target="phase2"><span class="dot d2"></span>Фаза 2</button>
             <button class="nav-btn" data-target="phase3"><span class="dot d3"></span>Фаза 3</button>
@@ -388,6 +394,15 @@
         <h1>Все фильмы, сериалы и короткометражки</h1>
         <p>Полный архив Кинематографической вселенной Marvel</p>
     </header>
+
+    <!-- ====== ПОСЛЕДНЯЯ НОВОСТЬ ====== -->
+    <section class="phase phase-news" id="phaseNews">
+        <div class="phase-header">
+            <h2>🔥 Последняя новость</h2>
+            <span class="badge">Горячее</span>
+        </div>
+        <div class="grid" id="gridNews"></div>
+    </section>
 
     <section class="phase phase-1" id="phase1"><div class="phase-header"><h2>Фаза 1</h2><span class="badge">Начало</span></div><div class="grid" id="grid1"></div></section>
     <section class="phase phase-2" id="phase2"><div class="phase-header"><h2>Фаза 2</h2><span class="badge">Расширение</span></div><div class="grid" id="grid2"></div></section>
@@ -481,7 +496,7 @@
     </div>
 </div>
 
-<!-- ===== FIREBASE SDK (ДОЛЖЕН БЫТЬ ПЕРВЫМ!) ===== -->
+<!-- ===== FIREBASE SDK ===== -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
@@ -659,6 +674,8 @@ const posters = {
     "Чёрная пантера 3":"https://en-images-s.kinorium.com/movie/600/12456561.jpg?1785045909",
     "Огненная Звезда": "https://upload.wikimedia.org/wikipedia/ru/thumb/8/83/Firestar_102.jpg/500px-Firestar_102.jpg",
     "Мстители: Династия Канга": "https://avatars.dzeninfra.ru/get-zen_doc/5219020/pub_63ca5d856f025e1b0b7c2f30_63d40a828585e55d9647aa94/scale_1200",
+    "Blade (2024)": "https://avatars.mds.yandex.net/get-entity_search/7689070/687375824/S600xU_2x",
+    "Мстители: Финал на бис": "https://ru-files.vgtimes.ru/posts/2026-08/1787680531_hqli4o4wkaac2vp.webp",
     
     // Постеры создателей
     "Кевин Файги": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kevin_Feige_by_Gage_Skidmore.jpg/960px-Kevin_Feige_by_Gage_Skidmore.jpg",
@@ -824,7 +841,8 @@ const data = {
         {title:"Мстители: Династия Канга",year:2024,type:"Отменён",plot:"'Мстители: Династия Канга' была анонсирована как кульминационный фильм Мультивселенной Саги, где Канг должен был стать главным злодеем. После проблем с актёром Джонатаном Мейджерсом и пересмотром планов Marvel, проект был переработан. Вместо него теперь выходит 'Мстители: Доктор Дум', а 'Династия Канга' официально отменена."},
         {title:"Вечные 2",year:2024,type:"Отменён",plot:"Сиквел 'Вечных' был анонсирован в 2022 году, но из-за смешанных отзывов на первый фильм и низких кассовых сборов Marvel решила отложить проект. В 2024 году стало известно, что сиквел не будет сниматься в ближайшее время. Сюжетные линии, заложенные в первом фильме, могут быть пересмотрены в других проектах."},
         {title:"Войны брони",year:2025,type:"Отменён",plot:"Проект 'Войны брони' (Armor Wars) был анонсирован как сериал, в котором Дон Чидл должен был вернуться к роли Джеймса Роудса / Воителя. Сериал должен был исследовать, как технология брони Тони Старка попадает в чужие руки. В 2025 году проект был заморожен и, по слухам, переработан в полнометражный фильм, но официальных анонсов нет."},
-        {title:"Нова",year:2028,type:"Не анонсирован",plot:"Проект о Нове — одном из самых известных космических героев Marvel — давно обсуждается фанатами. Ричард Райдер (Нова) — член Корпуса Нова, который играл важную роль в комиксах. Несмотря на слухи, Marvel Studios официально не анонсировала проект. Возможно, Nova появится в будущих проектах КВМ, но пока фильм не подтверждён."}
+        {title:"Нова",year:2028,type:"Не анонсирован",plot:"Проект о Нове — одном из самых известных космических героев Marvel — давно обсуждается фанатами. Ричард Райдер (Нова) — член Корпуса Нова, который играл важную роль в комиксах. Несмотря на слухи, Marvel Studios официально не анонсировала проект. Возможно, Nova появится в будущих проектах КВМ, но пока фильм не подтверждён."},
+        {title:"Blade (2024)",year:2024,type:"Отменён",plot:"Перезапуск 'Блэйда' с Махершалой Али в главной роли был одним из самых ожидаемых проектов Marvel. Фильм должен был представить охотника на вампиров в новой тёмной и жестокой интерпретации в рамках КВМ. Однако проект столкнулся с многочисленными задержками из-за смены режиссёров и проблем со сценарием. В 2024 году Marvel официально заморозила проект на неопределённый срок, хотя Махершала Али остаётся привязанным к роли. По слухам, персонаж может появиться в других проектах, но полноценный фильм отложен."}
     ],
     phaseFuture: [
         {title:"Люди Икс",year:2028,type:"Фильм",plot:"Долгожданное возвращение Людей Икс в киновселенную Marvel. Ожидается, что фильм представит новую команду мутантов и перезапустит франшизу в рамках КВМ. Сюжет держится в секрете, но фанаты надеются увидеть классических персонажей, таких как Профессор Икс, Магнето, Росомаха и Шторм, в новом свете."},
@@ -838,6 +856,9 @@ const data = {
         {title:"Огненная Звезда",year:"Классический персонаж",type:"Идея",plot:"Анджелика Джонс, известная как Огненная Звезда (Firestar), — мутант, способная генерировать и контролировать микроволновое излучение, которое проявляется как огонь. Она была членом Новых Мутантов, Команды Икс и Мстителей. В КВМ она может появиться как персонаж, который борется со своей силой и пытается найти своё место в мире супергероев. Фильм может исследовать тему контроля над своими способностями и дружбы в мире, где мутанты подвергаются дискриминации."},
         {title:"Правосудие",year:"Классический персонаж",type:"Идея",plot:"Вэнс Астровик, известный как Правосудие (Justice), — мутант с телекинетическими способностями. Он был членом Новых Воинов и Мстителей. В комиксах он долгое время скрывал свои способности из-за страха быть отвергнутым обществом. Фильм о Правосудии может быть драматической историей о принятии себя, страхе перед своими силами и борьбе за то, чтобы использовать их во благо. В сюжете можно показать его путь от скрытого мутанта до полноценного героя, который находит своё место в команде."},
         {title:"Тигра",year:"Классический персонаж",type:"Идея",plot:"Грир Грант, известная как Тигра (Tigra), — героиня, обладающая способностями тигра: сверхсила, скорость, ловкость, ночное зрение и острые когти. Она была создана в результате эксперимента, который соединил её ДНК с ДНК тигра. В комиксах она была членом Мстителей и Защитников. Фильм о Тигре может быть историей о поиске своей идентичности, борьбе с животной природой внутри себя и защите тех, кто не может защитить себя. Сюжет может разворачиваться в городских джунглях, где она сражается с преступностью, используя свои уникальные способности."}
+    ],
+    phaseNews: [
+        {title:"Мстители: Финал на бис",year:"25 сентября 2026",type:"Новость",plot:"Marvel Studios объявила о специальном перезапуске культового фильма 'Мстители: Финал'. Новый релиз, получивший название 'Мстители: Финал на бис', выйдет в кинотеатрах 25 сентября 2026 года. Это событие призвано не только дать фанатам возможность вновь пережить эпическую битву на большом экране, но и значительно расширить вселенную.\n\nГлавная цель перезапуска — освежить память зрителей перед выходом грядущих блокбастеров, в частности, 'Мстители: Доктор Дум'. Помимо восстановленной версии финальной битвы, фильм будет включать в себя совершенно новые сцены, которые напрямую подводят к сюжету новой саги. В этих кадрах, по слухам, будут раскрыты намёки на появление Доктора Дума и новые временные линии, что сделает просмотр обязательным для всех, кто следит за развитием Кинематографической вселенной Marvel."}
     ]
 };
 
@@ -925,12 +946,12 @@ const phaseColors = {
     phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
     phase4:'#a66cff',phase5:'#ff6f00',phase6:'#e040fb',
     phase7:'#00e676',phase8:'#ff69b4',phase9:'#f1c40f',phase10:'#1abc9c',
-    phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b'
+    phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b',phaseNews:'#f39c12'
 };
 
 function getPosterUrl(title){return posters[title]||null}
 
-function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false){
+function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false, isNews=false){
     const container=document.getElementById(gridId);
     if(!container)return;
     container.innerHTML='';
@@ -942,10 +963,12 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
         if(isCreator) cardClass+=' creator-card';
         else if(isCancelled) cardClass+=' cancelled-card';
         else if(isIdea) cardClass+=' idea-card';
+        else if(isNews) cardClass+=' news-card';
         if(item.type==='Сериал') cardClass+=' series';
         if(item.type==='Спецвыпуск') cardClass+=' special';
         if(item.type==='Короткометражка') cardClass+=' short';
         if(item.type==='Отменён') cardClass+=' cancelled-card';
+        if(item.type==='Новость') cardClass+=' news-card';
         card.className=cardClass;
         card.dataset.title=item.title;
         card.dataset.year=item.year;
@@ -977,10 +1000,12 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
         if(isCreator) badgeClass+=' creator';
         if(isCancelled) badgeClass+=' cancelled';
         if(isIdea) badgeClass+=' idea';
+        if(isNews) badgeClass+=' news';
         if(item.type==='Сериал') badgeClass+=' series';
         if(item.type==='Спецвыпуск') badgeClass+=' special';
         if(item.type==='Короткометражка') badgeClass+=' short';
         if(item.type==='Отменён') badgeClass+=' cancelled';
+        if(item.type==='Новость') badgeClass+=' news';
         const shortPlot=item.plot.length>120?item.plot.substring(0,120)+'…':item.plot;
         
         const likeKey = 'marvel_like_' + item.title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
@@ -1027,7 +1052,7 @@ function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=f
 }
 
 // ================================================================
-// ПОИСК И ФИЛЬТРЫ (создатели, отменённые и идеи НЕ исчезают)
+// ПОИСК И ФИЛЬТРЫ
 // ================================================================
 let currentFilter = 'all';
 
@@ -1035,7 +1060,7 @@ function applyFiltersAndSearch() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     const allGrids = document.querySelectorAll('.grid');
     allGrids.forEach(grid => {
-        if (grid.id === 'gridCreators' || grid.id === 'gridCancelled' || grid.id === 'gridIdeas') return;
+        if (grid.id === 'gridCreators' || grid.id === 'gridCancelled' || grid.id === 'gridIdeas' || grid.id === 'gridNews') return;
         const cards = grid.querySelectorAll('.card');
         cards.forEach(card => {
             const title = card.dataset.title.toLowerCase();
@@ -1093,6 +1118,7 @@ function openModal(e){
     typeBadge.textContent=type;
     if(type==='Отменён' || type==='Не анонсирован') typeBadge.className='badge-detail cancelled';
     else if(type==='Идея') typeBadge.className='badge-detail idea';
+    else if(type==='Новость') typeBadge.className='badge-detail news';
     else typeBadge.className='badge-detail';
     document.getElementById('modalPhase').textContent=phase;
     document.getElementById('modalPlot').textContent=plot;
@@ -1256,7 +1282,6 @@ function loadMessages() {
 
         const currentUser = getCurrentUser();
         const msgKeys = Object.keys(msgs);
-        // Сообщения уже в правильном порядке (сверху вниз)
         msgKeys.forEach(key => {
             const msg = msgs[key];
             const div = document.createElement('div');
@@ -1273,12 +1298,10 @@ function loadMessages() {
             chatMessages.appendChild(div);
         });
         
-        // Прокрутка к последнему сообщению
         chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 }
 
-// СОБЫТИЯ
 chatMsgInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -1298,7 +1321,6 @@ if (savedName) {
     chatNameInput.value = savedName;
 }
 
-// ЗАГРУЗКА ЧАТА
 loadMessages();
 
 // ================================================================
@@ -1327,6 +1349,7 @@ renderPhase('gridCreators',creatorsData,true);
 renderPhase('gridCancelled',data.phaseCancelled,false,true);
 renderPhase('gridFuture',data.phaseFuture);
 renderPhase('gridIdeas',data.phaseIdeas,false,false,true);
+renderPhase('gridNews',data.phaseNews,false,false,false,true);
 </script>
 
 </body>

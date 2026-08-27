@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     
-       <!-- ===== FAVICON ===== -->
+    <!-- ===== FAVICON ===== -->
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -279,10 +279,15 @@
         .comments-list::-webkit-scrollbar{width:4px}
         .comments-list::-webkit-scrollbar-track{background:#1a1a26}
         .comments-list::-webkit-scrollbar-thumb{background:#e62429;border-radius:4px}
-        .comment-item{background:rgba(255,255,255,0.03);border-radius:10px;padding:8px 12px}
+        
+        .comment-item{background:rgba(255,255,255,0.03);border-radius:10px;padding:8px 12px;position:relative;padding-right:40px}
         .comment-item .cname{font-weight:700;color:#4fc3f7;font-size:.8rem}
         .comment-item .ctext{color:#ccc;font-size:.85rem;line-height:1.4}
         .comment-item .ctime{color:#555;font-size:.6rem;margin-top:2px}
+        .comment-delete-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.05);border:1px solid #2a2a35;color:#666;border-radius:50%;width:28px;height:28px;font-size:.7rem;cursor:pointer;transition:.3s;display:none;align-items:center;justify-content:center}
+        .comment-item:hover .comment-delete-btn{display:flex}
+        .comment-delete-btn:hover{background:rgba(231,76,60,0.2);border-color:#e74c3c;color:#e74c3c}
+        
         .comment-form{display:flex;gap:8px;flex-wrap:wrap}
         .comment-form input{background:#1a1a26;border:1px solid #2a2a35;border-radius:20px;padding:6px 12px;color:#f0f0f0;font-size:.8rem;outline:none;transition:.3s}
         .comment-form input:focus{border-color:#e62429}
@@ -351,6 +356,8 @@
             .comment-form .cname-input{flex:0 0 80px;font-size:.75rem}
             .comment-form .ctext-input{font-size:.75rem}
             .comment-form .csend-btn{font-size:.7rem;padding:4px 12px}
+            .comment-item{padding-right:32px}
+            .comment-delete-btn{width:22px;height:22px;font-size:.6rem;right:4px}
         }
 
         @media(min-width:601px) and (max-width:1024px){
@@ -992,7 +999,7 @@ const creatorsData = [
 ];
 
 // ================================================================
-// РЕНДЕР С ОБЩИМИ ЛАЙКАМИ
+// РЕНДЕР С ОБЩИМИ ЛАЙКАМИ И УДАЛЕНИЕМ КОММЕНТАРИЕВ
 // ================================================================
 const phaseColors = {
     phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
@@ -1013,7 +1020,6 @@ function loadLikesFromFirebase() {
     const likesRef = database.ref('marvel/likes');
     likesRef.on('value', function(snapshot) {
         allLikes = snapshot.val() || {};
-        // Обновляем все кнопки лайков на странице
         document.querySelectorAll('.like-btn').forEach(function(btn) {
             const title = btn.dataset.title;
             if (!title) return;
@@ -1031,13 +1037,11 @@ function toggleLike(title, btnElement) {
     const likesRef = database.ref('marvel/likes/' + key);
     const isLiked = btnElement.classList.contains('liked');
     
-    // Оптимистичное обновление UI
     const currentCount = parseInt(btnElement.querySelector('.like-count').textContent) || 0;
     const newCount = isLiked ? currentCount - 1 : currentCount + 1;
     btnElement.querySelector('.like-count').textContent = newCount;
     btnElement.classList.toggle('liked');
     
-    // Отправляем в Firebase
     if (isLiked) {
         likesRef.transaction(function(currentValue) {
             return (currentValue || 1) - 1;
@@ -1049,7 +1053,9 @@ function toggleLike(title, btnElement) {
     }
 }
 
-// --- КОММЕНТАРИИ ---
+// ================================================================
+// КОММЕНТАРИИ С ВОЗМОЖНОСТЬЮ УДАЛЕНИЯ (КАК В ЧАТЕ)
+// ================================================================
 let currentCommentMovie = null;
 
 function openComments(title) {
@@ -1073,6 +1079,7 @@ function loadComments(movieTitle) {
     const list = document.getElementById('commentsList');
     const movieKey = movieTitle.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
     const commentsPath = 'movieComments/' + movieKey;
+    const currentName = document.getElementById('commentNameInput').value.trim() || 'Аноним';
     
     database.ref(commentsPath).once('value', function(snapshot) {
         list.innerHTML = '';
@@ -1083,14 +1090,16 @@ function loadComments(movieTitle) {
         }
         const keys = Object.keys(comments);
         keys.reverse();
-        keys.forEach(key => {
+        keys.forEach(function(key) {
             const c = comments[key];
             const div = document.createElement('div');
             div.className = 'comment-item';
+            const isOwn = c.name === currentName;
             div.innerHTML = `
                 <div class="cname">${c.name || 'Аноним'}</div>
                 <div class="ctext">${c.text}</div>
                 <div class="ctime">${c.time || ''}</div>
+                ${isOwn ? `<button class="comment-delete-btn" onclick="deleteComment('${movieTitle}', '${key}')" title="Удалить">✕</button>` : ''}
             `;
             list.appendChild(div);
         });
@@ -1098,6 +1107,36 @@ function loadComments(movieTitle) {
         console.error('Ошибка загрузки комментариев:', error);
         list.innerHTML = '<div class="no-comments" style="color:#e74c3c;">Ошибка загрузки комментариев</div>';
     });
+}
+
+function deleteComment(movieTitle, commentKey) {
+    const movieKey = movieTitle.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
+    const commentsPath = 'movieComments/' + movieKey + '/' + commentKey;
+    const currentName = document.getElementById('commentNameInput').value.trim() || 'Аноним';
+    
+    database.ref(commentsPath).once('value')
+        .then(function(snapshot) {
+            const comment = snapshot.val();
+            if (!comment) {
+                alert('Комментарий уже удалён.');
+                return;
+            }
+            if (comment.name !== currentName) {
+                alert('❌ Вы можете удалять только свои комментарии!');
+                return;
+            }
+            if (confirm('🗑️ Удалить этот комментарий?')) {
+                database.ref(commentsPath).remove()
+                    .then(function() {
+                        loadComments(movieTitle);
+                        updateCommentCounts();
+                    });
+            }
+        })
+        .catch(function(error) {
+            console.error('Ошибка при проверке комментария:', error);
+            alert('Не удалось проверить комментарий.');
+        });
 }
 
 document.getElementById('commentSendBtn').addEventListener('click', function() {
@@ -1133,7 +1172,7 @@ document.getElementById('commentSendBtn').addEventListener('click', function() {
         })
         .catch(function(error) {
             console.error('Ошибка отправки комментария:', error);
-            alert('Не удалось отправить комментарий. Проверьте интернет-соединение.');
+            alert('Не удалось отправить комментарий.');
         });
 });
 
@@ -1472,10 +1511,8 @@ document.getElementById('navToggle').addEventListener('click', function() {
 // ================================================================
 // ЗАПУСК
 // ================================================================
-// Загружаем лайки из Firebase
 loadLikesFromFirebase();
 
-// Рендерим все фазы
 renderPhase('grid1', data.phase1);
 renderPhase('grid2', data.phase2);
 renderPhase('grid3', data.phase3);
@@ -1492,7 +1529,7 @@ renderPhase('gridFuture', data.phaseFuture);
 renderPhase('gridIdeas', data.phaseIdeas, false, false, true);
 renderPhase('gridNews', data.phaseNews, false, false, false, true);
 
-console.log('✅ Сайт загружен! Лайки и комментарии сохраняются в Firebase.');
+console.log('✅ Сайт загружен! Комментарии можно удалять как в чате.');
 </script>
 
 </body>

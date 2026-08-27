@@ -19,8 +19,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta name="theme-color" content="#e62429">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-
+    
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',Roboto,system-ui,sans-serif;background:#0a0a0f;color:#f0f0f0;padding:12px;min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
@@ -788,7 +787,7 @@ function getPosterUrl(title) {
 }
 
 // ================================================================
-// ДАННЫЕ
+// ДАННЫЕ (ВСЕ ФИЛЬМЫ, СЕРИАЛЫ, КОРОТКОМЕТРАЖКИ)
 // ================================================================
 const data = {
     phase1: [
@@ -1000,27 +999,17 @@ const creatorsData = [
 ];
 
 // ================================================================
-// РЕНДЕР С ОБЩИМИ ЛАЙКАМИ И УДАЛЕНИЕМ КОММЕНТАРИЕВ
+// ЛАЙКИ (исправленные)
 // ================================================================
-const phaseColors = {
-    phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
-    phase4:'#a66cff',phase5:'#ff6f00',phase6:'#e040fb',
-    phase7:'#00e676',phase8:'#ff69b4',phase9:'#f1c40f',phase10:'#1abc9c',
-    phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b',phaseNews:'#f39c12'
-};
-
-function getPosterUrl(title) {
-    return posters[title] || null;
-}
-
-// --- Глобальный объект для хранения лайков ---
 let allLikes = {};
+let likesLoaded = false;
 
-// --- Функция для обновления лайков из Firebase ---
 function loadLikesFromFirebase() {
     const likesRef = database.ref('marvel/likes');
     likesRef.on('value', function(snapshot) {
         allLikes = snapshot.val() || {};
+        likesLoaded = true;
+        console.log('❤️ Лайки загружены:', Object.keys(allLikes).length);
         document.querySelectorAll('.like-btn').forEach(function(btn) {
             const title = btn.dataset.title;
             if (!title) return;
@@ -1029,23 +1018,24 @@ function loadLikesFromFirebase() {
             const countSpan = btn.querySelector('.like-count');
             if (countSpan) countSpan.textContent = count;
         });
+    }, function(error) {
+        console.error('❌ Ошибка загрузки лайков:', error);
     });
 }
 
-// --- Функция для toggle лайка ---
 function toggleLike(title, btnElement) {
     const key = title.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_');
     const likesRef = database.ref('marvel/likes/' + key);
     const isLiked = btnElement.classList.contains('liked');
     
     const currentCount = parseInt(btnElement.querySelector('.like-count').textContent) || 0;
-    const newCount = isLiked ? currentCount - 1 : currentCount + 1;
+    const newCount = isLiked ? Math.max(0, currentCount - 1) : currentCount + 1;
     btnElement.querySelector('.like-count').textContent = newCount;
     btnElement.classList.toggle('liked');
     
     if (isLiked) {
         likesRef.transaction(function(currentValue) {
-            return (currentValue || 1) - 1;
+            return Math.max(0, (currentValue || 1) - 1);
         });
     } else {
         likesRef.transaction(function(currentValue) {
@@ -1055,7 +1045,7 @@ function toggleLike(title, btnElement) {
 }
 
 // ================================================================
-// КОММЕНТАРИИ С ВОЗМОЖНОСТЬЮ УДАЛЕНИЯ (КАК В ЧАТЕ)
+// КОММЕНТАРИИ (исправленные)
 // ================================================================
 let currentCommentMovie = null;
 
@@ -1082,7 +1072,9 @@ function loadComments(movieTitle) {
     const commentsPath = 'movieComments/' + movieKey;
     const currentName = document.getElementById('commentNameInput').value.trim() || 'Аноним';
     
-    database.ref(commentsPath).once('value', function(snapshot) {
+    list.innerHTML = '<div class="no-comments" style="color:#888;">Загрузка комментариев...</div>';
+    
+    database.ref(commentsPath).once('value').then(function(snapshot) {
         list.innerHTML = '';
         const comments = snapshot.val();
         if (!comments) {
@@ -1105,8 +1097,8 @@ function loadComments(movieTitle) {
             list.appendChild(div);
         });
     }).catch(function(error) {
-        console.error('Ошибка загрузки комментариев:', error);
-        list.innerHTML = '<div class="no-comments" style="color:#e74c3c;">Ошибка загрузки комментариев</div>';
+        console.error('❌ Ошибка загрузки комментариев:', error);
+        list.innerHTML = '<div class="no-comments" style="color:#e74c3c;">Ошибка загрузки комментариев. Проверьте интернет.</div>';
     });
 }
 
@@ -1115,29 +1107,26 @@ function deleteComment(movieTitle, commentKey) {
     const commentsPath = 'movieComments/' + movieKey + '/' + commentKey;
     const currentName = document.getElementById('commentNameInput').value.trim() || 'Аноним';
     
-    database.ref(commentsPath).once('value')
-        .then(function(snapshot) {
-            const comment = snapshot.val();
-            if (!comment) {
-                alert('Комментарий уже удалён.');
-                return;
-            }
-            if (comment.name !== currentName) {
-                alert('❌ Вы можете удалять только свои комментарии!');
-                return;
-            }
-            if (confirm('🗑️ Удалить этот комментарий?')) {
-                database.ref(commentsPath).remove()
-                    .then(function() {
-                        loadComments(movieTitle);
-                        updateCommentCounts();
-                    });
-            }
-        })
-        .catch(function(error) {
-            console.error('Ошибка при проверке комментария:', error);
-            alert('Не удалось проверить комментарий.');
-        });
+    database.ref(commentsPath).once('value').then(function(snapshot) {
+        const comment = snapshot.val();
+        if (!comment) {
+            alert('Комментарий уже удалён.');
+            return;
+        }
+        if (comment.name !== currentName) {
+            alert('❌ Вы можете удалять только свои комментарии!');
+            return;
+        }
+        if (confirm('🗑️ Удалить этот комментарий?')) {
+            database.ref(commentsPath).remove().then(function() {
+                loadComments(movieTitle);
+                updateCommentCounts();
+            });
+        }
+    }).catch(function(error) {
+        console.error('❌ Ошибка удаления комментария:', error);
+        alert('Не удалось удалить комментарий.');
+    });
 }
 
 document.getElementById('commentSendBtn').addEventListener('click', function() {
@@ -1165,20 +1154,26 @@ document.getElementById('commentSendBtn').addEventListener('click', function() {
         timestamp: firebase.database.ServerValue.TIMESTAMP
     };
     
-    database.ref(commentsPath).push(newComment)
-        .then(function() {
-            document.getElementById('commentTextInput').value = '';
-            loadComments(currentCommentMovie);
-            updateCommentCounts();
-        })
-        .catch(function(error) {
-            console.error('Ошибка отправки комментария:', error);
-            alert('Не удалось отправить комментарий.');
-        });
+    const sendBtn = document.getElementById('commentSendBtn');
+    sendBtn.disabled = true;
+    sendBtn.textContent = '⏳ Отправка...';
+    
+    database.ref(commentsPath).push(newComment).then(function() {
+        document.getElementById('commentTextInput').value = '';
+        loadComments(currentCommentMovie);
+        updateCommentCounts();
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Отправить';
+    }).catch(function(error) {
+        console.error('❌ Ошибка отправки комментария:', error);
+        alert('Не удалось отправить комментарий. Проверьте интернет-соединение.');
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Отправить';
+    });
 });
 
 function updateCommentCounts() {
-    database.ref('movieComments').once('value', function(snapshot) {
+    database.ref('movieComments').once('value').then(function(snapshot) {
         const allComments = snapshot.val() || {};
         document.querySelectorAll('.comment-btn').forEach(function(btn) {
             const title = btn.dataset.title;
@@ -1189,11 +1184,20 @@ function updateCommentCounts() {
             if (countSpan) countSpan.textContent = count;
         });
     }).catch(function(error) {
-        console.warn('Не удалось обновить счетчики комментариев:', error);
+        console.warn('⚠️ Не удалось обновить счетчики комментариев:', error);
     });
 }
 
-// --- ОСНОВНОЙ РЕНДЕР КАРТОЧЕК ---
+// ================================================================
+// РЕНДЕР КАРТОЧЕК
+// ================================================================
+const phaseColors = {
+    phase1:'#ff4d4d',phase2:'#ffaa33',phase3:'#4fc3f7',
+    phase4:'#a66cff',phase5:'#ff6f00',phase6:'#e040fb',
+    phase7:'#00e676',phase8:'#ff69b4',phase9:'#f1c40f',phase10:'#1abc9c',
+    phaseCreators:'#ff8c00',phaseCancelled:'#e74c3c',phaseFuture:'#9b59b6',phaseIdeas:'#ff6b6b',phaseNews:'#f39c12'
+};
+
 function renderPhase(gridId, items, isCreator=false, isCancelled=false, isIdea=false, isNews=false) {
     const container = document.getElementById(gridId);
     if (!container) return;
@@ -1530,7 +1534,7 @@ renderPhase('gridFuture', data.phaseFuture);
 renderPhase('gridIdeas', data.phaseIdeas, false, false, true);
 renderPhase('gridNews', data.phaseNews, false, false, false, true);
 
-console.log('✅ Сайт загружен! Комментарии можно удалять как в чате.');
+console.log('✅ Сайт загружен! Лайки и комментарии работают стабильно.');
 </script>
 
 </body>
